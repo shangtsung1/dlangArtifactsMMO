@@ -14,6 +14,7 @@ alias Location = api.schema.Location;
 alias SimpleItemSchema = api.schema.SimpleItemSchema;
 alias Character = api.schema.Character;
 alias ItemSchema = api.schema.ItemSchema;
+alias MapSchema = api.schema.MapSchema;
 
 
 __gshared Bank bank;
@@ -21,6 +22,7 @@ __gshared api.schema.Character*[string] characters;
 __gshared string[] charOrder; // Changed to a dynamic array
 __gshared ItemSchema[] itemList;
 __gshared ArtifactMMOClient client;
+__gshared MapSchema[] maps;
 
 
 void global_init(string token)
@@ -31,10 +33,77 @@ void global_init(string token)
 	refreshBank();
     loadCharacters();
     loadItems();
+    loadMaps();
 }
 
-void loadItems()
-{
+void loadMaps() {
+    int counter = 0;
+    string cacheFile = "maps_cache.json";
+    
+    if (exists(cacheFile)) {
+        try {
+            string jsonData = readText(cacheFile);
+            JSONValue parsedJson = parseJSON(jsonData);
+            foreach (ref mapJson; parsedJson.array) {
+                MapSchema map = MapSchema.fromJson(mapJson);
+                maps ~= map;
+                counter++;
+                writeln("Loaded from cache: mapName=", map.name);
+            }
+            writeln("Total maps loaded from cache: ", counter);
+            writeln("Total maps in list: ", maps.length);
+            return;
+        } catch (Exception e) {
+            writeln("Map cache loading failed (", e.msg, "), fetching from network");
+        }
+    }
+
+    JSONValue[] allData;
+    auto initialJson = client.getAllMaps(null, null, 1, 50);
+    int totalPages = initialJson["pages"].get!int;
+    
+    // Process first page
+    auto dataArray = initialJson["data"];
+    foreach (ref mapJson; dataArray.array) {
+        allData ~= mapJson;
+        MapSchema map = MapSchema.fromJson(mapJson);
+        maps ~= map;
+        counter++;
+        writeln("page=1/", totalPages, " mapName=", map.name);
+    }
+    
+    // Process remaining pages
+    for (int i = 2; i <= totalPages; i++) {
+        auto json = client.getAllMaps(null, null, i, 50);
+        dataArray = json["data"];
+        foreach (ref mapJson; dataArray.array) {
+            allData ~= mapJson;
+            MapSchema map = MapSchema.fromJson(mapJson);
+            maps ~= map;
+            counter++;
+            writeln("page=", i, "/", totalPages, " mapName=", map.name);
+        }
+    }
+
+    // Save to cache
+    if (!allData.empty) {
+        JSONValue jsonToSave;
+        jsonToSave.array = allData;
+        try {
+            auto f = File(cacheFile, "w");
+            f.writeln(jsonToSave.toPrettyString());
+            f.close();
+            writeln("Map cache saved successfully to ", cacheFile);
+        } catch (Exception e) {
+            writeln("Failed to save map cache: ", e.msg);
+        }
+    }
+
+    writeln("Total maps loaded: ", counter);
+    writeln("Total maps in list: ", maps.length);
+}
+
+void loadItems() {
     int counter = 0;
     string cacheFile = "items_cache.json";
     
@@ -56,14 +125,24 @@ void loadItems()
         }
     }
 
-    // Cache doesn't exist or failed to load - fetch fresh data
     JSONValue[] allData;
-    int totalPages = client.getItems("", 1, 50)["pages"].get!int;
+    auto initialJson = client.getItems("", 1, 50);
+    int totalPages = initialJson["pages"].get!int;
     
-    for (int i = 1; i < totalPages + 1; i++) {
+    // Process first page
+    auto dataArray = initialJson["data"];
+    foreach (ref itemJson; dataArray.array) {
+        allData ~= itemJson;
+        ItemSchema item = ItemSchema.fromJson(itemJson);
+        itemList ~= item;
+        counter++;
+        writeln("page=1/", totalPages, " iName=", item.name);
+    }
+    
+    // Process remaining pages
+    for (int i = 2; i <= totalPages; i++) {
         auto json = client.getItems("", i, 50);
-        auto dataArray = json["data"];
-        
+        dataArray = json["data"];
         foreach (ref itemJson; dataArray.array) {
             allData ~= itemJson;
             ItemSchema item = ItemSchema.fromJson(itemJson);
@@ -91,6 +170,15 @@ void loadItems()
     writeln("Total items in list: ", itemList.length);
 }
 
+public MapSchema getMap(int x, int y) {
+    foreach (ref map; maps) {
+        if (map.x == x && map.y == y) {
+            return map;
+        }
+    }
+    writeln("Map not found at coordinates (", x, ", ", y, ")");
+    return MapSchema();
+}
 
 public ItemSchema getItem(string code)
 {

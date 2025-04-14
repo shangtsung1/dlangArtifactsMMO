@@ -29,3 +29,6 @@ Location LOC_SALMON = Location(-2,-4);
 Location LOC_CHICKEN = Location(0,1);
 Location LOC_COW = Location(0,2);
 Location LOC_PIG = Location(-3,-3);
+
+
+Location LOC_MINING = Location(1,5);

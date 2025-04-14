@@ -69,6 +69,11 @@ public bool bankAll(Character* c){
         writeln(c.color,"BankAllMoveResult = ",result);
         return false;
     }
+	if(c.gold > 0){
+		c.depositGold(c.gold);
+		writeln(c.color,"BankAllGoldResult = ",c.gold);
+		return false;
+	}
     if(countInventory(c) > 0){
         foreach (item; c.inventory)
         {

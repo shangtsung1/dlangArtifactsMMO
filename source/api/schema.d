@@ -373,6 +373,18 @@ struct Character {
         return now < this.cooldown_expiration;
     }
 
+    int countInventory(){
+        int count = 0;
+        foreach(i; inventory){
+            count += i.quantity; 
+        }
+        return count;
+    }
+
+    int freeInventorySpaces(){
+        return inventory_max_items-countInventory();
+    }
+
     void initStruct(JSONValue json){
         this.attachments = cast(Object*[string])new Object[string];
         update(json);
@@ -1016,5 +1028,5 @@ struct MapSchema {
             json["y"].get!int,
             content
         );
-    }
+    } 
 }
