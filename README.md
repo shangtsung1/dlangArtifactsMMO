@@ -1,3 +1,3 @@
 # dlangArtifactsMMO
 
-dub run --config=executable -- <TOKEN>
+dub run --config=executable -- TOKEN
