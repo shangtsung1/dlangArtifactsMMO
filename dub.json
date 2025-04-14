@@ -1,0 +1,22 @@
+{
+	"authors": [
+		"MrFrump"
+	],
+	"copyright": "None",
+	"dependencies": {
+	},
+	"description": "ArtifactsMMO Client",
+	"license": "Unlicense",
+	"name": "artifactsmmod",
+	"configurations": [
+        {
+            "name": "staticLibrary",
+            "targetType": "staticLibrary"
+        },
+        {
+            "name": "executable",
+            "targetType": "executable",
+			"versions": ["DEBUG"]
+        }
+    ]
+}
