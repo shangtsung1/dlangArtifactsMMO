@@ -1,0 +1,2765 @@
+[
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -5,
+        "y": -5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -4,
+        "y": -5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -3,
+        "y": -5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -2,
+        "y": -5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -1,
+        "y": -5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 0,
+        "y": -5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 1,
+        "y": -5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 2,
+        "y": -5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 3,
+        "y": -5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 4,
+        "y": -5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 5,
+        "y": -5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 6,
+        "y": -5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 7,
+        "y": -5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 8,
+        "y": -5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 9,
+        "y": -5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 10,
+        "y": -5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 11,
+        "y": -5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -5,
+        "y": -4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -4,
+        "y": -4
+    },
+    {
+        "content": {
+            "code": "salmon_fishing_spot",
+            "type": "resource"
+        },
+        "name": "Forest",
+        "skin": "forest_lake1",
+        "x": -3,
+        "y": -4
+    },
+    {
+        "content": {
+            "code": "salmon_fishing_spot",
+            "type": "resource"
+        },
+        "name": "Forest",
+        "skin": "forest_lake2",
+        "x": -2,
+        "y": -4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -1,
+        "y": -4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 0,
+        "y": -4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": 1,
+        "y": -4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 2,
+        "y": -4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 3,
+        "y": -4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 4,
+        "y": -4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 5,
+        "y": -4
+    },
+    {
+        "content": {
+            "code": "goblin_wolfrider",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_goblin_wolfrider1",
+        "x": 6,
+        "y": -4
+    },
+    {
+        "content": {
+            "code": "orc",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_orc2",
+        "x": 7,
+        "y": -4
+    },
+    {
+        "content": {
+            "code": "ogre",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_ogre1",
+        "x": 8,
+        "y": -4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 9,
+        "y": -4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 10,
+        "y": -4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 11,
+        "y": -4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -5,
+        "y": -3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -4,
+        "y": -3
+    },
+    {
+        "content": {
+            "code": "pig",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_pig1",
+        "x": -3,
+        "y": -3
+    },
+    {
+        "content": {
+            "code": "woodcutting",
+            "type": "workshop"
+        },
+        "name": "Forest",
+        "skin": "forest_woodcuttingstation1",
+        "x": -2,
+        "y": -3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -1,
+        "y": -3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 0,
+        "y": -3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 1,
+        "y": -3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 2,
+        "y": -3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 3,
+        "y": -3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 4,
+        "y": -3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 5,
+        "y": -3
+    },
+    {
+        "content": {
+            "code": "gold_rocks",
+            "type": "resource"
+        },
+        "name": "Forest",
+        "skin": "forest_goldore1",
+        "x": 6,
+        "y": -3
+    },
+    {
+        "content": {
+            "code": "cyclops",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_cyclops2",
+        "x": 7,
+        "y": -3
+    },
+    {
+        "content": {
+            "code": "cyclops",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_cyclops1",
+        "x": 8,
+        "y": -3
+    },
+    {
+        "content": {
+            "code": "goblin_wolfrider",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_goblin_wolfrider2",
+        "x": 9,
+        "y": -3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 10,
+        "y": -3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 11,
+        "y": -3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -5,
+        "y": -2
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -4,
+        "y": -2
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -3,
+        "y": -2
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -2,
+        "y": -2
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -1,
+        "y": -2
+    },
+    {
+        "content": {
+            "code": "blue_slime",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_blueslime1",
+        "x": 0,
+        "y": -2
+    },
+    {
+        "content": {
+            "code": "yellow_slime",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_yellowslime1",
+        "x": 1,
+        "y": -2
+    },
+    {
+        "content": {
+            "code": "red_slime",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_redslime2",
+        "x": 2,
+        "y": -2
+    },
+    {
+        "content": {
+            "code": "green_slime",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_greenslime1",
+        "x": 3,
+        "y": -2
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 4,
+        "y": -2
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 5,
+        "y": -2
+    },
+    {
+        "content": {
+            "code": "goblin",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_goblin1",
+        "x": 6,
+        "y": -2
+    },
+    {
+        "content": {
+            "code": "orc",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_orc1",
+        "x": 7,
+        "y": -2
+    },
+    {
+        "content": {
+            "code": "ogre",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_ogre2",
+        "x": 8,
+        "y": -2
+    },
+    {
+        "content": {
+            "code": "goblin",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_goblin2",
+        "x": 9,
+        "y": -2
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 10,
+        "y": -2
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 11,
+        "y": -2
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -5,
+        "y": -1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -4,
+        "y": -1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -3,
+        "y": -1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -2,
+        "y": -1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -1,
+        "y": -1
+    },
+    {
+        "content": {
+            "code": "green_slime",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_greenslime2",
+        "x": 0,
+        "y": -1
+    },
+    {
+        "content": {
+            "code": "red_slime",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_redslime1",
+        "x": 1,
+        "y": -1
+    },
+    {
+        "content": {
+            "code": "blue_slime",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_blueslime2",
+        "x": 2,
+        "y": -1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 3,
+        "y": -1
+    },
+    {
+        "content": {
+            "code": "yellow_slime",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_yellowslime2",
+        "x": 4,
+        "y": -1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_road12",
+        "x": 5,
+        "y": -1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_road13_gemstone_merchant",
+        "x": 6,
+        "y": -1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_road14",
+        "x": 7,
+        "y": -1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_road15",
+        "x": 8,
+        "y": -1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 9,
+        "y": -1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 10,
+        "y": -1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 11,
+        "y": -1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": -5,
+        "y": 0
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": -4,
+        "y": 0
+    },
+    {
+        "content": {
+            "code": "wolf",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_wolf2",
+        "x": -3,
+        "y": 0
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -2,
+        "y": 0
+    },
+    {
+        "content": {
+            "code": "ash_tree",
+            "type": "resource"
+        },
+        "name": "Forest",
+        "skin": "forest_ashtree2",
+        "x": -1,
+        "y": 0
+    },
+    {
+        "content": null,
+        "name": "Spawn",
+        "skin": "spawn",
+        "x": 0,
+        "y": 0
+    },
+    {
+        "content": {
+            "code": "rabbit",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_rabbit1",
+        "x": 1,
+        "y": 0
+    },
+    {
+        "content": {
+            "code": "copper_rocks",
+            "type": "resource"
+        },
+        "name": "Forest",
+        "skin": "forest_copperore1",
+        "x": 2,
+        "y": 0
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": 3,
+        "y": 0
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 4,
+        "y": 0
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_road11",
+        "x": 5,
+        "y": 0
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 6,
+        "y": 0
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 7,
+        "y": 0
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 8,
+        "y": 0
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 9,
+        "y": 0
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 10,
+        "y": 0
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 11,
+        "y": 0
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -5,
+        "y": 1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -4,
+        "y": 1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -3,
+        "y": 1
+    },
+    {
+        "content": {
+            "code": "wolf",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_wolf1",
+        "x": -2,
+        "y": 1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -1,
+        "y": 1
+    },
+    {
+        "content": {
+            "code": "chicken",
+            "type": "monster"
+        },
+        "name": "City",
+        "skin": "forest_chicken1",
+        "x": 0,
+        "y": 1
+    },
+    {
+        "content": {
+            "code": "cooking",
+            "type": "workshop"
+        },
+        "name": "City",
+        "skin": "forest_cs1",
+        "x": 1,
+        "y": 1
+    },
+    {
+        "content": {
+            "code": "weaponcrafting",
+            "type": "workshop"
+        },
+        "name": "City",
+        "skin": "forest_wcstation1",
+        "x": 2,
+        "y": 1
+    },
+    {
+        "content": {
+            "code": "gearcrafting",
+            "type": "workshop"
+        },
+        "name": "City",
+        "skin": "forest_gcstation1",
+        "x": 3,
+        "y": 1
+    },
+    {
+        "content": {
+            "code": "bank",
+            "type": "bank"
+        },
+        "name": "City",
+        "skin": "forest_bank1",
+        "x": 4,
+        "y": 1
+    },
+    {
+        "content": {
+            "code": "grand_exchange",
+            "type": "grand_exchange"
+        },
+        "name": "City",
+        "skin": "forest_grand_exchange1",
+        "x": 5,
+        "y": 1
+    },
+    {
+        "content": {
+            "code": "ash_tree",
+            "type": "resource"
+        },
+        "name": "Forest",
+        "skin": "forest_ashtree1",
+        "x": 6,
+        "y": 1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 7,
+        "y": 1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 8,
+        "y": 1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 9,
+        "y": 1
+    },
+    {
+        "content": {
+            "code": "owlbear",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_owlbear1",
+        "x": 10,
+        "y": 1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 11,
+        "y": 1
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -5,
+        "y": 2
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -4,
+        "y": 2
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -3,
+        "y": 2
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -2,
+        "y": 2
+    },
+    {
+        "content": {
+            "code": "rabbit",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_rabbit2",
+        "x": -1,
+        "y": 2
+    },
+    {
+        "content": {
+            "code": "cow",
+            "type": "monster"
+        },
+        "name": "City",
+        "skin": "forest_cow1",
+        "x": 0,
+        "y": 2
+    },
+    {
+        "content": {
+            "code": "monsters",
+            "type": "tasks_master"
+        },
+        "name": "City",
+        "skin": "forest_village3",
+        "x": 1,
+        "y": 2
+    },
+    {
+        "content": {
+            "code": "sunflower_field",
+            "type": "resource"
+        },
+        "name": "City",
+        "skin": "forest_village1",
+        "x": 2,
+        "y": 2
+    },
+    {
+        "content": null,
+        "name": "City",
+        "skin": "forest_village2",
+        "x": 3,
+        "y": 2
+    },
+    {
+        "content": {
+            "code": "gudgeon_fishing_spot",
+            "type": "resource"
+        },
+        "name": "Lake",
+        "skin": "forest_lake3",
+        "x": 4,
+        "y": 2
+    },
+    {
+        "content": {
+            "code": "shrimp_fishing_spot",
+            "type": "resource"
+        },
+        "name": "Lake",
+        "skin": "forest_lake4",
+        "x": 5,
+        "y": 2
+    },
+    {
+        "content": {
+            "code": "rabbit_warrior",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_rabbitwarrior1",
+        "x": 6,
+        "y": 2
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": 7,
+        "y": 2
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 8,
+        "y": 2
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": 9,
+        "y": 2
+    },
+    {
+        "content": {
+            "code": "owlbear",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_owlbear2",
+        "x": 10,
+        "y": 2
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": 11,
+        "y": 2
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -5,
+        "y": 3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -4,
+        "y": 3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -3,
+        "y": 3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -2,
+        "y": 3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": -1,
+        "y": 3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 0,
+        "y": 3
+    },
+    {
+        "content": {
+            "code": "jewelrycrafting",
+            "type": "workshop"
+        },
+        "name": "City",
+        "skin": "forest_jewelrycrafting1",
+        "x": 1,
+        "y": 3
+    },
+    {
+        "content": {
+            "code": "alchemy",
+            "type": "workshop"
+        },
+        "name": "Forest",
+        "skin": "forest_alchemy1",
+        "x": 2,
+        "y": 3
+    },
+    {
+        "content": {
+            "code": "rabbit_warrior",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_rabbitwarrior2",
+        "x": 3,
+        "y": 3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 4,
+        "y": 3
+    },
+    {
+        "content": {
+            "code": "mushmush",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_mushmush1",
+        "x": 5,
+        "y": 3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": 6,
+        "y": 3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 7,
+        "y": 3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 8,
+        "y": 3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 9,
+        "y": 3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 10,
+        "y": 3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 11,
+        "y": 3
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -5,
+        "y": 4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -4,
+        "y": 4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -3,
+        "y": 4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -2,
+        "y": 4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -1,
+        "y": 4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 0,
+        "y": 4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 1,
+        "y": 4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_village5",
+        "x": 2,
+        "y": 4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 3,
+        "y": 4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 4,
+        "y": 4
+    },
+    {
+        "content": {
+            "code": "flying_serpent",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_flyingserpent1",
+        "x": 5,
+        "y": 4
+    },
+    {
+        "content": {
+            "code": "mushmush",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_mushmush2",
+        "x": 6,
+        "y": 4
+    },
+    {
+        "content": {
+            "code": "flying_serpent",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_flyingserpent2",
+        "x": 7,
+        "y": 4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 8,
+        "y": 4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 9,
+        "y": 4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 10,
+        "y": 4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 11,
+        "y": 4
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -5,
+        "y": 5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -4,
+        "y": 5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": -3,
+        "y": 5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -2,
+        "y": 5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -1,
+        "y": 5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 0,
+        "y": 5
+    },
+    {
+        "content": {
+            "code": "mining",
+            "type": "workshop"
+        },
+        "name": "Forest (Forge)",
+        "skin": "forest_miningstation1",
+        "x": 1,
+        "y": 5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_village6",
+        "x": 2,
+        "y": 5
+    },
+    {
+        "content": {
+            "code": "birch_tree",
+            "type": "resource"
+        },
+        "name": "Forest",
+        "skin": "forest_birchtree2",
+        "x": 3,
+        "y": 5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 4,
+        "y": 5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 5,
+        "y": 5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 6,
+        "y": 5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 7,
+        "y": 5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 8,
+        "y": 5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 9,
+        "y": 5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 10,
+        "y": 5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 11,
+        "y": 5
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -5,
+        "y": 6
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": -4,
+        "y": 6
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": -3,
+        "y": 6
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -2,
+        "y": 6
+    },
+    {
+        "content": {
+            "code": "birch_tree",
+            "type": "resource"
+        },
+        "name": "Forest",
+        "skin": "forest_birchtree1",
+        "x": -1,
+        "y": 6
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 0,
+        "y": 6
+    },
+    {
+        "content": {
+            "code": "coal_rocks",
+            "type": "resource"
+        },
+        "name": "Forest",
+        "skin": "forest_coal1",
+        "x": 1,
+        "y": 6
+    },
+    {
+        "content": {
+            "code": "spruce_tree",
+            "type": "resource"
+        },
+        "name": "Forest",
+        "skin": "forest_sprucetree2",
+        "x": 2,
+        "y": 6
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 3,
+        "y": 6
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 4,
+        "y": 6
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 5,
+        "y": 6
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 6,
+        "y": 6
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 7,
+        "y": 6
+    },
+    {
+        "content": {
+            "code": "skeleton",
+            "type": "monster"
+        },
+        "name": "Graveyard",
+        "skin": "forest_skeleton1",
+        "x": 8,
+        "y": 6
+    },
+    {
+        "content": {
+            "code": "dead_tree",
+            "type": "resource"
+        },
+        "name": "Graveyard",
+        "skin": "forest_skeleton2",
+        "x": 9,
+        "y": 6
+    },
+    {
+        "content": {
+            "code": "vampire",
+            "type": "monster"
+        },
+        "name": "Graveyard",
+        "skin": "forest_skeleton3",
+        "x": 10,
+        "y": 6
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 11,
+        "y": 6
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -5,
+        "y": 7
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -4,
+        "y": 7
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -3,
+        "y": 7
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": -2,
+        "y": 7
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -1,
+        "y": 7
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 0,
+        "y": 7
+    },
+    {
+        "content": {
+            "code": "iron_rocks",
+            "type": "resource"
+        },
+        "name": "Forest",
+        "skin": "forest_ironore2",
+        "x": 1,
+        "y": 7
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_road1",
+        "x": 2,
+        "y": 7
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 3,
+        "y": 7
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 4,
+        "y": 7
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 5,
+        "y": 7
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 6,
+        "y": 7
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 7,
+        "y": 7
+    },
+    {
+        "content": {
+            "code": "death_knight",
+            "type": "monster"
+        },
+        "name": "Graveyard",
+        "skin": "forest_skeleton4",
+        "x": 8,
+        "y": 7
+    },
+    {
+        "content": {
+            "code": "lich",
+            "type": "monster"
+        },
+        "name": "Graveyard",
+        "skin": "forest_skeleton5",
+        "x": 9,
+        "y": 7
+    },
+    {
+        "content": {
+            "code": "death_knight",
+            "type": "monster"
+        },
+        "name": "Graveyard",
+        "skin": "forest_skeleton6",
+        "x": 10,
+        "y": 7
+    },
+    {
+        "content": {
+            "code": "bat",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_bat2",
+        "x": 11,
+        "y": 7
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -5,
+        "y": 8
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -4,
+        "y": 8
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -3,
+        "y": 8
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -2,
+        "y": 8
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -1,
+        "y": 8
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 0,
+        "y": 8
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 1,
+        "y": 8
+    },
+    {
+        "content": {
+            "code": "highwayman",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_highwayman1",
+        "x": 2,
+        "y": 8
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 3,
+        "y": 8
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 4,
+        "y": 8
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 5,
+        "y": 8
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 6,
+        "y": 8
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 7,
+        "y": 8
+    },
+    {
+        "content": {
+            "code": "skeleton",
+            "type": "monster"
+        },
+        "name": "Graveyard",
+        "skin": "forest_skeleton7",
+        "x": 8,
+        "y": 8
+    },
+    {
+        "content": {
+            "code": "dead_tree",
+            "type": "resource"
+        },
+        "name": "Graveyard",
+        "skin": "forest_skeleton8",
+        "x": 9,
+        "y": 8
+    },
+    {
+        "content": {
+            "code": "vampire",
+            "type": "monster"
+        },
+        "name": "Graveyard",
+        "skin": "forest_skeleton9",
+        "x": 10,
+        "y": 8
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 11,
+        "y": 8
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -5,
+        "y": 9
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -4,
+        "y": 9
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -3,
+        "y": 9
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": -2,
+        "y": 9
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -1,
+        "y": 9
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 0,
+        "y": 9
+    },
+    {
+        "content": {
+            "code": "spruce_tree",
+            "type": "resource"
+        },
+        "name": "Forest",
+        "skin": "forest_sprucetree1",
+        "x": 1,
+        "y": 9
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_road3",
+        "x": 2,
+        "y": 9
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 3,
+        "y": 9
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 4,
+        "y": 9
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 5,
+        "y": 9
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 6,
+        "y": 9
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 7,
+        "y": 9
+    },
+    {
+        "content": {
+            "code": "bat",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_bat1",
+        "x": 8,
+        "y": 9
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 9,
+        "y": 9
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 10,
+        "y": 9
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 11,
+        "y": 9
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -5,
+        "y": 10
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -4,
+        "y": 10
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -3,
+        "y": 10
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -2,
+        "y": 10
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -1,
+        "y": 10
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 0,
+        "y": 10
+    },
+    {
+        "content": {
+            "code": "glowstem",
+            "type": "resource"
+        },
+        "name": "Forest",
+        "skin": "forest_glowstem1",
+        "x": 1,
+        "y": 10
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_road7",
+        "x": 2,
+        "y": 10
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 3,
+        "y": 10
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 4,
+        "y": 10
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 5,
+        "y": 10
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 6,
+        "y": 10
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 7,
+        "y": 10
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 8,
+        "y": 10
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": 9,
+        "y": 10
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 10,
+        "y": 10
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 11,
+        "y": 10
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -5,
+        "y": 11
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": -4,
+        "y": 11
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -3,
+        "y": 11
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -2,
+        "y": 11
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -1,
+        "y": 11
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 0,
+        "y": 11
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 1,
+        "y": 11
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_road3",
+        "x": 2,
+        "y": 11
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 3,
+        "y": 11
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 4,
+        "y": 11
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 5,
+        "y": 11
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 6,
+        "y": 11
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 7,
+        "y": 11
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 8,
+        "y": 11
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 9,
+        "y": 11
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 10,
+        "y": 11
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 11,
+        "y": 11
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": -5,
+        "y": 12
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -4,
+        "y": 12
+    },
+    {
+        "content": {
+            "code": "spider",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_spider1",
+        "x": -3,
+        "y": 12
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -2,
+        "y": 12
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_cultis1",
+        "x": -1,
+        "y": 12
+    },
+    {
+        "content": {
+            "code": "imp",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_imp1",
+        "x": 0,
+        "y": 12
+    },
+    {
+        "content": {
+            "code": "maple_tree",
+            "type": "resource"
+        },
+        "name": "Forest",
+        "skin": "forest_mapletree1",
+        "x": 1,
+        "y": 12
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_road3",
+        "x": 2,
+        "y": 12
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": 3,
+        "y": 12
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": 4,
+        "y": 12
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 5,
+        "y": 12
+    },
+    {
+        "content": {
+            "code": "bass_fishing_spot",
+            "type": "resource"
+        },
+        "name": "Lake",
+        "skin": "forest_lake1",
+        "x": 6,
+        "y": 12
+    },
+    {
+        "content": {
+            "code": "trout_fishing_spot",
+            "type": "resource"
+        },
+        "name": "Lake",
+        "skin": "forest_lake2",
+        "x": 7,
+        "y": 12
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 8,
+        "y": 12
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 9,
+        "y": 12
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 10,
+        "y": 12
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 11,
+        "y": 12
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -5,
+        "y": 13
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": -4,
+        "y": 13
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -3,
+        "y": 13
+    },
+    {
+        "content": {
+            "code": "mithril_rocks",
+            "type": "resource"
+        },
+        "name": "Forest",
+        "skin": "forest_mithrilore1",
+        "x": -2,
+        "y": 13
+    },
+    {
+        "content": {
+            "code": "hellhound",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_hellhound2",
+        "x": -1,
+        "y": 13
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_house1",
+        "x": 0,
+        "y": 13
+    },
+    {
+        "content": {
+            "code": "cultist_acolyte",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_cultistacolyte1",
+        "x": 1,
+        "y": 13
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_road4",
+        "x": 2,
+        "y": 13
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_road6",
+        "x": 3,
+        "y": 13
+    },
+    {
+        "content": {
+            "code": "items",
+            "type": "tasks_master"
+        },
+        "name": "Forest",
+        "skin": "forest_road10",
+        "x": 4,
+        "y": 13
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_road9",
+        "x": 5,
+        "y": 13
+    },
+    {
+        "content": {
+            "code": "rune_vendor",
+            "type": "npc"
+        },
+        "name": "Forest",
+        "skin": "forest_road5",
+        "x": 6,
+        "y": 13
+    },
+    {
+        "content": {
+            "code": "bank",
+            "type": "bank"
+        },
+        "name": "Forest",
+        "skin": "forest_bank2",
+        "x": 7,
+        "y": 13
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 8,
+        "y": 13
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 9,
+        "y": 13
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": 10,
+        "y": 13
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 11,
+        "y": 13
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -5,
+        "y": 14
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": -4,
+        "y": 14
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": -3,
+        "y": 14
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": -2,
+        "y": 14
+    },
+    {
+        "content": {
+            "code": "cultist_acolyte",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_cultistacolyte2",
+        "x": -1,
+        "y": 14
+    },
+    {
+        "content": {
+            "code": "imp",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_imp2",
+        "x": 0,
+        "y": 14
+    },
+    {
+        "content": {
+            "code": "hellhound",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_hellhound1",
+        "x": 1,
+        "y": 14
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 2,
+        "y": 14
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 3,
+        "y": 14
+    },
+    {
+        "content": {
+            "code": "maple_tree",
+            "type": "resource"
+        },
+        "name": "Forest",
+        "skin": "forest_mapletree2",
+        "x": 4,
+        "y": 14
+    },
+    {
+        "content": {
+            "code": "efreet_sultan",
+            "type": "monster"
+        },
+        "name": "Forest",
+        "skin": "forest_portal2",
+        "x": 5,
+        "y": 14
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": 6,
+        "y": 14
+    },
+    {
+        "content": {
+            "code": "nettle",
+            "type": "resource"
+        },
+        "name": "Forest",
+        "skin": "forest_nettle1",
+        "x": 7,
+        "y": 14
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 8,
+        "y": 14
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": 9,
+        "y": 14
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 10,
+        "y": 14
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": 11,
+        "y": 14
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -5,
+        "y": 15
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -4,
+        "y": 15
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -3,
+        "y": 15
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": -2,
+        "y": 15
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": -1,
+        "y": 15
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 0,
+        "y": 15
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 1,
+        "y": 15
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 2,
+        "y": 15
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 3,
+        "y": 15
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_1",
+        "x": 4,
+        "y": 15
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_4",
+        "x": 5,
+        "y": 15
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 6,
+        "y": 15
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 7,
+        "y": 15
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 8,
+        "y": 15
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_2",
+        "x": 9,
+        "y": 15
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 10,
+        "y": 15
+    },
+    {
+        "content": null,
+        "name": "Forest",
+        "skin": "forest_3",
+        "x": 11,
+        "y": 15
+    }
+]
