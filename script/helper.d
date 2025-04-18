@@ -3,7 +3,6 @@ module script.helper;
 import global;
 import api.ammo;
 import api.schema;
-import api.config;
 
 import std.stdio;
 import core.thread;
@@ -118,3 +117,56 @@ public int countInventory(Character* c){
 	return count;
 }
 
+public int smartCraft(Character* character,string code,int quantity){
+	ItemSchema ci = getItem(code);
+	MapSchema requiredMap = findMapFor(ci.craft.get().skillString,"workshop");
+//writeln(character.color,"Move to ",ci.craft.get().skillString," ",requiredMap.x," ",requiredMap.y);
+	if(character.x != requiredMap.x || character.y != requiredMap.y){
+		character.move(requiredMap.x,requiredMap.y);
+		return 598;
+	}
+	if(character.onCooldown()){
+		return 486;
+	}
+	//TODO: grab from bank if we need to.
+	foreach(ac;ci.craft.get().items){
+		if(!character.inventoryContains(ac.code,ac.quantity*quantity))return 478;
+	}
+	return character.crafting(code,quantity);
+}
+
+private MapSchema findMapFor(string code,string type) {
+	foreach(map; maps){
+		if(map.content.isNull)continue;
+	//	writeln(map.content.get().code,map.content.get().type);
+		if(map.content.get().code == code && map.content.get().type == type)return map;
+	}
+	return MapSchema();
+}
+
+public void smartEquip(Character* m, string code, string slot) {
+	if(!m.inventoryContains(code,1)){
+		int mR = smartMove(m, "bank","bank");
+		if(mR == 200) {
+			m.withdrawItem(code, 1);
+		}
+		return;
+	}
+	else{
+		if(m.getSlot(slot) != ""){
+			m.unequip(slot);
+			return;
+		}
+		m.equip(code,slot);
+		return;
+	}
+}
+
+public int smartMove(Character* character, string code, string type){
+	MapSchema requiredMap = findMapFor(code,type);
+	if(character.x != requiredMap.x || character.y != requiredMap.y){
+		character.move(requiredMap.x,requiredMap.y);
+		return 598;
+	}
+	return 200;
+}

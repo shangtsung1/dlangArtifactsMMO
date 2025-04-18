@@ -381,8 +381,48 @@ struct Character {
         return count;
     }
 
+    bool inventoryContains(string code, int quantity = 1){
+        foreach(i; inventory){
+            if(i.code == code && i.quantity >= quantity){
+                return true;
+            }
+        }
+        return false;
+    }
+
     int freeInventorySpaces(){
         return inventory_max_items-countInventory();
+    }
+
+    string getSlot(string slot) {
+        switch(slot) {
+            case "weapon":
+                return weapon_slot;
+            case "shield":
+                return shield_slot;
+            case "helmet":
+                return helmet_slot;
+            case "body_armor":
+                return body_armor_slot;
+            case "leg_armor":
+                return leg_armor_slot;
+            case "boots":
+                return boots_slot;
+            case "ring1":
+                return ring1_slot;
+            case "ring2":
+                return ring2_slot;
+            case "amulet":
+                return amulet_slot;
+            case "artifact1":
+                return artifact1_slot;
+            case "artifact2":
+                return artifact2_slot;
+            case "artifact3":
+                return artifact3_slot;
+            default:
+                return "";
+        }
     }
 
     void initStruct(JSONValue json){
@@ -583,7 +623,63 @@ struct Character {
         }
         return null;
     }
+    void saveAttachments( string filename) {
+        JSONValue[] entries;
 
+        foreach (key, obj; attachments) {
+            JSONValue entry;
+
+            if (auto bo = cast(BooleanObject)obj) {
+                entry = parseJSON(`{"key": "` ~ key ~ `", "type": "boolean", "value": ` ~ to!string(bo.value) ~ `}`);
+            } else if (auto io = cast(IntegerObject)obj) {
+                entry = parseJSON(`{"key": "` ~ key ~ `", "type": "integer", "value": ` ~ to!string(io.value) ~ `}`);
+            } else if (auto dbl = cast(DoubleObject)obj) {
+                entry = parseJSON(`{"key": "` ~ key ~ `", "type": "double", "value": ` ~ to!string(dbl.value) ~ `}`);
+            } else if (auto str = cast(StringObject)obj) {
+                entry = parseJSON(`{"key": "` ~ key ~ `", "type": "string", "value": "` ~ str.value ~ `"}`);
+            } else {
+                continue; // Skip unknown types
+            }
+
+            entries ~= entry;
+        }
+
+        auto json = JSONValue(entries);
+        static import std.file;
+        std.file.write(filename, json.toPrettyString());
+    }
+    void loadAttachments(string filename) {
+        static import std.file;
+        string data = std.file.readText(filename);
+        JSONValue json = parseJSON(data);
+
+        foreach (entry; json.array()) {
+            string key = entry["key"].str;
+            string type = entry["type"].str;
+            JSONValue value = entry["value"];
+
+            Object* obj;
+
+            switch (type) {
+                case "boolean":
+                    obj = cast(Object*)new BooleanObject(value.get!bool);
+                    break;
+                case "integer":
+                    obj = cast(Object*)new IntegerObject(value.get!int);
+                    break;
+                case "double":
+                    obj = cast(Object*)new DoubleObject(value.floating());
+                    break;
+                case "string":
+                    obj = cast(Object*)new StringObject(value.str());
+                    break;
+                default:
+                    continue; // Skip unknown types
+            }
+
+            attachments[key] = obj;
+        }
+    }
 }
 
 enum FightResult {
@@ -697,6 +793,7 @@ struct SimpleItemSchema {
 
 struct CraftSchema {
     CraftingSkill skill;
+    string skillString;
     int level;
     SimpleItemSchema[] items;
     int quantity;
@@ -705,6 +802,7 @@ struct CraftSchema {
         CraftSchema craft;
         
         craft.skill = skillForString(json["skill"].get!string);
+        craft.skillString = json["skill"].get!string;
         craft.level = json["level"].get!int;
         craft.quantity = json["quantity"].get!int;
         

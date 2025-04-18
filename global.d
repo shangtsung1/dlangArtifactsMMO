@@ -19,10 +19,44 @@ alias MapSchema = api.schema.MapSchema;
 
 __gshared Bank bank;
 __gshared api.schema.Character*[string] characters;
-__gshared string[] charOrder; // Changed to a dynamic array
+__gshared string[] charOrder;
 __gshared ItemSchema[] itemList;
 __gshared ArtifactMMOClient client;
 __gshared MapSchema[] maps;
+
+Location LOC_COPPER = Location(2,0);
+Location LOC_COAL = Location(1,6);
+Location LOC_IRON = Location(1,7);
+Location LOC_GOLD = Location(6,-3);
+
+Location LOC_ASH = Location(-1,0);
+Location LOC_SPRUCE = Location(2,6);
+Location LOC_BIRCH = Location(3,5);
+Location LOC_DEADTREE = Location(9,6);
+
+Location LOC_SUNFLOWER = Location(2,2);
+Location LOC_NETTLE = Location(7,14);
+Location LOC_GLOWSTEM = Location(1,10);
+
+Location LOC_GUDGEON = Location(4,2);
+Location LOC_SHRIMP = Location(5,2);
+Location LOC_TROUT = Location(7,12);
+Location LOC_BASS = Location(6,12);
+Location LOC_SALMON = Location(-2,-4);
+
+Location LOC_CHICKEN = Location(0,1);
+Location LOC_COW = Location(0,2);
+Location LOC_PIG = Location(-3,-3);
+
+Location LOC_GREENSLIME = Location(0,-1);
+Location LOC_REDSLIME = Location(1,-1);
+Location LOC_BLUESLIME = Location(2,-1);
+Location LOC_YELLOWSLIME = Location(4,-1);
+
+Location LOC_MUSHMUSH = Location(5,3);
+Location LOC_FLYINGSERPENT = Location(5,4);
+Location LOC_WOLF = Location(-2,1);
+
 
 
 void global_init(string token)
@@ -251,6 +285,9 @@ public void loadCharacters()
         Character* p = new Character;
         p.initStruct(item);
         characters[name] = p;
+        if(exists("./character_"~p.name~".json")){
+            p.loadAttachments("./character_"~p.name~".json");
+        }
         writeln(p.color, "Loaded Char: ", name);
         charOrder[i] = name;
         i++;
