@@ -1,1 +1,7 @@
-[]
+[
+    {
+        "key": "bankAll",
+        "type": "boolean",
+        "value": false
+    }
+]
