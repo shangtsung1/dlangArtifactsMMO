@@ -14,4 +14,5 @@ artifactsmmod-test-*
 *.o
 *.obj
 *.lst
-*.json
+character_*.json
+*_cache.json
