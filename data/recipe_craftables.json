@@ -1,0 +1,173 @@
+[
+    {
+        "ingredients": ["copper_ore"],
+        "outputItem": "copper",
+        "quantities": [10],
+        "skill": "mining",
+        "minLevel": 0,
+        "maxLevel": 10,
+        "maxCraft": 500
+    },
+    {
+        "ingredients": ["iron_ore", "coal"],
+        "outputItem": "steel",
+        "quantities": [3, 7],
+        "skill": "mining",
+        "minLevel": 20,
+        "maxLevel": 30,
+        "maxCraft": 1500
+    },
+    {
+        "ingredients": ["iron_ore"],
+        "outputItem": "iron",
+        "quantities": [10],
+        "skill": "mining",
+        "minLevel": 10,
+        "maxLevel": 20,
+        "maxCraft": 500
+    },
+    {
+        "ingredients": ["gold_ore"],
+        "outputItem": "gold",
+        "quantities": [10],
+        "skill": "mining",
+        "minLevel": 30,
+        "maxLevel": 40,
+        "maxCraft": 500
+    },
+    {
+        "ingredients": ["piece_of_obsidian"],
+        "outputItem": "obsidian",
+        "quantities": [4],
+        "skill": "mining",
+        "minLevel": 30,
+        "maxLevel": 40,
+        "maxCraft": 500
+    },
+    {
+        "ingredients": ["gold_ore", "strange_ore"],
+        "outputItem": "strangold",
+        "quantities": [4, 6],
+        "skill": "mining",
+        "minLevel": 35,
+        "maxLevel": 40,
+        "maxCraft": 500
+    },
+    {
+        "ingredients": ["ash_wood", "birch_wood"],
+        "outputItem": "hardwood_plank",
+        "quantities": [4, 6],
+        "skill": "woodcutting",
+        "minLevel": 20,
+        "maxLevel": 30,
+        "maxCraft": 500
+    },
+    {
+        "ingredients": ["ash_wood"],
+        "outputItem": "ash_plank",
+        "quantities": [10],
+        "skill": "woodcutting",
+        "minLevel": 0,
+        "maxLevel": 10,
+        "maxCraft": 500
+    },
+    {
+        "ingredients": ["spruce_wood"],
+        "outputItem": "spruce_plank",
+        "quantities": [10],
+        "skill": "woodcutting",
+        "minLevel": 10,
+        "maxLevel": 20,
+        "maxCraft": 500
+    },
+    {
+        "ingredients": ["dead_wood"],
+        "outputItem": "dead_wood_plank",
+        "quantities": [10],
+        "skill": "woodcutting",
+        "minLevel": 30,
+        "maxLevel": 40,
+        "maxCraft": 500
+    },
+    {
+        "ingredients": ["dead_wood", "magic_wood"],
+        "outputItem": "magical_plank",
+        "quantities": [4, 6],
+        "skill": "woodcutting",
+        "minLevel": 35,
+        "maxLevel": 40,
+        "maxCraft": 500
+    },
+    {
+        "ingredients": ["egg"],
+        "outputItem": "fried_eggs",
+        "quantities": [2],
+        "skill": "cooking",
+        "minLevel": 10,
+        "maxLevel": 40,
+        "maxCraft": 50
+    },
+    {
+        "ingredients": ["raw_chicken"],
+        "outputItem": "cooked_chicken",
+        "quantities": [1],
+        "skill": "cooking",
+        "minLevel": 0,
+        "maxLevel": 40,
+        "maxCraft": 50
+    },
+    {
+        "ingredients": ["gudgeon"],
+        "outputItem": "cooked_gudgeon",
+        "quantities": [1],
+        "skill": "cooking",
+        "minLevel": 0,
+        "maxLevel": 40,
+        "maxCraft": 50
+    },
+    {
+        "ingredients": ["shrimp"],
+        "outputItem": "cooked_shrimp",
+        "quantities": [1],
+        "skill": "cooking",
+        "minLevel": 10,
+        "maxLevel": 40,
+        "maxCraft": 50
+    },
+    {
+        "ingredients": ["trout"],
+        "outputItem": "cooked_trout",
+        "quantities": [1],
+        "skill": "cooking",
+        "minLevel": 20,
+        "maxLevel": 40,
+        "maxCraft": 50
+    },
+    {
+        "ingredients": ["bass"],
+        "outputItem": "cooked_bass",
+        "quantities": [1],
+        "skill": "cooking",
+        "minLevel": 30,
+        "maxLevel": 40,
+        "maxCraft": 50
+    },
+    {
+        "ingredients": ["milk_bucket"],
+        "outputItem": "cheese",
+        "quantities": [1],
+        "skill": "cooking",
+        "minLevel": 10,
+        "maxLevel": 40,
+        "maxCraft": 50
+    },
+    {
+        "ingredients": ["raw_wolf_meat"],
+        "outputItem": "cooked_wolf_meat",
+        "quantities": [1],
+        "skill": "cooking",
+        "minLevel": 15,
+        "maxLevel": 40,
+        "maxCraft": 50
+    }
+]
