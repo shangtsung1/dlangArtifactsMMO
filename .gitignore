@@ -2,7 +2,7 @@
 docs.json
 __dummy.html
 docs/
-/artifactsmmod
+artifactsmmod
 artifactsmmod.so
 artifactsmmod.dylib
 artifactsmmod.dll
@@ -15,4 +15,5 @@ artifactsmmod-test-*
 *.obj
 *.lst
 *.json
+*.a
 /raylib
