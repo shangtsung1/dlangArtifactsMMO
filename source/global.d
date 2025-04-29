@@ -9,12 +9,16 @@ import std.typecons : Nullable;
 static import api.schema;
 static import api.ammo;
 
+__gshared const string CACHE_DIR = "./cache/";
+
 alias ArtifactMMOClient = api.ammo.ArtifactMMOClient;
 alias Location = api.schema.Location;
 alias SimpleItemSchema = api.schema.SimpleItemSchema;
 alias Character = api.schema.Character;
 alias ItemSchema = api.schema.ItemSchema;
 alias MapSchema = api.schema.MapSchema;
+alias MonsterSchema = api.schema.MonsterSchema;
+alias NpcSchema = api.schema.NpcSchema;
 
 
 __gshared Bank bank;
@@ -23,6 +27,8 @@ __gshared string[] charOrder;
 __gshared ItemSchema[] itemList;
 __gshared ArtifactMMOClient client;
 __gshared MapSchema[] maps;
+__gshared MonsterSchema[] monsters;
+__gshared NpcSchema[] npcs;
 
 Location LOC_COPPER = Location(2,0);
 Location LOC_COAL = Location(1,6);
@@ -57,6 +63,9 @@ Location LOC_MUSHMUSH = Location(5,3);
 Location LOC_FLYINGSERPENT = Location(5,4);
 Location LOC_WOLF = Location(-2,1);
 
+Location LOC_HIGHWAYMAN = Location(2,8);
+Location LOC_SKELETON = Location(8,6);
+
 
 
 void global_init(string token)
@@ -68,11 +77,167 @@ void global_init(string token)
     loadCharacters();
     loadItems();
     loadMaps();
+    loadMonsters();
+    loadNpcs();
+}
+
+void loadNpcs() {
+    int counter = 0;
+    string cacheFile = CACHE_DIR~"npcs_cache.json";
+    
+    if (exists(cacheFile)) {
+        try {
+            string jsonData = readText(cacheFile);
+            JSONValue parsedJson = parseJSON(jsonData);
+            foreach (ref npcJson; parsedJson.array) {
+                NpcSchema npc = NpcSchema.fromJson(npcJson);
+                npcs ~= npc;
+                counter++;
+                writeln("Loaded from cache: nName=", npc.name);
+            }
+            writeln("Total NPCs loaded from cache: ", counter);
+            writeln("Total NPCs in list: ", npcs.length);
+            return;
+        } catch (Exception e) {
+            writeln("NPC cache loading failed (", e.msg, "), fetching from network");
+        }
+    }
+
+    JSONValue[] allData;
+    auto initialJson = client.getAllNpcs(1, 50,null);
+    int totalPages = initialJson["pages"].get!int;
+    
+    // Process first page
+    auto dataArray = initialJson["data"];
+    foreach (ref npcJson; dataArray.array) {
+        allData ~= npcJson;
+        NpcSchema npc = NpcSchema.fromJson(npcJson);
+        npcs ~= npc;
+        counter++;
+        writeln("page=1/", totalPages, " nName=", npc.name);
+    }
+    
+    // Process remaining pages
+    for (int i = 2; i <= totalPages; i++) {
+        auto json = client.getAllNpcs(i, 50,null);
+        dataArray = json["data"];
+        foreach (ref npcJson; dataArray.array) {
+            allData ~= npcJson;
+            NpcSchema npc = NpcSchema.fromJson(npcJson);
+            npcs ~= npc;
+            counter++;
+            writeln("page=", i, "/", totalPages, " nName=", npc.name);
+        }
+    }
+
+    // Save to cache
+    if (!allData.empty) {
+        JSONValue jsonToSave;
+        jsonToSave.array = allData;
+        try {
+            auto f = File(cacheFile, "w");
+            f.writeln(jsonToSave.toPrettyString());
+            f.close();
+            writeln("NPC cache saved successfully to ", cacheFile);
+        } catch (Exception e) {
+            writeln("Failed to save NPC cache: ", e.msg);
+        }
+    }
+
+    writeln("Total NPCs loaded: ", counter);
+    writeln("Total NPCs in list: ", npcs.length);
+}
+
+// Helper function to find NPCs by code
+public NpcSchema getNpc(string code) {
+    foreach(npc; npcs) {
+        if(npc.code == code) {
+            return npc;
+        }
+    }
+    return NpcSchema();
+}
+
+void loadMonsters() {
+    int counter = 0;
+    string cacheFile = CACHE_DIR~"monsters_cache.json";
+    
+    if (exists(cacheFile)) {
+        try {
+            string jsonData = readText(cacheFile);
+            JSONValue parsedJson = parseJSON(jsonData);
+            foreach (ref monsterJson; parsedJson.array) {
+                MonsterSchema monster = MonsterSchema.fromJson(monsterJson);
+                monsters ~= monster;
+                counter++;
+                writeln("Loaded from cache: mName=", monster.name);
+            }
+            writeln("Total monsters loaded from cache: ", counter);
+            writeln("Total monsters in list: ", monsters.length);
+            return;
+        } catch (Exception e) {
+            writeln("Monster cache loading failed (", e.msg, "), fetching from network");
+        }
+    }
+
+    JSONValue[] allData;
+    auto initialJson = client.getAllMonsters(1, 50);
+    int totalPages = initialJson["pages"].get!int;
+    
+    // Process first page
+    auto dataArray = initialJson["data"];
+    foreach (ref monsterJson; dataArray.array) {
+        allData ~= monsterJson;
+        MonsterSchema monster = MonsterSchema.fromJson(monsterJson);
+        monsters ~= monster;
+        counter++;
+        writeln("page=1/", totalPages, " mName=", monster.name);
+    }
+    
+    // Process remaining pages
+    for (int i = 2; i <= totalPages; i++) {
+        auto json = client.getAllMonsters(i, 50);
+        dataArray = json["data"];
+        foreach (ref monsterJson; dataArray.array) {
+            allData ~= monsterJson;
+            MonsterSchema monster = MonsterSchema.fromJson(monsterJson);
+            monsters ~= monster;
+            counter++;
+            writeln("page=", i, "/", totalPages, " mName=", monster.name);
+        }
+    }
+
+    // Save to cache
+    if (!allData.empty) {
+        JSONValue jsonToSave;
+        jsonToSave.array = allData;
+        try {
+            auto f = File(cacheFile, "w");
+            f.writeln(jsonToSave.toPrettyString());
+            f.close();
+            writeln("Monster cache saved successfully to ", cacheFile);
+        } catch (Exception e) {
+            writeln("Failed to save monster cache: ", e.msg);
+        }
+    }
+
+    writeln("Total monsters loaded: ", counter);
+    writeln("Total monsters in list: ", monsters.length);
+}
+
+// Helper function to find monsters by code
+public MonsterSchema getMonster(string code) {
+    foreach(monster; monsters) {
+        if(monster.code == code) {
+            return monster;
+        }
+    }
+    return MonsterSchema();
 }
 
 void loadMaps() {
     int counter = 0;
-    string cacheFile = "maps_cache.json";
+    string cacheFile = CACHE_DIR~"maps_cache.json";
     
     if (exists(cacheFile)) {
         try {
@@ -139,7 +304,7 @@ void loadMaps() {
 
 void loadItems() {
     int counter = 0;
-    string cacheFile = "items_cache.json";
+    string cacheFile = CACHE_DIR~"items_cache.json";
     
     if (exists(cacheFile)) {
         try {
@@ -285,8 +450,8 @@ public void loadCharacters()
         Character* p = new Character;
         p.initStruct(item);
         characters[name] = p;
-        if(exists("./character_"~p.name~".json")){
-            p.loadAttachments("./character_"~p.name~".json");
+        if(exists(CACHE_DIR~"character_"~p.name~".json")){
+            p.loadAttachments(CACHE_DIR~"character_"~p.name~".json");
         }
         writeln(p.color, "Loaded Char: ", name);
         charOrder[i] = name;

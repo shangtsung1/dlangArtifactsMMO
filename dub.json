@@ -4,19 +4,34 @@
 	],
 	"copyright": "None",
 	"dependencies": {
+        "bindbc-raylib3": "4.5.0"
 	},
 	"description": "ArtifactsMMO Client",
 	"license": "Unlicense",
 	"name": "artifactsmmod",
+	"toolchainRequirements": {
+        "dmd": "no",
+        "gdc": "no",
+        "ldc": ">=1.0.0"
+    },
 	"configurations": [
         {
             "name": "staticLibrary",
-            "targetType": "staticLibrary"
+            "targetType": "staticLibrary",
+			"targetName": "artifactsmmod-lib"
         },
         {
             "name": "executable",
             "targetType": "executable",
+			"targetName": "artifactsmmod",
 			"versions": ["DEBUG"]
+        },
+		{
+            "name": "executable-arm64",
+            "targetType": "executable",
+            "versions": ["DEBUG"],
+			"targetName": "artifactsmmod-arm64",
+            "dflags": ["-mtriple=arm64-linux-gnu"]
         }
     ]
 }

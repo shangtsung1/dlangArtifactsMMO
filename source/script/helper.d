@@ -10,6 +10,8 @@ import core.time;
 import core.runtime;
 import std.net.curl;
 import std.json;
+import std.math;
+import std.algorithm;
 
 
 public bool doMithril(Character* c,int limit, bool adhereToLimit){
@@ -144,22 +146,27 @@ private MapSchema findMapFor(string code,string type) {
 	return MapSchema();
 }
 
-public void smartEquip(Character* m, string code, string slot) {
-	if(!m.inventoryContains(code,1)){
+public void smartEquip(Character* m, string code, string slot, int amount) {
+	if(!m.inventoryContains(code,amount)){
 		int mR = smartMove(m, "bank","bank");
 		if(mR == 200) {
-			m.withdrawItem(code, 1);
+			m.withdrawItem(code, amount);
 		}
 		return;
 	}
 	else{
+		writeln(m.color,slot);
 		if(m.getSlot(slot) != ""){
-			m.unequip(slot);
+			writeln(m.color,"Unequip ",m.getSlot(slot)," Result = ",m.unequip(slot));
 			return;
 		}
-		m.equip(code,slot);
+		writeln(m.color,"Equip ",code," Result = ",m.equip(code,slot,amount), ", ",amount);
 		return;
 	}
+}
+
+public void smartEquip(Character* m, string code, string slot) {
+	smartEquip(m,code,slot,1);
 }
 
 public int smartMove(Character* character, string code, string type){
@@ -169,4 +176,18 @@ public int smartMove(Character* character, string code, string type){
 		return 598;
 	}
 	return 200;
+}
+
+public void smartEat(Character* m, string code) {
+	if(!m.inventoryContains(code,1)){
+		int mR = smartMove(m, "bank","bank");
+		if(mR == 200) {
+			m.withdrawItem(code, min(10,bank.count(code)));
+		}
+		return;
+	}
+	else{
+		m.useItem(code,1);
+		return;
+	}
 }

@@ -552,13 +552,10 @@ public class ArtifactMMOClient {
         return createGetRequest(url);
     }
 
-    public JSONValue getMonsters(string drop = null, int maxLevel = 0, int minLevel = 0,
+    public JSONValue getAllMonsters(
                                   int page = 1, int size = 50) {
         string url = BASE_URL ~ "/monsters";
         url ~= buildQueryParams(
-            "drop", drop,
-            "max_level", (maxLevel > 0) ? maxLevel.to!string : null,
-            "min_level", (minLevel > 0) ? minLevel.to!string : null,
             "page", page.to!string,
             "size", size.to!string
         );
@@ -569,7 +566,7 @@ public class ArtifactMMOClient {
         return createGetRequest(BASE_URL ~ "/monsters/" ~ encodeComponent(code));
     }
 
-    public JSONValue getNpcs(int page = 1, int size = 50, string type = null) {
+    public JSONValue getAllNpcs(int page = 1, int size = 50, string type = null) {
         string url = BASE_URL ~ "/npcs";
         url ~= buildQueryParams("page", page.to!string, "size", size.to!string);
         if (type !is null && !type.empty) url ~= "&type=" ~ encodeComponent(type);

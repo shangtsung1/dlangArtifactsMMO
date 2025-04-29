@@ -14,5 +14,5 @@ artifactsmmod-test-*
 *.o
 *.obj
 *.lst
-character_*.json
-*_cache.json
+*.json
+/raylib

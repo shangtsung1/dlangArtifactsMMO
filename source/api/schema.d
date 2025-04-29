@@ -7,6 +7,8 @@ import std.datetime; // For SysTime, Clock
 import std.typecons;
 import std.conv;
 import std.variant; 
+import std.algorithm: map;
+import std.array;
 
 import global;
 import api.ammo;
@@ -390,6 +392,72 @@ struct Character {
         return false;
     }
 
+    int countUnequippedItem(string code){
+        int count = 0;
+        foreach(i; inventory){
+           // writeln(i.code," - ",i.slot);
+            if(i.code == code && i.slot > 0){
+                return count+=i.quantity;
+            }
+        }
+        return count;
+    }
+
+    int countItem(string code){
+        int count = 0;
+        foreach(i; inventory){
+            if(i.code == code){
+                return count+=i.quantity;
+            }
+        }
+        return count;
+    }
+
+    int getEquippedItemCount(string slot){
+        final switch(slot){
+            case "utility1":
+                return utility1_slot_quantity;
+            case "utility2":
+                return utility2_slot_quantity;
+        }
+        writeln("getEquippedItemCount ",slot);
+        return 0;
+    }
+
+    string getEquippedItem(string slot){
+        final switch(slot){
+            case "weapon":
+                return weapon_slot;
+            case "shield":
+                return shield_slot;
+            case "helmet":  
+                return helmet_slot; 
+            case "body_armor":      
+                return body_armor_slot;
+            case "leg_armor":
+                return leg_armor_slot;
+            case "boots":
+                return boots_slot;
+            case "ring1":
+                return ring1_slot;
+            case "ring2":
+                return ring2_slot;
+            case "amulet":
+                return amulet_slot;
+            case "artifact1":
+                return artifact1_slot;
+            case "artifact2":
+                return artifact2_slot;
+            case "artifact3":
+                return artifact3_slot;
+            case "utility1":
+                return utility1_slot;
+            case "utility2":
+                return utility2_slot;
+        }
+        return "none";
+    }
+
     int freeInventorySpaces(){
         return inventory_max_items-countInventory();
     }
@@ -420,8 +488,12 @@ struct Character {
                 return artifact2_slot;
             case "artifact3":
                 return artifact3_slot;
+            case "utility1":
+                return utility1_slot;
+            case "utility2":
+                return utility2_slot;
             default:
-                return "";
+                return "wat?"~slot;
         }
     }
 
@@ -865,12 +937,57 @@ struct ItemSchema {
 
 struct DropSchema {
     string code;
-    int quantity;
+    int rate;
+    int min_quantity;
+    int max_quantity;
     
     static DropSchema fromJson(JSONValue json) {
-        return DropSchema(
+        string code = json["code"].get!string;
+        int rate = ("rate" in json.object) ? json["rate"].get!int : 1;
+        int min_quantity = ("min_quantity" in json.object) ? json["min_quantity"].get!int : 1;
+        int max_quantity = ("max_quantity" in json.object) ? json["max_quantity"].get!int : 1;
+        return DropSchema(code, rate, min_quantity, max_quantity);
+    }
+}
+
+struct MonsterSchema {
+    string name;
+    string code;
+    int level;
+    int hp;
+    int attack_fire;
+    int attack_earth;
+    int attack_water;
+    int attack_air;
+    int res_fire;
+    int res_earth;
+    int res_water;
+    int res_air;
+    int critical_strike;
+    SimpleEffectSchema[] effects;
+    int min_gold;
+    int max_gold;
+    DropSchema[] drops;
+    
+    static MonsterSchema fromJson(JSONValue json) {
+        return MonsterSchema(
+            json["name"].get!string,
             json["code"].get!string,
-            json["quantity"].get!int
+            json["level"].get!int,
+            json["hp"].get!int,
+            json["attack_fire"].get!int,
+            json["attack_earth"].get!int,
+            json["attack_water"].get!int,
+            json["attack_air"].get!int,
+            json["res_fire"].get!int,
+            json["res_earth"].get!int,
+            json["res_water"].get!int,
+            json["res_air"].get!int,
+            json["critical_strike"].get!int,
+            json["effects"].array.map!(x => SimpleEffectSchema.fromJson(x)).array,
+            json["min_gold"].get!int,
+            json["max_gold"].get!int,
+            json["drops"].array.map!(x => DropSchema.fromJson(x)).array
         );
     }
 }
@@ -1127,4 +1244,20 @@ struct MapSchema {
             content
         );
     } 
+}
+
+struct NpcSchema {
+    string name;
+    string code;
+    string description;
+    string type;
+    
+    static NpcSchema fromJson(JSONValue json) {
+        return NpcSchema(
+            json["name"].get!string,
+            json["code"].get!string,
+            json["description"].get!string,
+            json["type"].get!string
+        );
+    }
 }
