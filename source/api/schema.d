@@ -148,6 +148,7 @@ struct Character {
     }
 
     int equip( string code, string slot, int quantity = 1) {
+        slot = slot.replace("_slot", "");//allow both with _slot and without
         auto result = client.equipEntity(name, code, slot, quantity);
         if(result["statusCode"].get!int != 200){
             return result["statusCode"].get!int;
@@ -157,6 +158,7 @@ struct Character {
     }
 
     int unequip( string slot, int quantity = 1) {
+        slot = slot.replace("_slot", "");//allow both with _slot and without
         auto result = client.unequipEntity(name, slot, quantity);
         if(result["statusCode"].get!int != 200){
             return result["statusCode"].get!int;
@@ -395,7 +397,6 @@ struct Character {
     int countUnequippedItem(string code){
         int count = 0;
         foreach(i; inventory){
-           // writeln(i.code," - ",i.slot);
             if(i.code == code && i.slot > 0){
                 return count+=i.quantity;
             }
@@ -420,7 +421,6 @@ struct Character {
             case "utility2":
                 return utility2_slot_quantity;
         }
-        writeln("getEquippedItemCount ",slot);
         return 0;
     }
 
@@ -454,6 +454,11 @@ struct Character {
                 return utility1_slot;
             case "utility2":
                 return utility2_slot;
+            case "rune":
+                return rune_slot;
+            case "bag":
+                return bag_slot;
+
         }
         return "none";
     }
@@ -491,6 +496,34 @@ struct Character {
             case "utility1":
                 return utility1_slot;
             case "utility2":
+                return utility2_slot;
+            case "weapon_slot":
+                return weapon_slot;
+            case "shield_slot":
+                return shield_slot;
+            case "helmet_slot":
+                return helmet_slot;
+            case "body_armor_slot":
+                return body_armor_slot;
+            case "leg_armor_slot":
+                return leg_armor_slot;
+            case "boots_slot":
+                return boots_slot;
+            case "ring1_slot":
+                return ring1_slot;
+            case "ring2_slot":
+                return ring2_slot;
+            case "amulet_slot":
+                return amulet_slot;
+            case "artifact1_slot":
+                return artifact1_slot;
+            case "artifact2_slot":
+                return artifact2_slot;
+            case "artifact3_slot":
+                return artifact3_slot;
+            case "utility1_slot":
+                return utility1_slot;
+            case "utility2_slot":
                 return utility2_slot;
             default:
                 return "wat?"~slot;

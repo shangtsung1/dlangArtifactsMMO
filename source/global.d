@@ -30,6 +30,8 @@ __gshared MapSchema[] maps;
 __gshared MonsterSchema[] monsters;
 __gshared NpcSchema[] npcs;
 
+Location LOC_BANK = Location(4,1);
+
 Location LOC_COPPER = Location(2,0);
 Location LOC_COAL = Location(1,6);
 Location LOC_IRON = Location(1,7);
@@ -65,6 +67,8 @@ Location LOC_WOLF = Location(-2,1);
 
 Location LOC_HIGHWAYMAN = Location(2,8);
 Location LOC_SKELETON = Location(8,6);
+Location LOC_SPIDER = Location(-3,12);
+Location LOC_OGRE = Location(8,-2);
 
 
 
@@ -369,6 +373,28 @@ void loadItems() {
     writeln("Total items in list: ", itemList.length);
 }
 
+public Location findMonsterLocation(string code) {
+    foreach (ref map; maps) {
+        if (!map.content.isNull()) {
+            if(map.content.get().code == code) {
+                return Location(map.x, map.y);
+            }
+        }
+    }
+    return Location(0, 0);
+}
+
+public Location findLocation(string type, string code) {
+    foreach (ref map; maps) {
+        if (!map.content.isNull()) {
+            if(map.content.get().code == code && map.content.get().type == type) {
+                return Location(map.x, map.y);
+            }
+        }
+    }
+    return Location(0, 0);
+}
+
 public MapSchema getMap(int x, int y) {
     foreach (ref map; maps) {
         if (map.x == x && map.y == y) {
@@ -414,7 +440,10 @@ public int getItemCraftLevel(string code)
 
 class Bank{
 	SimpleItemSchema[] items;
-
+    int maxSlots;
+    int expansions;
+    int nextExpansionCost;
+    int gold;
     int count(string code){
         int count = 0;
         foreach(item; items){
@@ -436,6 +465,11 @@ public void refreshBank(){
             bank.items ~= sis;
         }
     }
+    json = client.getBankDetails()["data"];
+    bank.maxSlots = json["slots"].get!int;
+    bank.expansions = json["expansions"].get!int;
+    bank.nextExpansionCost = json["next_expansion_cost"].get!int;
+    bank.gold = json["gold"].get!int;
 }
 
 public void loadCharacters()

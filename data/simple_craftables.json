@@ -18,7 +18,17 @@
         "minAmount": 2
     },
 
+    {
+        "itemName": "small_antidote",
+        "lvl": 20,
+        "minAmount": 100
+    },
 
+    {
+        "itemName": "serpent_skin_boots",
+        "lvl": 20,
+        "minAmount": 1
+    },
     {
         "itemName": "steel_armor",
         "lvl": 20,
@@ -138,27 +148,7 @@
         "minAmount": 2
     },
     {
-        "itemName": "air_ring",
-        "lvl": 15,
-        "minAmount": 2
-    },
-    {
-        "itemName": "earth_ring",
-        "lvl": 15,
-        "minAmount": 2
-    },
-    {
-        "itemName": "fire_ring",
-        "lvl": 15,
-        "minAmount": 2
-    },
-    {
         "itemName": "life_ring",
-        "lvl": 15,
-        "minAmount": 2
-    },
-    {
-        "itemName": "water_ring",
         "lvl": 15,
         "minAmount": 2
     },
@@ -285,6 +275,6 @@
     {
         "itemName": "small_health_potion",
         "lvl": 10,
-        "minAmount": 5
+        "minAmount": 100
     }
 ]

@@ -15,6 +15,23 @@ import api.schema;
 import script.helper;
 
 void crafter(Character* c) {
+    if(bank.maxSlots < 200 && bank.gold + c.gold > bank.nextExpansionCost){
+        if(c.x != LOC_BANK.x || c.y != LOC_BANK.y){
+            c.move(LOC_BANK.x, LOC_BANK.y);
+            return;
+        }
+        if(c.gold < bank.nextExpansionCost){
+            c.withdrawGold(bank.nextExpansionCost - c.gold);
+            return;
+        }
+        if(c.gold >= bank.nextExpansionCost){
+            c.buyExpansion();
+            c.setBoolean("bankAll", true);
+            return;
+        }
+    }
+
+
     if (c.alchemy_level < 5) {
         doGather(c, 500_000, c.alchemy_level >= 5, LOC_SUNFLOWER, "sunflower");
         return;
@@ -29,6 +46,15 @@ void crafter(Character* c) {
         if (craftCheck(c, rule.ingredients, rule.outputItem, rule.quantities, currentSkill, rule.minLevel, rule.maxLevel, rule.maxCraft)) {
             return;
         }
+    }
+    if (!doGather(c,  500, c.alchemy_level >= 10, LOC_SUNFLOWER, "sunflower")) {
+        return;
+    }
+    else if (!doGather(c,  500, c.alchemy_level >= 30, LOC_NETTLE, "nettle_leaf")) {
+        return;
+    }
+    else if (!doGather(c,  500, c.alchemy_level >= 40, LOC_GLOWSTEM, "glowstem_leaf")) {
+        return;
     }
     import script.fetcher;
     fetcher(c);

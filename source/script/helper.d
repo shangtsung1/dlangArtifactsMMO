@@ -140,17 +140,26 @@ public int smartCraft(Character* character,string code,int quantity){
 private MapSchema findMapFor(string code,string type) {
 	foreach(map; maps){
 		if(map.content.isNull)continue;
-	//	writeln(map.content.get().code,map.content.get().type);
 		if(map.content.get().code == code && map.content.get().type == type)return map;
 	}
 	return MapSchema();
 }
 
+private MapSchema[] findMapsFor(string code,string type) {
+	MapSchema[] arrayOfMaps;
+	foreach(map; maps){
+		if(map.content.isNull)continue;
+		if(map.content.get().code == code && map.content.get().type == type)arrayOfMaps~=map;
+	}
+	return arrayOfMaps;
+}
+
 public void smartEquip(Character* m, string code, string slot, int amount) {
 	if(!m.inventoryContains(code,amount)){
+		writeln(m.color,"Not enough ",code," to equip ",slot);
 		int mR = smartMove(m, "bank","bank");
 		if(mR == 200) {
-			m.withdrawItem(code, amount);
+			m.withdrawItem(code, min(bank.count(code),amount));
 		}
 		return;
 	}
@@ -169,10 +178,23 @@ public void smartEquip(Character* m, string code, string slot) {
 	smartEquip(m,code,slot,1);
 }
 
-public int smartMove(Character* character, string code, string type){
-	MapSchema requiredMap = findMapFor(code,type);
-	if(character.x != requiredMap.x || character.y != requiredMap.y){
-		character.move(requiredMap.x,requiredMap.y);
+public int smartMove(Character* character, string code, string type) {
+	MapSchema[] candidates = findMapsFor(code, type);
+	if (candidates.length == 0)
+		return 404; // No map found
+
+	MapSchema closest;
+	int closestDistance = int.max;
+	foreach (map; candidates) {
+		int dist = abs(character.x - map.x) + abs(character.y - map.y);
+		if (dist < closestDistance) {
+			closestDistance = dist;
+			closest = map;
+		}
+	}
+
+	if (character.x != closest.x || character.y != closest.y) {
+		character.move(closest.x, closest.y);
 		return 598;
 	}
 	return 200;

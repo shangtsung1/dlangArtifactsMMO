@@ -4,330 +4,208 @@ import global;
 import api.ammo;
 import api.schema;
 import script.helper;
-import std.typecons;
-import std.conv;
-import std.variant; 
-import std.range;
+import std.stdio;
+import std.string;
 import std.algorithm;
 import std.math;
-import std.stdio;
-import std.format;
+import std.array;
 
-// Combat simulation parameters
-enum {
-    BASE_HP = 200,
-    CRIT_MULTIPLIER = 1.1,
-    HASTE_FACTOR = 0.01
+
+struct EquipList {
+    string itemCode;
+    string slotName;
 }
 
-struct CombatProfile {
-    ElementalStats attack;
-    ElementalStats dmgMultipliers = ElementalStats(1.0, 1.0, 1.0, 1.0);
-    double crit;
-    double haste;
-    double defense;
-    double hp;
-    double restore;
-    double wisdom;
-    double offensiveScore;
-    double defensiveScore;
-    double utilityScore;
+void applyEffect(ref Character player, const ref SimpleEffectSchema effect) {
+    if (effect.code == "attack_fire") {
+        player.attack_fire += effect.value;
+    } else if (effect.code == "attack_water") {
+        player.attack_water += effect.value;
+    } else if (effect.code == "attack_earth") {
+        player.attack_earth += effect.value;
+    } else if (effect.code == "attack_air") {
+        player.attack_air += effect.value;
+    } else if (effect.code == "critical_strike") {
+        player.critical_strike += effect.value;
+    } else if (effect.code == "haste") {
+        player.haste += effect.value;
+    } else if (effect.code == "wisdom") {
+       // player.wisdom += effect.value;//wisdom is useless ;)
+    } else if (effect.code == "dmg_fire") {
+        player.dmg_fire += effect.value;
+    } else if (effect.code == "dmg_water") {
+        player.dmg_water += effect.value;
+    } else if (effect.code == "dmg_earth") {
+        player.dmg_earth += effect.value;
+    } else if (effect.code == "dmg_air") {
+        player.dmg_air += effect.value;
+    } else if (effect.code == "dmg") {
+        player.dmg_fire += effect.value;
+        player.dmg_water += effect.value;
+        player.dmg_earth += effect.value;
+        player.dmg_air += effect.value;
+    } else if (effect.code == "hp") {
+        player.max_hp += effect.value;
+        player.hp = player.max_hp;
+    } else if (effect.code == "boost_hp") {
+        player.max_hp = cast(int)round(player.max_hp * (1.0 + effect.value / 100.0));
+        player.hp = player.max_hp;
+    } else if (effect.code == "res_fire") {
+        player.res_fire += effect.value;
+    } else if (effect.code == "res_water") {
+        player.res_water += effect.value;
+    } else if (effect.code == "res_earth") {
+        player.res_earth += effect.value;
+    } else if (effect.code == "res_air") {
+        player.res_air += effect.value;
+    } else if (effect.code == "res") {
+        player.res_fire += effect.value;
+        player.res_water += effect.value;
+        player.res_earth += effect.value;
+        player.res_air += effect.value;
+    }
 }
 
-struct ElementalStats {
-    double fire;
-    double water;
-    double air;
-    double earth;
-}
-
-CombatProfile calculateCombatStats(ItemSchema item) {
-    CombatProfile stats;
-    stats.offensiveScore = 0;
-    stats.defensiveScore = 0;
-    stats.utilityScore = 0;
-    // Initialize elemental stats
-    stats.attack = ElementalStats(0, 0, 0, 0);
-    stats.dmgMultipliers = ElementalStats(1.0, 1.0, 1.0, 1.0);
-    stats.hp = BASE_HP;
-    stats.crit = 0;
-    stats.haste = 0;
-    stats.defense = 0;
-    stats.restore = 0;
-    stats.wisdom = 0;
-
-    foreach (effect; item.effects) {
-        switch (effect.code) {
-            // Offensive stats
-            case "attack_fire":
-                stats.attack.fire += effect.value;
-                break;
-            case "attack_water":
-                stats.attack.water += effect.value;
-                break;
-            case "attack_air":
-                stats.attack.air += effect.value;
-                break;
-            case "attack_earth":
-                stats.attack.earth += effect.value;
-                break;
-            
-            case "critical_strike":
-                stats.crit += effect.value;
-                break;
-            
-            case "haste":
-                stats.haste += effect.value;
-                break;
-            case "wisdom":
-                stats.wisdom += effect.value*2;
-                break;
-            
-            case "dmg_fire":
-                stats.dmgMultipliers.fire *= 1 + (effect.value / 100.0);
-                break;
-            case "dmg_water":
-                stats.dmgMultipliers.water *= 1 + (effect.value / 100.0);
-                break;
-            case "dmg_air":
-                stats.dmgMultipliers.air *= 1 + (effect.value / 100.0);
-                break;
-            case "dmg_earth":
-                stats.dmgMultipliers.earth *= 1 + (effect.value / 100.0);
-                break;
-
-            // Defensive stats
-            case "hp", "boost_hp":
-                stats.hp += effect.value * (effect.code == "hp" ? 1 : 0.5);
-                break;
-            
-            case "res_fire", "res_water", "res_air", "res_earth":
-                stats.defense += effect.value;
-                break;
-            case "restore":
-                stats.restore += effect.value;
-                break;
-            case "":
-                // No effect code, do nothing
-                break;
-            
-            default:
-               // writefln("Unknown effect code: ", effect.code);
-                break;
-        }
+double computeScore(ref const Character player, ref const MonsterSchema monster) {
+    int computeElementDamage(int attack, int dmg, int monsterRes) {
+        int damageIncrease = dmg - monsterRes;
+        double multiplier = 1.0 + damageIncrease / 100.0;
+        return cast(int)round(attack * multiplier);
     }
 
-    double totalEffectiveAttack = 
-    (stats.attack.fire * stats.dmgMultipliers.fire) +
-    (stats.attack.water * stats.dmgMultipliers.water) +
-    (stats.attack.air * stats.dmgMultipliers.air) +
-    (stats.attack.earth * stats.dmgMultipliers.earth);
-
-    // Calculate effective DPS
-    double critMultiplier = 1 + (stats.crit / 100.0 * (CRIT_MULTIPLIER - 1));
-    double hasteMultiplier = 1 + (stats.haste * HASTE_FACTOR);
-    stats.offensiveScore = totalEffectiveAttack * critMultiplier * hasteMultiplier;
-
-    // Calculate effective survivability
-    double resistanceMultiplier = 1 - (stats.defense / (stats.defense + 100));
-    stats.defensiveScore = stats.hp / resistanceMultiplier;
-
-    // Level scaling with diminishing returns
-    double levelBonus = 1 + (item.level * 0.05 * sqrt(item.level.to!float));
-    stats.offensiveScore *= levelBonus;
-    stats.defensiveScore *= levelBonus;
-
-    stats.utilityScore = stats.restore;
-
-    return stats;
-}
-
-bool isBetterItem(ItemSchema current, ItemSchema candidate, string slotType, Character* m) {
-    if (candidate.level > m.level) return false;
-    
-    auto currentStats = calculateCombatStats(current);
-    auto candidateStats = calculateCombatStats(candidate);
-    if(slotType == "hybrid"){
-       // writeln("Current: ", current.name, " (", current.code, ") - ", 
-       //     "Offensive: ", currentStats.offensiveScore, 
-       //     " Defensive: ", currentStats.defensiveScore, 
-        //    " Utility: ", currentStats.utilityScore);
-    }
-    final switch (slotType) {
-        case "offensive":
-            return candidateStats.offensiveScore > currentStats.offensiveScore ;
-        case "defensive":
-            return candidateStats.defensiveScore > currentStats.defensiveScore ;
-        case "hybrid":
-            double currentTotal = (currentStats.offensiveScore + currentStats.defensiveScore) /2;
-            double candidateTotal = (candidateStats.offensiveScore + candidateStats.defensiveScore)/2 ;
-            return candidateTotal > currentTotal ;
-        case "utility":
-            return candidateStats.utilityScore > currentStats.utilityScore ;
-    }
-    return false;
-}
-
-Nullable!ItemSchema findBestItem(Character* m, string currentItemCode, SlotConfig slotConfig) {
-    auto currentItem = currentItemCode.empty ? ItemSchema.init : getItem(currentItemCode);
-    Nullable!ItemSchema bestItem;
-    double bestScore = -1.0;
-
-    auto searchPool = chain(
-        m.inventory.map!(bi => getItem(bi.code)), 
-        bank.items.map!(bi => getItem(bi.code))
-    )
-    .filter!(item => 
-        item.type == slotConfig.typeName &&
-        item.level <= m.level
-    );
-    foreach (item; searchPool) {
-        //writeln("SearchPool: Item: ", item.name, " (", item.code, ")");
-        if (isBetterItem(currentItem, item, slotConfig.type, m)) {
-            auto stats = calculateCombatStats(item);
-            double score = slotConfig.type == "offensive" ? stats.offensiveScore : 
-                         slotConfig.type == "defensive" ? stats.defensiveScore :
-                         stats.utilityScore;
-            if (score > bestScore) {
-                bestItem = item.nullable;
-                bestScore = score;
-            }
-            
-        }
+    double computeMonsterElementDamage(int monsterAttack, int playerRes) {
+        int damageReduction = cast(int)round(monsterAttack * (playerRes / 100.0));
+        int damagePossible = max(monsterAttack - damageReduction, 0);
+        double blockChance = (playerRes / 10.0) / 100.0;
+        return damagePossible * (1.0 - blockChance);
     }
 
-    return bestItem;
+    int fireDmg = computeElementDamage(player.attack_fire, player.dmg_fire, monster.res_fire);
+    int waterDmg = computeElementDamage(player.attack_water, player.dmg_water, monster.res_water);
+    int earthDmg = computeElementDamage(player.attack_earth, player.dmg_earth, monster.res_earth);
+    int airDmg = computeElementDamage(player.attack_air, player.dmg_air, monster.res_air);
+
+    int bestElementDamage = max(fireDmg, max(waterDmg, max(earthDmg, airDmg)));
+
+    double critMultiplier = 1.0 + 0.5 * (player.critical_strike / 100.0);
+    double avgDamage = bestElementDamage * critMultiplier;
+
+    double monsterDamage = 0;
+    monsterDamage += computeMonsterElementDamage(monster.attack_fire, player.res_fire);
+    monsterDamage += computeMonsterElementDamage(monster.attack_water, player.res_water);
+    monsterDamage += computeMonsterElementDamage(monster.attack_earth, player.res_earth);
+    monsterDamage += computeMonsterElementDamage(monster.attack_air, player.res_air);
+
+    // Calculate turns to kill each other
+    double playerTurnsToKill = ceil(monster.hp / avgDamage);
+    double monsterTurnsToKill = ceil(player.hp / monsterDamage);
+    
+    // Prioritize builds that can kill before being killed
+    double survivalFactor = (playerTurnsToKill < monsterTurnsToKill) ? 1.5 : 0.8;
+
+    if (monsterDamage <= 0) monsterDamage = 1e-9;
+    double score = (avgDamage * player.hp * survivalFactor) / monsterDamage;
+    return score;
 }
 
-Nullable!ItemSchema findBestStackableItem(Character* m, SlotConfig slot) {
-    auto currentlyEquipped = m.getEquippedItem(slot.slot);
-    int currentQty = m.getEquippedItemCount(slot.slot);
-    int maxToEquip = slot.maxStack - currentQty;
+EquipList[] findBestEquipmentToFight(Character* player, MonsterSchema toBeat) {
+    ItemSchema[] items;
+    foreach(i;player.inventory){
+        items ~= getItem(i.code);
+    }
+    foreach(i;bank.items){
+        items ~= getItem(i.code);
+    }
+    if (player.weapon_slot.length)      items ~= getItem(player.weapon_slot);
+    if (player.rune_slot.length)        items ~= getItem(player.rune_slot);
+    if (player.shield_slot.length)      items ~= getItem(player.shield_slot);
+    if (player.helmet_slot.length)      items ~= getItem(player.helmet_slot);
+    if (player.body_armor_slot.length)  items ~= getItem(player.body_armor_slot);
+    if (player.leg_armor_slot.length)   items ~= getItem(player.leg_armor_slot);
+    if (player.boots_slot.length)       items ~= getItem(player.boots_slot);
+    if (player.ring1_slot.length)       items ~= getItem(player.ring1_slot);
+    if (player.ring2_slot.length)       items ~= getItem(player.ring2_slot);
+    if (player.amulet_slot.length)      items ~= getItem(player.amulet_slot);
+    if (player.artifact1_slot.length)   items ~= getItem(player.artifact1_slot);
+    if (player.artifact2_slot.length)   items ~= getItem(player.artifact2_slot);
+    if (player.artifact3_slot.length)   items ~= getItem(player.artifact3_slot);
+    if (player.bag_slot.length)         items ~= getItem(player.bag_slot);
+    return findBestEquipmentToFight(player, toBeat, items);
+}
 
-    // return null if already have some
-    if (currentQty > 0) {
-        return Nullable!ItemSchema();
+EquipList[] findBestEquipmentToFight(Character* player, MonsterSchema toBeat, const ItemSchema[] items) {
+    import std.ascii : isDigit;
+    int[string] itemCodeCount;
+    foreach (item; items) {
+        itemCodeCount[item.code] = itemCodeCount.get(item.code, 0) + 1;
     }
 
-    ItemEvaluation best = ItemEvaluation(getItem(currentlyEquipped), calculateCombatStats(getItem(currentlyEquipped)).utilityScore * 15, 10);
-    foreach (bi; chain(
-        m.inventory.map!(bi => getItem(bi.code)), 
-        bank.items.map!(bi => getItem(bi.code))
-    )) {
-        ItemSchema item = getItem(bi.code);
-        if (item.type != slot.type || item.level > m.level) continue;
-        int totalAvailable = countItem(m,bi.code) + bank.count(item.code);
-        int possibleQty = min(totalAvailable, slot.maxStack);
+    Character virtualPlayer = *player;
 
-        if (possibleQty <= currentQty) continue;
-        
-        double score = calculateCombatStats(item).utilityScore * possibleQty;
-        
-        if (score > best.score) {
-            best = ItemEvaluation(item, score, possibleQty);
-        }
-    }
-    
-    return best.item.nullable;
-}
-
-bool tryEquipStackable(Character* m, ItemSchema item, SlotConfig slot) {
-
-    int currentlyEquipped = m.getEquippedItemCount(slot.slot);
-    int needed = slot.maxStack - currentlyEquipped;
-    
-    if (needed <= 0) return false;
-    
-    // Calculate available quantity
-    int inventoryQty = m.countUnequippedItem(item.code);
-    int bankQty = bank.count(item.code);
-    int totalAvailable = inventoryQty + bankQty;
-    int toWithdraw = min(needed, totalAvailable);
-    
-    if (toWithdraw > 0) {
-        // Equip the full stack
-        smartEquip(m, item.code, slot.slot, toWithdraw);
-        return true;
-    }
-    
-    return false;
-}
-
-struct SlotConfig {
-    string slot;
-    string typeName;
-    string type;
-    string[] conflictSlots;
-    int maxStack; 
-    bool isConsumable; 
-}
-
-struct ItemEvaluation {
-    ItemSchema item;
-    double score;
-    int availableQty;
-}
-
-
-bool equipmentCheck(Character* m,bool doConsumables) {
-    static SlotConfig[] slots = [
-    // Offensive slots
-    SlotConfig("weapon","weapon", "offensive", [],1,false),
-    SlotConfig("amulet","amulet", "hybrid", [],1,false),
-    SlotConfig("ring1","ring", "hybrid", ["ring2"],1,false),
-    SlotConfig("ring2","ring", "hybrid", ["ring1"],1,false),
-    
-    // Defensive slots
-    SlotConfig("helmet","helmet", "defensive", [],1,false),
-    SlotConfig("body_armor","body_armor", "defensive", [],1,false),
-    SlotConfig("leg_armor","leg_armor", "defensive", [],1,false),
-    SlotConfig("boots","boots", "defensive", [],1,false),
-    SlotConfig("shield","shield", "defensive", [],1,false),
-    
-    // Utility slots
-    SlotConfig("utility1","utility", "utility", ["utility2"], 10, true),
-    //SlotConfig("utility2", "utility","utility", ["utility1"], 10, true),
-    SlotConfig("artifact1","artifact", "utility", [], 1, false),
+    string[] slotOrder = [
+        "weapon_slot", "rune_slot", "shield_slot", "helmet_slot",
+        "body_armor_slot", "leg_armor_slot", "boots_slot", "ring1_slot",
+        "ring2_slot", "amulet_slot", /*"artifact1_slot", "artifact2_slot",
+        "artifact3_slot",*/ "bag_slot"
     ];
 
-    foreach (slotConfig; slots) {
-        if (doConsumables && slotConfig.isConsumable) {
-            auto bestItem = findBestStackableItem(m, slotConfig);
-           // writeln("Best item for ", slotConfig.slot, ": ", bestItem.isNull ? "None" : bestItem.get().name); 
-            if (!bestItem.isNull) {
-                if (tryEquipStackable(m, bestItem.get(), slotConfig)) {
-                    debugLog(m, format("Stacked %s x%d in %s", 
-                        bestItem.get().name, 
-                        m.getEquippedItemCount(slotConfig.slot),
-                        slotConfig.slot));
-                    return true;
-                }
-            }
-        } else if(!slotConfig.isConsumable) {
-            string currentItem = m.getEquippedItem(slotConfig.slot);
-            auto bestItem = findBestItem(m, currentItem, slotConfig);
-            //writeln(currentItem," ","Best item for ", slotConfig.slot, ": ", bestItem.isNull ? "None" : bestItem.get().name); 
-            if (!bestItem.isNull) {
-                if (tryEquipItem(m, bestItem.get(), slotConfig.slot)) {
-                    auto combatStats = calculateCombatStats(bestItem.get());
-                    debugLog(m, format("Upgraded %s: %s (Score: %.1f)", 
-                        slotConfig.slot, bestItem.get().name, 
-                        slotConfig.type == "offensive" ? combatStats.offensiveScore :
-                        (slotConfig.type == "defensive" ? combatStats.defensiveScore :
-                         combatStats.offensiveScore + combatStats.defensiveScore)));
-                    return true;
+    EquipList[] bestEquip;
+
+    foreach (slot; slotOrder) {
+        const(ItemSchema)*[] candidates;
+        candidates ~= null;
+
+        // Get slot base name without "_slot" suffix
+        string slotBase = slot.replace("_slot", "");
+        
+        foreach (ref const item; items) {
+            // Check if item can be equipped in this slot
+            if (item.type.length > slotBase.length) continue;
+            
+            // Match base type and optional digits
+            if (slotBase.startsWith(item.type)) {
+                string remaining = slotBase[item.type.length..$];
+                
+                // Check if remaining characters are all digits or empty
+                bool validRemaining = remaining.all!(c => c.isDigit);
+                
+                if (validRemaining && 
+                    itemCodeCount.get(item.code, 0) > 0 && 
+                    item.level <= virtualPlayer.level) {
+                    candidates ~= &item;
                 }
             }
         }
+
+        const(ItemSchema)* bestItem = null;
+        double bestScore = -1.0;
+
+        foreach (candidate; candidates) {
+            Character tempPlayer = virtualPlayer;
+            if (candidate !is null) {
+                foreach (effect; candidate.effects) {
+                    applyEffect(tempPlayer, effect);
+                }
+            }
+
+            double currentScore = computeScore(tempPlayer, toBeat);
+            if (currentScore > bestScore) {
+                bestScore = currentScore;
+                bestItem = candidate;
+            }
+        }
+
+        if (bestItem !is null) {
+            bestEquip ~= EquipList(bestItem.code, slot);
+            itemCodeCount[bestItem.code]--;
+
+            foreach (effect; bestItem.effects) {
+                applyEffect(virtualPlayer, effect);
+            }
+        }
     }
-    return false;
+
+    return bestEquip;
 }
 
-bool tryEquipItem(Character* m, ItemSchema item, string slot) {
-    smartEquip(m, item.code, slot, 1);
-    return false;
-}
 
-void debugLog(Character* m, string message) {
-    writeln(m.color, "[Gear] ", message);
-}
