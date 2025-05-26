@@ -18,6 +18,17 @@
         "minAmount": 2
     },
 
+
+    {
+        "itemName": "health_potion",
+        "lvl": 30,
+        "minAmount": 100
+    },
+    {
+        "itemName": "minor_health_potion",
+        "lvl": 20,
+        "minAmount": 100
+    },
     {
         "itemName": "small_antidote",
         "lvl": 20,
@@ -275,6 +286,6 @@
     {
         "itemName": "small_health_potion",
         "lvl": 10,
-        "minAmount": 100
+        "minAmount": 10000
     }
 ]

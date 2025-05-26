@@ -41,7 +41,7 @@ void fetcher(Character* c)
     else if (!doGather(c,  200, c.woodcutting_level >= 30, LOC_BIRCH, "birch_wood")) {
         return;
     }
-    else if (!doGather(c,  200, c.alchemy_level >= 30, LOC_NETTLE, "nettle_leaf")) {
+    else if (c.alchemy_level >= 20 && !doGather(c,  200, c.alchemy_level >= 30, LOC_NETTLE, "nettle_leaf")) {
         return;
     }
     else if (!doGather(c,  200, c.fishing_level >= 30, LOC_TROUT, "trout")) {
@@ -53,7 +53,7 @@ void fetcher(Character* c)
     else if (!doGather(c,  200, c.woodcutting_level >= 40, LOC_DEADTREE, "dead_wood")) {
         return;
     }
-    else if (!doGather(c,  200, c.alchemy_level >= 40, LOC_GLOWSTEM, "glowstem_leaf")) {
+    else if (c.alchemy_level >= 40 && !doGather(c,  200, c.alchemy_level >= 40, LOC_GLOWSTEM, "glowstem_leaf")) {
         return;
     }
     else if (!doGather(c,  200, c.fishing_level >= 40, LOC_BASS, "bass")) {

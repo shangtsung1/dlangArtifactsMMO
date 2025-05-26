@@ -153,15 +153,6 @@
         "maxCraft": 50
     },
     {
-        "ingredients": ["milk_bucket"],
-        "outputItem": "cheese",
-        "quantities": [1],
-        "skill": "cooking",
-        "minLevel": 10,
-        "maxLevel": 40,
-        "maxCraft": 50
-    },
-    {
         "ingredients": ["raw_wolf_meat"],
         "outputItem": "cooked_wolf_meat",
         "quantities": [1],

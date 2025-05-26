@@ -26,10 +26,11 @@ void main(string[] args)
     assetLoader = new AssetLoader();
     string token;
     bool help = false;
-
+    string user;
     auto opts = getopt(
         args,
         "token", &token,
+        "user",&user,
         "singlerun|sr", &singleRun,
         "gui|g", &gui,
         "help|h", &help
@@ -48,8 +49,11 @@ void main(string[] args)
         }
 
         // Window configuration
-        enum SCREEN_WIDTH = 1280;
-        enum SCREEN_HEIGHT = 720;
+        int SCREEN_WIDTH = 1280;
+        if(user.length > 0){
+            SCREEN_WIDTH = 256;
+        }
+        int SCREEN_HEIGHT = 720;
         InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Artifact MMO Client");
         SetTargetFPS(5);
     }
@@ -73,15 +77,28 @@ void main(string[] args)
         }
     }
     ulong count = 0;
-    Duration logicInterval = 250.msecs;
+    Duration logicInterval = 500.msecs;
     MonoTime lastLogicTime = MonoTime.currTime;
+
+    Duration softUpdateInterval = 1.minutes;
+    MonoTime lastSoftUpdateTime = MonoTime.currTime;
     while (!gui || !WindowShouldClose()) {
         MonoTime now = MonoTime.currTime;
         bool runLogic = (now - lastLogicTime) >= logicInterval;
-
+        bool runSoftUpdate = (now - lastSoftUpdateTime) >= softUpdateInterval;
+        if(runSoftUpdate){
+            writeln("\033[37m", " SoftUpdate");
+            soft_refresh();
+            lastSoftUpdateTime = now;
+        }
         if (runLogic) {
             writeln("\033[37m", "--------------", count++, "-----------------");
             foreach (i; 0 .. charOrder.length) {
+                if(user.length > 0){
+                    if(user != charOrder[i]){
+                        continue;
+                    }
+                }
                 processCharacter(characters[charOrder[i]], i);
                 characters[charOrder[i]].saveAttachments(CACHE_DIR ~ "character_" ~ characters[charOrder[i]].name ~ ".json");
             }
@@ -92,34 +109,63 @@ void main(string[] args)
             }
         }
         if (gui) {
+            SetWindowTitle(("Artifact MMO Client: " ~ count.to!string).toStringz);
             BeginDrawing();
             ClearBackground(Color(30, 30, 30, 255));
-            DrawRectangle(0, 0, 256, 128 * 5, Color(40, 40, 40, 255));
+            // Horizontal background rectangle (width based on character count)
+            DrawRectangle(0, 0, (256 * cast(uint)charOrder.length), 128, Color(40, 40, 40, 255));
             foreach (i; 0 .. charOrder.length) {
+                if(user.length > 0){
+                    if(user != charOrder[i]){
+                        continue;
+                    }
+                }
                 Character* p = characters[charOrder[i]];
-                int sx = 10;
-                int sy = cast(int)i*128;
-                DrawRectangle(10, sy+10, 236, 108, Color(0, 0, 0, 255));
-                DrawTexture(assetLoader.loadTexture("Characters", p.skin), sx+10, sy+20, WHITE);
-                int tx = sx+70;
-                int ty = sy+30;
+                int sx = cast(int)(i * 256);  // Horizontal position based on index
+                int sy = 0;         // Vertical position remains constant
+                
+                DrawRectangle(sx + 10, sy + 10, 236, 108, Color(0, 0, 0, 255));
+                DrawTexture(assetLoader.loadTexture("Characters", p.skin), sx + 20, sy + 20, WHITE);
+                
+                int tx = sx + 76;
+                int ty = sy + 30;
                 DrawText(p.name.toStringz, tx, ty, 20, LIGHTGRAY);
-                ty+=25;
-                if(p.x == 0 && p.y == 0 && p.hp <= 1){
+                
+                ty += 25;
+                if (p.x == 0 && p.y == 0 && p.hp <= 1) {
                     DrawText("---DEAD---".toStringz, tx, ty, 12, RED);
+                } else {
+                    DrawText(("HP:" ~ p.hp.to!string ~ "/" ~ p.max_hp.to!string).toStringz, 
+                            tx, ty, 12, p.hp == p.max_hp ? GREEN : LIGHTGRAY);
                 }
-                else{
-                    DrawText(("HP:"~(p.hp.to!string)~"/"~(p.max_hp.to!string)).toStringz, tx, ty, 12, LIGHTGRAY);
+                
+                ty += 16;
+                DrawText(("XP:" ~ p.xp.to!string ~ "/" ~ p.max_xp.to!string).toStringz, tx, ty, 12, LIGHTGRAY);
+                
+                ty += 16;
+                DrawText(("Lvl:" ~ p.level.to!string).toStringz, tx - 50, ty, 12, LIGHTGRAY);
+                DrawText(("Inv:" ~ p.countInventory().to!string ~ "/" ~ p.inventory_max_items.to!string).toStringz, 
+                        tx, ty, 12, LIGHTGRAY);
+                ty += 16;        
+                DrawText(("Cooldown: " ~ p.cooldownLeft().to!string).toStringz, 
+                        tx, ty, 12, LIGHTGRAY);
+                ty += 20;
+                MapSchema ms = getMap(p.x,p.y);
+                DrawTexture(assetLoader.loadTexture("Maps", ms.skin), sx + 15, ty, WHITE);
+                DrawText(("(" ~ p.x.to!string ~ "," ~ p.y.to!string ~ ")").toStringz, sx + 15, ty, 12, LIGHTGRAY);
+                ty += 224-68;
+                DrawTexture(assetLoader.loadTexture("Characters", p.skin), sx + 100, ty, WHITE);
+                ty +=16+68;
+                foreach(slot; p.inventory){
+                    if(slot.quantity > 0){
+                        DrawTexture(assetLoader.loadTexture("Items", slot.code), sx + 15, ty, WHITE);
+                        DrawText((""~slot.quantity.to!string).toStringz, sx + 65, ty,12, LIGHTGRAY);
+                        ty +=60;
+                    }
                 }
-                ty+=16;
-                DrawText(("XP:"~(p.xp.to!string)~"/"~(p.max_xp.to!string)).toStringz, tx, ty, 12, LIGHTGRAY);
-                ty+=16;
-                DrawText(("Lvl:"~p.level.to!string).toStringz, tx-50, ty, 12, LIGHTGRAY);
-                DrawText(("Inv:"~(p.countInventory().to!string)~"/"~(p.inventory_max_items.to!string)).toStringz, tx, ty, 12, LIGHTGRAY);
             }
             EndDrawing();
         } else {
-            // In CLI mode, sleep a bit to avoid CPU hogging
             Thread.sleep(10.msecs);
         }
     }
@@ -164,6 +210,7 @@ void processCharacter(Character* c, ulong i)
         return;
     }
     if (i == 0) {
+        //writeln(bank.count("pig_skin"));
         fighter(c);
     }
     else if (i == 1) {
@@ -173,9 +220,9 @@ void processCharacter(Character* c, ulong i)
         fetcher(c);
     }
     if (!c.onCooldown()) {
-        if (!doGather(c,  200, c.alchemy_level >= 10, LOC_SUNFLOWER, "sunflower")) {
-            return;
-        }
+        //if (!doGather(c,  200, c.alchemy_level >= 10, LOC_SUNFLOWER, "sunflower")) {
+        //    return;
+        //}
         writeln(c.color, c.name ~ " is doing nothing");
         return;
     }

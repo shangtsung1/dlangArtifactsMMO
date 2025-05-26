@@ -377,6 +377,12 @@ struct Character {
         return now < this.cooldown_expiration;
     }
 
+    long cooldownLeft() {
+        long now = Clock.currTime().toUTC().toUnixTime();
+        long exp = this.cooldown_expiration - now;
+        return exp > 0 ? exp : 0;
+    }
+
     int countInventory(){
         int count = 0;
         foreach(i; inventory){
@@ -1291,6 +1297,49 @@ struct NpcSchema {
             json["code"].get!string,
             json["description"].get!string,
             json["type"].get!string
+        );
+    }
+}
+
+struct ActiveEventSchema {
+    string name;
+    string code;
+    MapSchema map;
+    string previous_skin;
+    int duration;
+    string expiration;
+    string created_at;
+    
+    static ActiveEventSchema fromJson(JSONValue json) {
+        writeln(json);
+        return ActiveEventSchema(
+            json["name"].get!string,
+            json["code"].get!string,
+            MapSchema.fromJson(json["map"]),
+            json["previous_skin"].get!string,
+            json["duration"].get!int,
+            json["expiration"].get!string,
+            json["created_at"].get!string
+        );
+    }
+}
+
+struct EventSchema {
+    string name;
+    string code;
+    //EventContentSchema content;
+    //EventMapSchema maps;
+    string skin;
+    int duration;
+    int rate;
+    
+    static EventSchema fromJson(JSONValue json) {
+        return EventSchema(
+            json["name"].get!string,
+            json["code"].get!string,
+            json["skin"].get!string,
+            json["duration"].get!int,
+            json["rate"].get!int
         );
     }
 }

@@ -19,7 +19,8 @@ alias ItemSchema = api.schema.ItemSchema;
 alias MapSchema = api.schema.MapSchema;
 alias MonsterSchema = api.schema.MonsterSchema;
 alias NpcSchema = api.schema.NpcSchema;
-
+alias EventSchema = api.schema.EventSchema;
+alias ActiveEventSchema = api.schema.ActiveEventSchema;
 
 __gshared Bank bank;
 __gshared api.schema.Character*[string] characters;
@@ -29,6 +30,8 @@ __gshared ArtifactMMOClient client;
 __gshared MapSchema[] maps;
 __gshared MonsterSchema[] monsters;
 __gshared NpcSchema[] npcs;
+__gshared EventSchema[] events;
+__gshared ActiveEventSchema[] activeEvents;
 
 Location LOC_BANK = Location(4,1);
 
@@ -70,6 +73,12 @@ Location LOC_SKELETON = Location(8,6);
 Location LOC_SPIDER = Location(-3,12);
 Location LOC_OGRE = Location(8,-2);
 
+Location LOC_VAMPIRE = Location(10,6);
+Location LOC_BLIZZARD = Location(4,5);
+Location LOC_CYCLOPS = Location(7,-3);
+Location LOC_DKNIGHT = Location(8,7);
+Location LOC_IMP = Location(0,12);
+
 
 
 void global_init(string token)
@@ -83,6 +92,148 @@ void global_init(string token)
     loadMaps();
     loadMonsters();
     loadNpcs();
+    loadEvents();
+    soft_refresh();
+}
+
+void soft_refresh(){
+    loadActiveEvents();
+}
+
+void loadActiveEvents() {
+    activeEvents.length = 0;
+    int counter = 0;
+    string cacheFile = CACHE_DIR~"activeEvents_cache.json";
+
+    JSONValue[] allData;
+    auto initialJson = client.getActiveEvents(1, 50);
+    int totalPages = initialJson["pages"].get!int;
+    
+    // Process first page
+    auto dataArray = initialJson["data"];
+    foreach (ref eventJson; dataArray.array) {
+        allData ~= eventJson;
+        ActiveEventSchema event = ActiveEventSchema.fromJson(eventJson);
+        activeEvents ~= event;
+        counter++;
+        writeln("page=1/", totalPages, " nName=", event.name);
+    }
+    
+    // Process remaining pages
+    for (int i = 2; i <= totalPages; i++) {
+        auto json = client.getAllEvents(i, 50,null);
+        dataArray = json["data"];
+        foreach (ref eventJson; dataArray.array) {
+            allData ~= eventJson;
+            ActiveEventSchema event = ActiveEventSchema.fromJson(eventJson);
+            activeEvents ~= event;
+            counter++;
+            writeln("page=", i, "/", totalPages, " nName=", event.name);
+        }
+    }
+
+    // Save to cache
+    //if (!allData.empty) {
+        JSONValue jsonToSave;
+        jsonToSave.array = allData;
+        try {
+            auto f = File(cacheFile, "w");
+            f.writeln(jsonToSave.toPrettyString());
+            f.close();
+            writeln("ActiveEvent cache saved successfully to ", cacheFile);
+        } catch (Exception e) {
+            writeln("Failed to save Activeevent cache: ", e.msg);
+        }
+    //}
+
+    writeln("Total ActiveEvents loaded: ", counter);
+    writeln("Total ActiveEvents in list: ", activeEvents.length);
+}
+
+public Nullable!ActiveEventSchema getActiveEvent(string code) {
+    foreach (event; activeEvents) {
+        if (event.code == code) {
+            return Nullable!ActiveEventSchema(event);
+        }
+    }
+    return Nullable!ActiveEventSchema();
+}
+
+void loadEvents() {
+    int counter = 0;
+    string cacheFile = CACHE_DIR~"events_cache.json";
+    
+    if (exists(cacheFile)) {
+        try {
+            string jsonData = readText(cacheFile);
+            JSONValue parsedJson = parseJSON(jsonData);
+            foreach (ref eventJson; parsedJson.array) {
+                EventSchema event = EventSchema.fromJson(eventJson);
+                events ~= event;
+                counter++;
+                writeln("Loaded from cache: nName=", event.name);
+            }
+            writeln("Total events loaded from cache: ", counter);
+            writeln("Total events in list: ", events.length);
+            return;
+        } catch (Exception e) {
+            writeln("event cache loading failed (", e.msg, "), fetching from network");
+        }
+    }
+
+    JSONValue[] allData;
+    auto initialJson = client.getAllEvents(1, 50,null);
+    int totalPages = initialJson["pages"].get!int;
+    
+    // Process first page
+    auto dataArray = initialJson["data"];
+    foreach (ref eventJson; dataArray.array) {
+        allData ~= eventJson;
+        EventSchema event = EventSchema.fromJson(eventJson);
+        events ~= event;
+        counter++;
+        writeln("page=1/", totalPages, " nName=", event.name);
+    }
+    
+    // Process remaining pages
+    for (int i = 2; i <= totalPages; i++) {
+        auto json = client.getAllEvents(i, 50,null);
+        dataArray = json["data"];
+        foreach (ref eventJson; dataArray.array) {
+            allData ~= eventJson;
+            EventSchema event = EventSchema.fromJson(eventJson);
+            events ~= event;
+            counter++;
+            writeln("page=", i, "/", totalPages, " nName=", event.name);
+        }
+    }
+
+    // Save to cache
+    if (!allData.empty) {
+        JSONValue jsonToSave;
+        jsonToSave.array = allData;
+        try {
+            auto f = File(cacheFile, "w");
+            f.writeln(jsonToSave.toPrettyString());
+            f.close();
+            writeln("event cache saved successfully to ", cacheFile);
+        } catch (Exception e) {
+            writeln("Failed to save event cache: ", e.msg);
+        }
+    }
+
+    writeln("Total events loaded: ", counter);
+    writeln("Total events in list: ", events.length);
+}
+
+// Helper function to find NPCs by code
+public EventSchema getEvent(string code) {
+    foreach(event; events) {
+        if(event.code == code) {
+            return event;
+        }
+    }
+    return EventSchema();
 }
 
 void loadNpcs() {
@@ -438,6 +589,17 @@ public int getItemCraftLevel(string code)
     return getItem(code).craft.get().level;
 }
 
+bool canPoisen(MonsterSchema ms){
+    if(ms.effects.length > 0){
+        foreach(effect;ms.effects){
+            if(effect.code == "poison"){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 class Bank{
 	SimpleItemSchema[] items;
     int maxSlots;
@@ -455,21 +617,43 @@ class Bank{
     }
 }
 
-public void refreshBank(){
-    auto json = client.getBankItems("",1,100)["data"];
-    //todo check response
-    bank.items.length = 0;
-    foreach(item; json.array){
-        SimpleItemSchema sis = SimpleItemSchema.fromJson(item);
-        if(sis.quantity > 0){
-            bank.items ~= sis;
+public void refreshBank() {
+    import std.json : JSONValue;
+
+    void processItemsPage(JSONValue data) {
+        foreach (item; data.array) {
+            auto sis = SimpleItemSchema.fromJson(item);
+            if (sis.quantity > 0) {
+                bank.items ~= sis;
+            }
         }
     }
-    json = client.getBankDetails()["data"];
-    bank.maxSlots = json["slots"].get!int;
-    bank.expansions = json["expansions"].get!int;
-    bank.nextExpansionCost = json["next_expansion_cost"].get!int;
-    bank.gold = json["gold"].get!int;
+
+    void updateBankDetails() {
+        auto detailsResponse = client.getBankDetails();
+        auto details = detailsResponse["data"];
+        bank.maxSlots = details["slots"].get!int;
+        bank.expansions = details["expansions"].get!int;
+        bank.nextExpansionCost = details["next_expansion_cost"].get!int;
+        bank.gold = details["gold"].get!int;
+    }
+
+    enum pageSize = 100;
+    enum initialPage = 1;
+
+    auto itemsResponse = client.getBankItems("", initialPage, pageSize);
+    int totalItems = itemsResponse["total"].get!int;
+    bank.items.length = 0;
+
+    processItemsPage(itemsResponse["data"]);
+
+    int totalPages = (totalItems + pageSize - 1) / pageSize;
+    for (int currentPage = initialPage + 1; currentPage <= totalPages; currentPage++) {
+        auto pageResponse = client.getBankItems("", currentPage, pageSize);
+        processItemsPage(pageResponse["data"]);
+    }
+
+    updateBankDetails();
 }
 
 public void loadCharacters()
