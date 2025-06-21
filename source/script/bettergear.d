@@ -65,8 +65,30 @@ void applyEffect(ref Character player, const ref SimpleEffectSchema effect) {
         player.res_air += effect.value;
     }
 }
+enum Element { fire, water, earth, air }
+
+Element getWeakestElement(ref const MonsterSchema monster) {
+    int[Element] res;
+    res[Element.fire] = monster.res_fire;
+    res[Element.water] = monster.res_water;
+    res[Element.earth] = monster.res_earth;
+    res[Element.air] = monster.res_air;
+
+    Element weakest = Element.fire;
+    int minRes = res[weakest];
+
+    foreach (e; [Element.fire,Element.water,Element.earth,Element.air]) {
+        if (res[e] < minRes) {
+            weakest = e;
+            minRes = res[e];
+        }
+    }
+    return weakest;
+}
 
 double computeScore(ref const Character player, ref const MonsterSchema monster) {
+    Element preferred = getWeakestElement(monster);
+
     int computeElementDamage(int attack, int dmg, int monsterRes) {
         int damageIncrease = dmg - monsterRes;
         double multiplier = 1.0 + damageIncrease / 100.0;
@@ -80,12 +102,21 @@ double computeScore(ref const Character player, ref const MonsterSchema monster)
         return damagePossible * (1.0 - blockChance);
     }
 
-    int fireDmg = computeElementDamage(player.attack_fire, player.dmg_fire, monster.res_fire);
-    int waterDmg = computeElementDamage(player.attack_water, player.dmg_water, monster.res_water);
-    int earthDmg = computeElementDamage(player.attack_earth, player.dmg_earth, monster.res_earth);
-    int airDmg = computeElementDamage(player.attack_air, player.dmg_air, monster.res_air);
-
-    int bestElementDamage = max(fireDmg, max(waterDmg, max(earthDmg, airDmg)));
+    int bestElementDamage;
+    final switch (preferred) {
+        case Element.fire:
+            bestElementDamage = computeElementDamage(player.attack_fire, player.dmg_fire, monster.res_fire);
+            break;
+        case Element.water:
+            bestElementDamage = computeElementDamage(player.attack_water, player.dmg_water, monster.res_water);
+            break;
+        case Element.earth:
+            bestElementDamage = computeElementDamage(player.attack_earth, player.dmg_earth, monster.res_earth);
+            break;
+        case Element.air:
+            bestElementDamage = computeElementDamage(player.attack_air, player.dmg_air, monster.res_air);
+            break;
+    }
 
     double critMultiplier = 1.0 + 0.5 * (player.critical_strike / 100.0);
     double avgDamage = bestElementDamage * critMultiplier;
@@ -99,8 +130,7 @@ double computeScore(ref const Character player, ref const MonsterSchema monster)
     // Calculate turns to kill each other
     double playerTurnsToKill = ceil(monster.hp / avgDamage);
     double monsterTurnsToKill = ceil(player.hp / monsterDamage);
-    
-    // Prioritize builds that can kill before being killed
+
     double survivalFactor = (playerTurnsToKill < monsterTurnsToKill) ? 1.5 : 0.8;
 
     if (monsterDamage <= 0) monsterDamage = 1e-9;
@@ -111,9 +141,6 @@ double computeScore(ref const Character player, ref const MonsterSchema monster)
 EquipList[] findBestEquipmentToFight(Character* player, MonsterSchema toBeat) {
     ItemSchema[] items;
     foreach(i;player.inventory){
-        items ~= getItem(i.code);
-    }
-    foreach(i;bank.items){
         items ~= getItem(i.code);
     }
     if (player.weapon_slot.length)      items ~= getItem(player.weapon_slot);
@@ -130,6 +157,9 @@ EquipList[] findBestEquipmentToFight(Character* player, MonsterSchema toBeat) {
     if (player.artifact2_slot.length)   items ~= getItem(player.artifact2_slot);
     if (player.artifact3_slot.length)   items ~= getItem(player.artifact3_slot);
     if (player.bag_slot.length)         items ~= getItem(player.bag_slot);
+    foreach(i;bank.items){
+        items ~= getItem(i.code);
+    }
     return findBestEquipmentToFight(player, toBeat, items);
 }
 
@@ -140,10 +170,10 @@ EquipList[] findBestEquipmentToFight(Character* player, MonsterSchema toBeat, co
         itemCodeCount[item.code] = itemCodeCount.get(item.code, 0) + 1;
     }
 
-    Character virtualPlayer = *player;
+    Character basePlayer = *player;
 
     string[] slotOrder = [
-        "weapon_slot", "rune_slot", "shield_slot", "helmet_slot",
+        "weapon_slot", "rune_slot", "shield_slot", /*"helmet_slot",*/
         "body_armor_slot", "leg_armor_slot", "boots_slot", "ring1_slot",
         "ring2_slot", "amulet_slot", /*"artifact1_slot", "artifact2_slot",
         "artifact3_slot",*/ "bag_slot"
@@ -171,7 +201,7 @@ EquipList[] findBestEquipmentToFight(Character* player, MonsterSchema toBeat, co
                 
                 if (validRemaining && 
                     itemCodeCount.get(item.code, 0) > 0 && 
-                    item.level <= virtualPlayer.level) {
+                    item.level <= basePlayer.level) {
                     candidates ~= &item;
                 }
             }
@@ -180,8 +210,10 @@ EquipList[] findBestEquipmentToFight(Character* player, MonsterSchema toBeat, co
         const(ItemSchema)* bestItem = null;
         double bestScore = -1.0;
 
+        Character virtualPlayer = basePlayer; // always reset for each slot
+
         foreach (candidate; candidates) {
-            Character tempPlayer = virtualPlayer;
+            Character tempPlayer = basePlayer;
             if (candidate !is null) {
                 foreach (effect; candidate.effects) {
                     applyEffect(tempPlayer, effect);
@@ -189,7 +221,7 @@ EquipList[] findBestEquipmentToFight(Character* player, MonsterSchema toBeat, co
             }
 
             double currentScore = computeScore(tempPlayer, toBeat);
-            if (currentScore > bestScore) {
+            if (currentScore > bestScore * 1.01) {
                 bestScore = currentScore;
                 bestItem = candidate;
             }

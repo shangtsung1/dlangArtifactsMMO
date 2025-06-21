@@ -1,6 +1,509 @@
 [
-
-
+    {
+        "itemName": "health_potion",
+        "lvl": 30,
+        "minAmount": 100
+    },
+    {
+        "itemName": "minor_health_potion",
+        "lvl": 20,
+        "minAmount": 100
+    },
+    {
+        "itemName": "small_health_potion",
+        "lvl": 10,
+        "minAmount": 100
+    },
+    {
+        "itemName": "small_antidote",
+        "lvl": 20,
+        "minAmount": 100
+    },
+    {
+        "itemName": "eggscalibur",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "eggstra_protection",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "celest_ring",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "blade_of_hell",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "white_knight_shield",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "mithril_shield",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "mithril_boots",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "cultist_boots",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "white_knight_helmet",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "wrathelmet",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "cultist_hat",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "white_knight_pants",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "hell_legs_armor",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "wrathpants",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "cultist_pants",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "white_knight_armor",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "hell_armor",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "wratharmor",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "cultist_cloak",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "eternity_ring",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "divinity_ring",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "sacred_ring",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "wrathsword",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "bloodblade",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "demoniac_dagger",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "lightning_sword",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "hell_staff",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "bow_from_hell",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "mithril_platelegs",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "mithril_helm",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "mithril_platebody",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "mithril_sword",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "greater_ruby_amulet",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "greater_topaz_amulet",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "greater_sapphire_amulet",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "greater_emerald_amulet",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "hork_helmet",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "batwing_helmet",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "earth_shield",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "air_shield",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "water_shield",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "fire_shield",
+        "lvl": 40,
+        "minAmount": 2
+    },
+    {
+        "itemName": "enchanter_boots",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "enchanter_pants",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "jester_hat",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "diamond_sword",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "malefic_ring",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "dreadful_battleaxe",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "dreadful_shield",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "dreadful_armor",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "ancestral_talisman",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "masterful_necklace",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "ancient_jean",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "strangold_sword",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "magic_stone_amulet",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "diamond_amulet",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "cursed_sceptre",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "magic_bow",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "malefic_armor",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "strangold_armor",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "strangold_legs_armor",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "strangold_helmet",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "cursed_hat",
+        "lvl": 35,
+        "minAmount": 2
+    },
+    {
+        "itemName": "conjurer_cloak",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "conjurer_skirt",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "flying_boots",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "royal_skeleton_ring",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "enchanted_bow",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "prospecting_amulet",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "obsidian_battleaxe",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "elderwood_staff",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "royal_skeleton_helmet",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "royal_skeleton_armor",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "royal_skeleton_pants",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "lost_amulet",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "golden_gloves",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "obsidian_armor",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "obsidian_helmet",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "obsidian_legs_armor",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "greater_dreadful_amulet",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "gold_boots",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "lizard_boots",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "gold_pickaxe",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "emerald_ring",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "sapphire_ring",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "gold_helm",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "gold_axe",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "gold_fishing_rod",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "gold_ring",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "topaz_ring",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "gold_mask",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "gold_sword",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "gold_platelegs",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "ruby_ring",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "gold_shield",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "gold_platebody",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "greater_dreadful_staff",
+        "lvl": 30,
+        "minAmount": 2
+    },
 
     {
         "itemName": "vampire_bow",
@@ -20,25 +523,75 @@
 
 
     {
-        "itemName": "health_potion",
-        "lvl": 30,
-        "minAmount": 100
-    },
+        "itemName": "topaz_amulet",
+        "lvl": 25,
+        "minAmount": 2
+    }, 
     {
-        "itemName": "minor_health_potion",
-        "lvl": 20,
-        "minAmount": 100
-    },
+        "itemName": "emerald_amulet",
+        "lvl": 25,
+        "minAmount": 2
+    }, 
     {
-        "itemName": "small_antidote",
+        "itemName": "sapphire_amulet",
+        "lvl": 25,
+        "minAmount": 2
+    }, 
+    {
+        "itemName": "ruby_amulet",
+        "lvl": 25,
+        "minAmount": 2
+    }, 
+    {
+        "itemName": "ring_of_chance",
         "lvl": 20,
-        "minAmount": 100
+        "minAmount": 4
     },
 
     {
+        "itemName": "steel_ring",
+        "lvl": 30,
+        "minAmount": 2
+    },
+    {
+        "itemName": "piggy_helmet",
+        "lvl": 25,
+        "minAmount": 2
+    },
+    {
+        "itemName": "piggy_pants",
+        "lvl": 25,
+        "minAmount": 2
+    },
+    {
+        "itemName": "stormforged_pants",
+        "lvl": 25,
+        "minAmount": 2
+    },
+    {
+        "itemName": "stormforged_armor",
+        "lvl": 25,
+        "minAmount": 2
+    },
+    {
+        "itemName": "piggy_armor",
+        "lvl": 25,
+        "minAmount": 2
+    },
+    {
+        "itemName": "skeleton_helmet",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "skull_amulet",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
         "itemName": "serpent_skin_boots",
         "lvl": 20,
-        "minAmount": 1
+        "minAmount": 2
     },
     {
         "itemName": "steel_armor",
@@ -52,28 +605,28 @@
     },
     {
         "itemName": "steel_shield",
-        "lvl": 20,
+        "lvl": 30,
         "minAmount": 2
     },
     {
         "itemName": "ruby",
         "lvl": 20,
-        "minAmount": 20
+        "minAmount": 1000
     },
     {
         "itemName": "topaz",
         "lvl": 20,
-        "minAmount": 20
+        "minAmount": 1000
     },
     {
         "itemName": "sapphire",
         "lvl": 20,
-        "minAmount": 20
+        "minAmount": 1000
     },
     {
         "itemName": "emerald",
         "lvl": 20,
-        "minAmount": 20
+        "minAmount": 1000
     },
     {
         "itemName": "apple_pie",
@@ -92,7 +645,7 @@
     },
     {
         "itemName": "steel_battleaxe",
-        "lvl": 20,
+        "lvl": 30,
         "minAmount": 2
     },
     {
@@ -282,10 +835,5 @@
         "itemName": "copper_ring",
         "lvl": 10,
         "minAmount": 2
-    },
-    {
-        "itemName": "small_health_potion",
-        "lvl": 10,
-        "minAmount": 10000
     }
 ]

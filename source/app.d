@@ -27,18 +27,25 @@ void main(string[] args)
     string token;
     bool help = false;
     string user;
+    bool printitems;
     auto opts = getopt(
         args,
         "token", &token,
         "user",&user,
         "singlerun|sr", &singleRun,
         "gui|g", &gui,
-        "help|h", &help
+        "help|h", &help,
+        "printitems|pi",&printitems
     );
     writeln(token);
     if (help || token.length == 0)
     {
-        writeln("Usage: ammo --token=TOKEN [--singlerun|-sr] [--gui|-g] [--help|-h]");
+        writeln("Usage: ammo --token=TOKEN [--singlerun|-sr] [--gui|-g] [--help|-h] [--printitems|-pi]");
+        return;
+    }
+    if(printitems){
+        global_init(token);
+        print_items("items.json");
         return;
     }
     if(gui){
@@ -53,7 +60,7 @@ void main(string[] args)
         if(user.length > 0){
             SCREEN_WIDTH = 256;
         }
-        int SCREEN_HEIGHT = 720;
+        int SCREEN_HEIGHT = 920;
         InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Artifact MMO Client");
         SetTargetFPS(5);
     }
@@ -156,10 +163,20 @@ void main(string[] args)
                 ty += 224-68;
                 DrawTexture(assetLoader.loadTexture("Characters", p.skin), sx + 100, ty, WHITE);
                 ty +=16+68;
+                int counta = 0;
                 foreach(slot; p.inventory){
                     if(slot.quantity > 0){
+                        counta+=1;
                         DrawTexture(assetLoader.loadTexture("Items", slot.code), sx + 15, ty, WHITE);
                         DrawText((""~slot.quantity.to!string).toStringz, sx + 65, ty,12, LIGHTGRAY);
+                        if(counta == 9){
+                            sx+=60;
+                            ty-=(60*9);
+                        }
+                        if(counta == 18){
+                            sx+=60;
+                            ty-=(60*9);
+                        }
                         ty +=60;
                     }
                 }
@@ -209,8 +226,30 @@ void processCharacter(Character* c, ulong i)
         bankAll(c);
         return;
     }
+    if(c.getString("unequipbank") != "" && c.countItem(c.getString("unequipbank")) > 0){
+        int result;
+        result = smartMove(c, "bank","bank");
+		if(result == 200) {
+			result = c.depositItem(c.getString("unequipbank"),c.countItem(c.getString("unequipbank")));
+		}
+        if(result == 200){
+            c.setString("unequipbank","");
+        }
+        return;
+    }
+    if(c.artifact2_slot == "" && (bank.count("silver_chalice")>=1 || c.countItem("silver_chalice")>=1)){
+        script.helper.smartEquip(c,"silver_chalice","artifact2");
+        return;
+    }
+    if(c.artifact1_slot == "" && (bank.count("spotted_egg")>=1 || c.countItem("spotted_egg")>=1)){
+        script.helper.smartEquip(c,"spotted_egg","artifact1");
+        return;
+    }
     if (i == 0) {
-        //writeln(bank.count("pig_skin"));
+        if(c.artifact3_slot == "" && (bank.count("dreadful_book")>=1 || c.countItem("dreadful_book")>=1)){
+            script.helper.smartEquip(c,"dreadful_book","artifact3");
+            return;
+        }
         fighter(c);
     }
     else if (i == 1) {

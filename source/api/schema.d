@@ -884,6 +884,13 @@ struct SimpleEffectSchema {
             json["value"].get!int
         );
     }
+
+    JSONValue toJson() const {
+        auto obj = JSONValue();
+        obj["code"] = code;
+        obj["value"] = value;
+        return obj;
+    }
 }
 
 struct SimpleItemSchema {
@@ -895,6 +902,13 @@ struct SimpleItemSchema {
             json["code"].get!string,
             json["quantity"].get!int
         );
+    }
+
+    JSONValue toJson() {
+        auto obj = JSONValue();
+        obj["code"] = code;
+        obj["quantity"] = quantity;
+        return obj;
     }
 
     static SimpleItemSchema fromJson(string json) {
@@ -923,6 +937,21 @@ struct CraftSchema {
         
         return craft;
     }
+
+    JSONValue toJson() {
+        auto obj = JSONValue();
+        obj["skill"] = skillString; // maintain string form
+        obj["level"] = level;
+        obj["quantity"] = quantity;
+
+        auto itemsArray = JSONValue(JSONType.array);
+        foreach (item; items) {
+            itemsArray.array ~= item.toJson();
+        }
+        obj["items"] = itemsArray;
+
+        return obj;
+    }
 }
 
 public CraftingSkill skillForString(string skill) {
@@ -948,6 +977,19 @@ struct ItemSchema {
     SimpleEffectSchema[] effects;
     Nullable!CraftSchema craft;
     bool tradeable;
+
+    JSONValue toJson(){
+        auto obj = JSONValue();
+        obj["name"] = name;
+        obj["code"] = code;
+        obj["level"] = level;
+        obj["type"] = type;
+        obj["subtype"] = subtype;
+        obj["description"] = description;
+        obj["tradeable"] = tradeable;
+
+        return obj;
+    }
     
     static ItemSchema fromJson(JSONValue json) {
         ItemSchema item;

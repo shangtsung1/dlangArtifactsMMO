@@ -5,6 +5,7 @@ import std.file;
 import std.json;
 import std.range;
 import std.typecons : Nullable;
+import std.algorithm.mutation : reverse;
 
 static import api.schema;
 static import api.ammo;
@@ -79,6 +80,9 @@ Location LOC_CYCLOPS = Location(7,-3);
 Location LOC_DKNIGHT = Location(8,7);
 Location LOC_IMP = Location(0,12);
 
+Location LOC_OWLBEAR = Location(10,1);
+Location LOC_CULTISTACOLYTE = Location(1,13);
+
 
 
 void global_init(string token)
@@ -98,6 +102,41 @@ void global_init(string token)
 
 void soft_refresh(){
     loadActiveEvents();
+}
+
+void print_items(string filepath){
+    ItemSchema[] toPrint;
+    foreach(item;itemList){
+        if(isEquipment(item)){
+            toPrint~=item;
+        }
+    }
+    toPrint.reverse();
+    JSONValue[] arr;
+    foreach (item; toPrint){
+        auto jva = JSONValue();
+        jva["itemName"] = item.code;
+        jva["lvl"] = item.level;
+        jva["minAmount"] = 2;
+        if(!item.craft.isNull())
+            arr ~= jva;
+    }
+
+    auto jsonArray = JSONValue(arr);
+    auto f = File(filepath, "w");
+    f.writeln(jsonArray.toPrettyString());
+    f.close();
+}
+
+bool isEquipment(ItemSchema iSchema){
+  return iSchema.type == "body_armor"||
+    iSchema.type == "weapon"||
+    iSchema.type == "leg_armor"||
+    iSchema.type == "helmet"||
+    iSchema.type == "boots"||
+    iSchema.type == "shield"||
+    iSchema.type == "amulet"||
+    iSchema.type == "ring";
 }
 
 void loadActiveEvents() {
@@ -677,3 +716,10 @@ public void loadCharacters()
     }
 }
 
+public Character* getCharacter(int id){
+    return characters[charOrder[id]];
+}
+
+public Character* getCharacter(string name){
+    return characters[name];
+}

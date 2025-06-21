@@ -35,9 +35,8 @@ public bool doGather(Character* c,int limit, bool adhereToLimit, int x, int y,st
     }
 	if(bank.count(code) > limit && adhereToLimit){
 		if(countItem(c,code) > 0){
-            if(c.x != 4 || c.y != 1){
-				int result = c.move(4,1);
-				writeln(c.color,"BankMoveResult = ",result);
+			int res = smartMove(c, "bank","bank");
+			if(res!=200){
 				return false;
 			}
 			bankAll(c);
@@ -65,11 +64,10 @@ public bool doGather(Character* c,int limit, bool adhereToLimit, int x, int y,st
 }
 
 public bool bankAll(Character* c){
-    if(c.x != 4 || c.y != 1){
-        int result = c.move(4,1);
-        writeln(c.color,"BankAllMoveResult = ",result);
-        return false;
-    }
+    int res = smartMove(c, "bank","bank");
+	if(res!=200){
+		return false;
+	}
 	if(c.gold > 0){
 		c.depositGold(c.gold);
 		writeln(c.color,"BankAllGoldResult = ",c.gold);
@@ -154,28 +152,36 @@ private MapSchema[] findMapsFor(string code,string type) {
 	return arrayOfMaps;
 }
 
-public void smartEquip(Character* m, string code, string slot, int amount) {
+public int smartEquip(Character* m, string code, string slot, int amount) {
+	int result;
+	bool potionSlot = slot=="utility1" || slot=="utility2";
 	if(!m.inventoryContains(code,amount)){
 		writeln(m.color,"Not enough ",code," to equip ",slot);
-		int mR = smartMove(m, "bank","bank");
-		if(mR == 200) {
-			m.withdrawItem(code, min(bank.count(code),amount));
+		result = smartMove(m, "bank","bank");
+		if(result == 200) {
+			result = m.withdrawItem(code, min(bank.count(code),amount));
 		}
-		return;
+		
+		return result;
 	}
 	else{
 		writeln(m.color,slot);
 		if(m.getSlot(slot) != ""){
-			writeln(m.color,"Unequip ",m.getSlot(slot)," Result = ",m.unequip(slot));
-			return;
+			if(!potionSlot){
+				m.setString("unequipbank",m.getSlot(slot));
+			}
+			result = m.unequip(slot);
+			writeln(m.color,"Unequip ",m.getSlot(slot)," Result = ",result);
+			return result;
 		}
-		writeln(m.color,"Equip ",code," Result = ",m.equip(code,slot,amount), ", ",amount);
-		return;
+		result = m.equip(code,slot,amount);
+		writeln(m.color,"Equip ",code," Result = ",result, ", ",amount);
+		return result;
 	}
 }
 
-public void smartEquip(Character* m, string code, string slot) {
-	smartEquip(m,code,slot,1);
+public int smartEquip(Character* m, string code, string slot) {
+	return smartEquip(m,code,slot,1);
 }
 
 public int smartMove(Character* character, string code, string type) {
@@ -212,4 +218,15 @@ public void smartEat(Character* m, string code) {
 		m.useItem(code,1);
 		return;
 	}
+}
+
+public void smartWithdraw(Character* m, string code, int minAmount,int maxAmount) {
+	if(!m.inventoryContains(code,minAmount)){
+		int mR = smartMove(m, "bank","bank");
+		if(mR == 200) {
+			m.withdrawItem(code, min(m.inventory_max_items-m.countInventory(),min(maxAmount,bank.count(code))));
+		}
+		return;
+	}
+	return;
 }

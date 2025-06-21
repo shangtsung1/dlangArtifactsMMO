@@ -16,8 +16,8 @@ import script.helper;
 
 void crafter(Character* c) {
     if(bank.maxSlots < 200 && bank.gold + c.gold > bank.nextExpansionCost){
-        if(c.x != LOC_BANK.x || c.y != LOC_BANK.y){
-            c.move(LOC_BANK.x, LOC_BANK.y);
+        int res = smartMove(c, "bank","bank");
+        if(res!=200){
             return;
         }
         if(c.gold < bank.nextExpansionCost){
@@ -30,8 +30,33 @@ void crafter(Character* c) {
             return;
         }
     }
-
-
+    if(c.countItem("bag_of_gold") > 0){
+        c.useItem("bag_of_gold",1);
+        return;
+    }
+    if(c.countItem("small_bag_of_gold") > 0){
+        c.useItem("small_bag_of_gold",1);
+        return;
+    }
+    if(c.countItem("tasks_coin")+bank.count("tasks_coin") >= 6){
+        if(c.countItem("tasks_coin") < 6 && c.countInventory() > 50){
+            c.setBoolean("bankAll", true);
+            return;
+        }
+        if(c.countItem("tasks_coin") < 6){
+            smartWithdraw(c,"tasks_coin",6,c.inventory_max_items);
+            return;
+        }
+        if(c.x != 4 || c.y != 13){
+            c.move(4,13);
+            return;
+        }
+        c.taskExchange();
+        return;
+    }
+    if(dismantleCheck(c)){
+        return;
+    }
     if (c.alchemy_level < 5) {
         doGather(c, 500_000, c.alchemy_level >= 5, LOC_SUNFLOWER, "sunflower");
         return;
@@ -59,6 +84,81 @@ void crafter(Character* c) {
     import script.fetcher;
     fetcher(c);
 }
+
+
+struct BasicItem{
+    string code;
+    int quantity;
+}
+bool dismantleCheck(Character* c){
+    int[string] itemQuantities;
+
+    foreach (i; c.inventory) {
+        itemQuantities[i.code] += i.quantity;
+    }
+    foreach (i; bank.items) {
+        itemQuantities[i.code] += i.quantity;
+    }
+    BasicItem[] allItems;
+    foreach (kv; itemQuantities.byKeyValue) {
+        allItems ~= BasicItem(kv.key, kv.value);
+    }
+
+
+    foreach(item;allItems){
+        if(item.quantity < 6){
+            continue;
+        }
+        ItemSchema ischema = getItem(item.code);
+        if(ischema.type != "weapon" && ischema.type != "boots"
+            && ischema.type != "shield"&& ischema.type != "leg_armor"&& ischema.type != "helmet"
+            && ischema.type != "body_armor"&& ischema.type != "ring"&& ischema.type != "amulet"){
+            continue;
+        }
+        if(!ischema.craft.isNull()){//its craftable therefor dismantable?
+            recycle(c,item,ischema.type);
+            return true;
+        }
+    }
+    return false;
+}
+
+void recycle(Character* c,BasicItem item,string type){
+    int amountToRecycle = min(30,item.quantity-5);
+    int amountToWithdraw = amountToRecycle - c.countItem(item.code);
+    if(c.freeInventorySpaces() < 60){
+        bankAll(c);
+        return;
+    }
+    if(amountToWithdraw > 0){
+        writeln("grab ",item.code, " from bank");
+        smartWithdraw(c,item.code,amountToWithdraw,amountToWithdraw);
+        return;
+    }
+    else{
+        if(type == "weapon"){
+            if(c.x != 2 || c.y != 1){
+                c.move(2,1);
+                return;
+            }
+        }
+        else if(type == "amulet" || type == "ring"){
+            if(c.x != 1 || c.y != 3){
+                c.move(1,3);
+                return;
+            }
+        }
+        else{
+            if(c.x != 3 || c.y != 1){
+                c.move(3,1);
+                return;
+            }
+        }
+    }
+    c.recycling(item.code,amountToRecycle);
+    writeln(c.color,"Recycle ",item.code," ",amountToRecycle);
+}
+
 
 struct SimpleCraftRule {
     string itemName;
