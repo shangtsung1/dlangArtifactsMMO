@@ -1222,8 +1222,8 @@ static CooldownReason reasonFromString(string value) {
         case "sell_npc": return CooldownReason.sell_npc;
         case "cancel_ge": return CooldownReason.cancel_ge;
         case "delete_item": return CooldownReason.delete_item;
-        case "deposit": return CooldownReason.deposit;
-        case "withdraw": return CooldownReason.withdraw;
+        case "deposit_item": return CooldownReason.deposit;
+        case "withdraw_item": return CooldownReason.withdraw;
         case "deposit_gold": return CooldownReason.deposit_gold;
         case "withdraw_gold": return CooldownReason.withdraw_gold;
         case "equip": return CooldownReason.equip;
@@ -1347,7 +1347,7 @@ struct ActiveEventSchema {
     string name;
     string code;
     MapSchema map;
-    string previous_skin;
+    MapSchema previous_map;
     int duration;
     string expiration;
     string created_at;
@@ -1358,7 +1358,7 @@ struct ActiveEventSchema {
             json["name"].get!string,
             json["code"].get!string,
             MapSchema.fromJson(json["map"]),
-            json["previous_skin"].get!string,
+            MapSchema.fromJson(json["previous_map"]),
             json["duration"].get!int,
             json["expiration"].get!string,
             json["created_at"].get!string
@@ -1371,7 +1371,6 @@ struct EventSchema {
     string code;
     //EventContentSchema content;
     //EventMapSchema maps;
-    string skin;
     int duration;
     int rate;
     
@@ -1379,7 +1378,6 @@ struct EventSchema {
         return EventSchema(
             json["name"].get!string,
             json["code"].get!string,
-            json["skin"].get!string,
             json["duration"].get!int,
             json["rate"].get!int
         );

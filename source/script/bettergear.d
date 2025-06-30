@@ -173,7 +173,7 @@ EquipList[] findBestEquipmentToFight(Character* player, MonsterSchema toBeat, co
     Character basePlayer = *player;
 
     string[] slotOrder = [
-        "weapon_slot", "rune_slot", "shield_slot", /*"helmet_slot",*/
+        "weapon_slot", "rune_slot", "shield_slot", "helmet_slot",
         "body_armor_slot", "leg_armor_slot", "boots_slot", "ring1_slot",
         "ring2_slot", "amulet_slot", /*"artifact1_slot", "artifact2_slot",
         "artifact3_slot",*/ "bag_slot"
@@ -221,7 +221,7 @@ EquipList[] findBestEquipmentToFight(Character* player, MonsterSchema toBeat, co
             }
 
             double currentScore = computeScore(tempPlayer, toBeat);
-            if (currentScore > bestScore * 1.01) {
+            if (currentScore > bestScore) {
                 bestScore = currentScore;
                 bestItem = candidate;
             }
@@ -240,4 +240,6 @@ EquipList[] findBestEquipmentToFight(Character* player, MonsterSchema toBeat, co
     return bestEquip;
 }
 
-
+bool equipBestForSkill(Character* c,string skill){
+    return true;
+}

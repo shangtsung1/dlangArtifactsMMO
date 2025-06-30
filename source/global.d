@@ -85,9 +85,9 @@ Location LOC_CULTISTACOLYTE = Location(1,13);
 
 
 
-void global_init(string token)
+void global_init(string token,bool sandbox)
 {
-    client = new ArtifactMMOClient(token);
+    client = new ArtifactMMOClient(token,sandbox);
     client.initClient();
 	bank = new Bank();
 	refreshBank();
@@ -299,6 +299,7 @@ void loadNpcs() {
 
     JSONValue[] allData;
     auto initialJson = client.getAllNpcs(1, 50,null);
+    writeln(initialJson);
     int totalPages = initialJson["pages"].get!int;
     
     // Process first page
@@ -681,6 +682,7 @@ public void refreshBank() {
     enum initialPage = 1;
 
     auto itemsResponse = client.getBankItems("", initialPage, pageSize);
+    writeln(itemsResponse);
     int totalItems = itemsResponse["total"].get!int;
     bank.items.length = 0;
 

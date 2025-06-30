@@ -13,6 +13,8 @@ import std.json;
 import std.math;
 import std.algorithm;
 
+import script.bettergear;
+
 
 public bool doMithril(Character* c,int limit, bool adhereToLimit){
 	//todo dynamically find this one, im pretty sure it moves.
@@ -29,6 +31,11 @@ public bool doGather(Character* c,int limit, bool adhereToLimit, Location loc,st
 }
 
 public bool doGather(Character* c,int limit, bool adhereToLimit, int x, int y,string code){
+	ItemSchema ai = getItem(code);
+	string skill = ai.subtype;
+	if(!equipBestForSkill(c,skill)){
+		return false;
+	}
     if(c.getBoolean("bankAll")){
         bankAll(c);
         return false;
@@ -62,6 +69,8 @@ public bool doGather(Character* c,int limit, bool adhereToLimit, int x, int y,st
 		}
 	}
 }
+
+
 
 public bool bankAll(Character* c){
     int res = smartMove(c, "bank","bank");

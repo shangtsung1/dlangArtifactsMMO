@@ -19,23 +19,65 @@
         "lvl": 20,
         "minAmount": 100
     },
+
+
+
+
+
+
+
     {
-        "itemName": "eggscalibur",
-        "lvl": 40,
+        "itemName": "hell_ring",
+        "lvl": 45,
         "minAmount": 2
     },
     {
-        "itemName": "eggstra_protection",
-        "lvl": 40,
+        "itemName": "hell_reaper",
+        "lvl": 45,
         "minAmount": 2
     },
     {
-        "itemName": "celest_ring",
-        "lvl": 40,
+        "itemName": "hell_helmet",
+        "lvl": 45,
+        "minAmount": 2
+    },
+    {
+        "itemName": "demoniac_shield",
+        "lvl": 45,
         "minAmount": 2
     },
     {
         "itemName": "blade_of_hell",
+        "lvl": 45,
+        "minAmount": 2
+    },
+    {
+        "itemName": "hell_legs_armor",
+        "lvl": 45,
+        "minAmount": 2
+    },
+    {
+        "itemName": "hell_armor",
+        "lvl": 45,
+        "minAmount": 2
+    },
+    {
+        "itemName": "demoniac_dagger",
+        "lvl": 45,
+        "minAmount": 2
+    },
+    {
+        "itemName": "hell_staff",
+        "lvl": 45,
+        "minAmount": 2
+    },
+    {
+        "itemName": "bow_from_hell",
+        "lvl": 45,
+        "minAmount": 2
+    },
+    {
+        "itemName": "celest_ring",
         "lvl": 40,
         "minAmount": 2
     },
@@ -80,11 +122,6 @@
         "minAmount": 2
     },
     {
-        "itemName": "hell_legs_armor",
-        "lvl": 40,
-        "minAmount": 2
-    },
-    {
         "itemName": "wrathpants",
         "lvl": 40,
         "minAmount": 2
@@ -96,11 +133,6 @@
     },
     {
         "itemName": "white_knight_armor",
-        "lvl": 40,
-        "minAmount": 2
-    },
-    {
-        "itemName": "hell_armor",
         "lvl": 40,
         "minAmount": 2
     },
@@ -140,22 +172,7 @@
         "minAmount": 2
     },
     {
-        "itemName": "demoniac_dagger",
-        "lvl": 40,
-        "minAmount": 2
-    },
-    {
         "itemName": "lightning_sword",
-        "lvl": 40,
-        "minAmount": 2
-    },
-    {
-        "itemName": "hell_staff",
-        "lvl": 40,
-        "minAmount": 2
-    },
-    {
-        "itemName": "bow_from_hell",
         "lvl": 40,
         "minAmount": 2
     },
@@ -290,7 +307,7 @@
         "minAmount": 2
     },
     {
-        "itemName": "magic_stone_amulet",
+        "itemName": "corrupted_stone_amulet",
         "lvl": 35,
         "minAmount": 2
     },
@@ -504,62 +521,8 @@
         "lvl": 30,
         "minAmount": 2
     },
-
     {
         "itemName": "vampire_bow",
-        "lvl": 25,
-        "minAmount": 2
-    },
-    {
-        "itemName": "skull_wand",
-        "lvl": 25,
-        "minAmount": 2
-    },
-    {
-        "itemName": "dreadful_staff",
-        "lvl": 25,
-        "minAmount": 2
-    },
-
-
-    {
-        "itemName": "topaz_amulet",
-        "lvl": 25,
-        "minAmount": 2
-    }, 
-    {
-        "itemName": "emerald_amulet",
-        "lvl": 25,
-        "minAmount": 2
-    }, 
-    {
-        "itemName": "sapphire_amulet",
-        "lvl": 25,
-        "minAmount": 2
-    }, 
-    {
-        "itemName": "ruby_amulet",
-        "lvl": 25,
-        "minAmount": 2
-    }, 
-    {
-        "itemName": "ring_of_chance",
-        "lvl": 20,
-        "minAmount": 4
-    },
-
-    {
-        "itemName": "steel_ring",
-        "lvl": 30,
-        "minAmount": 2
-    },
-    {
-        "itemName": "piggy_helmet",
-        "lvl": 25,
-        "minAmount": 2
-    },
-    {
-        "itemName": "piggy_pants",
         "lvl": 25,
         "minAmount": 2
     },
@@ -579,77 +542,107 @@
         "minAmount": 2
     },
     {
-        "itemName": "skeleton_helmet",
+        "itemName": "piggy_helmet",
+        "lvl": 25,
+        "minAmount": 2
+    },
+    {
+        "itemName": "snakeskin_armor",
+        "lvl": 25,
+        "minAmount": 2
+    },
+    {
+        "itemName": "ruby_amulet",
+        "lvl": 25,
+        "minAmount": 2
+    },
+    {
+        "itemName": "sapphire_amulet",
+        "lvl": 25,
+        "minAmount": 2
+    },
+    {
+        "itemName": "emerald_amulet",
+        "lvl": 25,
+        "minAmount": 2
+    },
+    {
+        "itemName": "topaz_amulet",
+        "lvl": 25,
+        "minAmount": 2
+    },
+    {
+        "itemName": "piggy_pants",
+        "lvl": 25,
+        "minAmount": 2
+    },
+    {
+        "itemName": "lizard_skin_legs_armor",
+        "lvl": 25,
+        "minAmount": 2
+    },
+    {
+        "itemName": "snakeskin_legs_armor",
+        "lvl": 25,
+        "minAmount": 2
+    },
+    {
+        "itemName": "lizard_skin_armor",
+        "lvl": 25,
+        "minAmount": 2
+    },
+    {
+        "itemName": "skull_wand",
+        "lvl": 25,
+        "minAmount": 2
+    },
+    {
+        "itemName": "dreadful_staff",
+        "lvl": 25,
+        "minAmount": 2
+    },
+    {
+        "itemName": "shuriken",
         "lvl": 20,
         "minAmount": 2
     },
     {
-        "itemName": "skull_amulet",
+        "itemName": "steel_axe",
         "lvl": 20,
         "minAmount": 2
     },
     {
-        "itemName": "serpent_skin_boots",
+        "itemName": "steel_gloves",
         "lvl": 20,
         "minAmount": 2
     },
     {
-        "itemName": "steel_armor",
+        "itemName": "steel_pickaxe",
         "lvl": 20,
         "minAmount": 2
     },
     {
-        "itemName": "steel_legs_armor",
+        "itemName": "steel_fishing_rod",
         "lvl": 20,
         "minAmount": 2
     },
     {
-        "itemName": "steel_shield",
-        "lvl": 30,
-        "minAmount": 2
-    },
-    {
-        "itemName": "ruby",
-        "lvl": 20,
-        "minAmount": 1000
-    },
-    {
-        "itemName": "topaz",
-        "lvl": 20,
-        "minAmount": 1000
-    },
-    {
-        "itemName": "sapphire",
-        "lvl": 20,
-        "minAmount": 1000
-    },
-    {
-        "itemName": "emerald",
-        "lvl": 20,
-        "minAmount": 1000
-    },
-    {
-        "itemName": "apple_pie",
-        "lvl": 20,
-        "minAmount": 50
-    },
-    {
-        "itemName": "battlestaff",
+        "itemName": "hard_leather_boots",
         "lvl": 20,
         "minAmount": 2
     },
     {
-        "itemName": "forest_whip",
+        "itemName": "hard_leather_helmet",
         "lvl": 20,
         "minAmount": 2
     },
     {
-        "itemName": "steel_battleaxe",
-        "lvl": 30,
+        "itemName": "hard_leather_pants",
+        "lvl": 20,
         "minAmount": 2
     },
     {
-        "itemName": "skull_staff",
+        "itemName": "hard_leather_armor",
         "lvl": 20,
         "minAmount": 2
     },
@@ -659,15 +652,122 @@
         "minAmount": 2
     },
     {
-        "itemName": "fire_bow",
+        "itemName": "snakeskin_boots",
         "lvl": 20,
         "minAmount": 2
     },
-
-    
-
     {
-        "itemName": "mushstaff",
+        "itemName": "skull_amulet",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "dreadful_amulet",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "skull_ring",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "tromatising_mask",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "steel_ring",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "steel_shield",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "dreadful_ring",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "skeleton_helmet",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "skeleton_armor",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "skull_staff",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "skeleton_pants",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "steel_legs_armor",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "steel_battleaxe",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "steel_armor",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "steel_boots",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "steel_helm",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "forest_whip",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "battlestaff",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "ring_of_chance",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "magic_wizard_hat",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "wisdom_amulet",
+        "lvl": 15,
+        "minAmount": 2
+    },
+    {
+        "itemName": "water_ring",
+        "lvl": 15,
+        "minAmount": 2
+    },
+    {
+        "itemName": "life_ring",
         "lvl": 15,
         "minAmount": 2
     },
@@ -677,17 +777,17 @@
         "minAmount": 2
     },
     {
-        "itemName": "mushmush_wizard_hat",
+        "itemName": "fire_ring",
+        "lvl": 15,
+        "minAmount": 2
+    },
+    {
+        "itemName": "mushstaff",
         "lvl": 15,
         "minAmount": 2
     },
     {
         "itemName": "adventurer_pants",
-        "lvl": 15,
-        "minAmount": 2
-    },
-    {
-        "itemName": "lucky_wizard_hat",
         "lvl": 15,
         "minAmount": 2
     },
@@ -702,42 +802,37 @@
         "minAmount": 2
     },
     {
+        "itemName": "lucky_wizard_hat",
+        "lvl": 15,
+        "minAmount": 2
+    },
+    {
+        "itemName": "earth_ring",
+        "lvl": 15,
+        "minAmount": 2
+    },
+    {
+        "itemName": "mushmush_wizard_hat",
+        "lvl": 15,
+        "minAmount": 2
+    },
+    {
         "itemName": "multislimes_sword",
         "lvl": 15,
         "minAmount": 2
     },
     {
-        "itemName": "wisdom_amulet",
+        "itemName": "air_ring",
         "lvl": 15,
         "minAmount": 2
     },
     {
-        "itemName": "life_ring",
-        "lvl": 15,
-        "minAmount": 2
-    },
-    {
-        "itemName": "iron_sword",
+        "itemName": "leather_legs_armor",
         "lvl": 10,
         "minAmount": 2
     },
     {
         "itemName": "leather_gloves",
-        "lvl": 10,
-        "minAmount": 2
-    },
-    {
-        "itemName": "slime_shield",
-        "lvl": 10,
-        "minAmount": 2
-    },
-    {
-        "itemName": "fire_and_earth_amulet",
-        "lvl": 10,
-        "minAmount": 2
-    },
-    {
-        "itemName": "air_and_water_amulet",
         "lvl": 10,
         "minAmount": 2
     },
@@ -757,8 +852,38 @@
         "minAmount": 2
     },
     {
+        "itemName": "fire_bow",
+        "lvl": 10,
+        "minAmount": 2
+    },
+    {
+        "itemName": "iron_dagger",
+        "lvl": 10,
+        "minAmount": 2
+    },
+    {
+        "itemName": "iron_ring",
+        "lvl": 10,
+        "minAmount": 2
+    },
+    {
+        "itemName": "slime_shield",
+        "lvl": 10,
+        "minAmount": 2
+    },
+    {
+        "itemName": "leather_hat",
+        "lvl": 10,
+        "minAmount": 2
+    },
+    {
         "itemName": "iron_helm",
-        "lvl": 20,
+        "lvl": 10,
+        "minAmount": 2
+    },
+    {
+        "itemName": "adventurer_vest",
+        "lvl": 10,
         "minAmount": 2
     },
     {
@@ -772,27 +897,52 @@
         "minAmount": 2
     },
     {
-        "itemName": "iron_boots",
-        "lvl": 15,
+        "itemName": "greater_wooden_staff",
+        "lvl": 10,
         "minAmount": 2
     },
     {
-        "itemName": "iron_ring",
-        "lvl": 20,
+        "itemName": "air_and_water_amulet",
+        "lvl": 10,
+        "minAmount": 2
+    },
+    {
+        "itemName": "adventurer_helmet",
+        "lvl": 10,
+        "minAmount": 2
+    },
+    {
+        "itemName": "leather_armor",
+        "lvl": 10,
+        "minAmount": 2
+    },
+    {
+        "itemName": "leather_boots",
+        "lvl": 10,
+        "minAmount": 2
+    },
+    {
+        "itemName": "iron_sword",
+        "lvl": 10,
+        "minAmount": 2
+    },
+    {
+        "itemName": "iron_boots",
+        "lvl": 10,
+        "minAmount": 2
+    },
+    {
+        "itemName": "fire_and_earth_amulet",
+        "lvl": 10,
+        "minAmount": 2
+    },
+    {
+        "itemName": "water_bow",
+        "lvl": 5,
         "minAmount": 2
     },
     {
         "itemName": "life_amulet",
-        "lvl": 5,
-        "minAmount": 2
-    },
-    {
-        "itemName": "satchel",
-        "lvl": 5,
-        "minAmount": 2
-    },
-    {
-        "itemName": "fire_staff",
         "lvl": 5,
         "minAmount": 2
     },
@@ -802,18 +952,58 @@
         "minAmount": 2
     },
     {
+        "itemName": "sticky_dagger",
+        "lvl": 5,
+        "minAmount": 2
+    },
+    {
         "itemName": "copper_armor",
         "lvl": 5,
         "minAmount": 2
     },
     {
-        "itemName": "copper_dagger",
-        "lvl": 10,
+        "itemName": "fire_staff",
+        "lvl": 5,
+        "minAmount": 2
+    },
+    {
+        "itemName": "feather_coat",
+        "lvl": 5,
         "minAmount": 2
     },
     {
         "itemName": "copper_legs_armor",
-        "lvl": 10,
+        "lvl": 5,
+        "minAmount": 2
+    },
+    {
+        "itemName": "fishing_net",
+        "lvl": 1,
+        "minAmount": 2
+    },
+    {
+        "itemName": "copper_pickaxe",
+        "lvl": 1,
+        "minAmount": 2
+    },
+    {
+        "itemName": "apprentice_gloves",
+        "lvl": 1,
+        "minAmount": 2
+    },
+    {
+        "itemName": "copper_axe",
+        "lvl": 1,
+        "minAmount": 2
+    },
+    {
+        "itemName": "copper_ring",
+        "lvl": 1,
+        "minAmount": 2
+    },
+    {
+        "itemName": "wooden_staff",
+        "lvl": 1,
         "minAmount": 2
     },
     {
@@ -824,6 +1014,50 @@
     {
         "itemName": "copper_helmet",
         "lvl": 1,
+        "minAmount": 2
+    },
+    {
+        "itemName": "copper_boots",
+        "lvl": 1,
+        "minAmount": 2
+    },
+    {
+        "itemName": "copper_dagger",
+        "lvl": 1,
+        "minAmount": 2
+    },
+
+
+
+
+
+
+
+
+
+    {
+        "itemName": "iron_helm",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "iron_boots",
+        "lvl": 15,
+        "minAmount": 2
+    },
+    {
+        "itemName": "iron_ring",
+        "lvl": 20,
+        "minAmount": 2
+    },
+    {
+        "itemName": "copper_dagger",
+        "lvl": 10,
+        "minAmount": 2
+    },
+    {
+        "itemName": "copper_legs_armor",
+        "lvl": 10,
         "minAmount": 2
     },
     {

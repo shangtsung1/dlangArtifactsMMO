@@ -47,7 +47,7 @@ void fighter(Character* c)
 		tCode = monsterTask.code;
 	}
 	else{
-		if(fightCheck(c,"chicken", ["feather"], [25])){
+		if(fightCheck(c,"chicken", ["feather"], [25]) || charLevel < 4){
 			thingToFight = LOC_CHICKEN;
 			tCode = "chicken";
 		}
@@ -55,15 +55,19 @@ void fighter(Character* c)
 			thingToFight = LOC_YELLOWSLIME;
 			tCode = "yellow_slime";
 		}
-		else if(charLevel >= 8 && fightCheck(c,"green_slime", ["green_slimeball"], [25])){
+		else if(charLevel >= 6 && fightCheck(c,"green_slime", ["green_slimeball"], [25])){
 			thingToFight = LOC_GREENSLIME;
 			tCode = "green_slime";
 		}
-		else if(charLevel >= 10 && fightCheck(c,"blue_slime", ["blue_slimeball"], [25])){
+		else if(charLevel >= 7 && fightCheck(c,"sheep", ["wool"], [25])){
+			thingToFight = LOC_BLUESLIME;
+			tCode = "sheep";
+		}
+		else if(charLevel >= 8 && fightCheck(c,"blue_slime", ["blue_slimeball"], [25])){
 			thingToFight = LOC_BLUESLIME;
 			tCode = "blue_slime";
 		}
-		else if(charLevel >= 10 && fightCheck(c,"red_slime", ["red_slimeball"], [25])){
+		else if(charLevel >= 9 && fightCheck(c,"red_slime", ["red_slimeball"], [25])){
 			thingToFight = LOC_REDSLIME;
 			tCode = "red_slime";
 		}
@@ -191,7 +195,7 @@ void fighter(Character* c)
 }
 
 bool potionCheck(Character* c, ref bool needAntidote,MonsterSchema ms){
-	if(c.level < 20){
+	if(c.level < 20 && c.level >= 5){
 		string pot = "small_health_potion";
 		if(c.utility1_slot != pot){
 			if(bank.count(pot) > 10 || c.countItem(pot) >= 10){
@@ -200,7 +204,7 @@ bool potionCheck(Character* c, ref bool needAntidote,MonsterSchema ms){
 			}
 		}
 	}
-	else if(c.level < 30){
+	else if(c.level < 30 && c.level >= 20){
 		string pot = "minor_health_potion";
 		if(c.utility1_slot != pot){
 			if(bank.count(pot) > 10 || c.countItem(pot) >= 10){
@@ -210,7 +214,7 @@ bool potionCheck(Character* c, ref bool needAntidote,MonsterSchema ms){
 			return true;
 		}
 	}
-	else if(c.level < 40){
+	else if(c.level < 40 && c.level >= 30){
 		string pot = "health_potion";
 		if(c.utility1_slot != pot){
 			if(bank.count(pot) > 10 || c.countItem(pot) >= 10){
@@ -220,7 +224,7 @@ bool potionCheck(Character* c, ref bool needAntidote,MonsterSchema ms){
 			return true;
 		}
 	}
-	if(c.countItem("small_antidote") < 10 && c.utility2_slot != "small_antidote"){
+	if(c.countItem("small_antidote") < 10 && c.utility2_slot != "small_antidote" && c.level >= 15){
 		if(bank.count("small_antidote") == 0){
 			needAntidote = true;
 			writeln(c.color,"need antidote");

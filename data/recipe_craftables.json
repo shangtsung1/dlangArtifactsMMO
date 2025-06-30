@@ -1,7 +1,7 @@
 [
     {
         "ingredients": ["copper_ore"],
-        "outputItem": "copper",
+        "outputItem": "copper_bar",
         "quantities": [10],
         "skill": "mining",
         "minLevel": 0,
@@ -10,7 +10,7 @@
     },
     {
         "ingredients": ["iron_ore", "coal"],
-        "outputItem": "steel",
+        "outputItem": "steel_bar",
         "quantities": [3, 7],
         "skill": "mining",
         "minLevel": 20,
@@ -19,7 +19,7 @@
     },
     {
         "ingredients": ["iron_ore"],
-        "outputItem": "iron",
+        "outputItem": "iron_bar",
         "quantities": [10],
         "skill": "mining",
         "minLevel": 10,
@@ -28,7 +28,7 @@
     },
     {
         "ingredients": ["gold_ore"],
-        "outputItem": "gold",
+        "outputItem": "gold_bar",
         "quantities": [10],
         "skill": "mining",
         "minLevel": 30,
@@ -46,7 +46,7 @@
     },
     {
         "ingredients": ["gold_ore", "strange_ore"],
-        "outputItem": "strangold",
+        "outputItem": "strangold_bar",
         "quantities": [4, 6],
         "skill": "mining",
         "minLevel": 35,

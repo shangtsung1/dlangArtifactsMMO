@@ -25,6 +25,13 @@ public class ArtifactMMOClient {
         this.token = token;
     }
 
+    this(string token,bool sandbox){
+        this.token = token;
+        if(sandbox){
+            this.BASE_URL = "https://sandbox-api.artifactsmmo.com";
+        }
+    }
+
     public JSONValue initClient() {
         JSONValue response = getStatus();
         
@@ -262,15 +269,25 @@ public class ArtifactMMOClient {
     }
 
     public JSONValue depositItem(string name, string code, int quantity) {
-        JSONValue body = ["code": JSONValue(code), "quantity": JSONValue(quantity)];
-        string url = BASE_URL ~ "/my/" ~ encodeComponent(name) ~ "/action/bank/deposit";
-        return performCurlRequest(url, "POST", Nullable!JSONValue(body));
+        JSONValue[] bodyArray = [
+            JSONValue([
+                "code": JSONValue(code),
+                "quantity": JSONValue(quantity)
+            ])
+        ];
+        string url = BASE_URL ~ "/my/" ~ encodeComponent(name) ~ "/action/bank/deposit/item";
+        return performCurlRequest(url, "POST", Nullable!JSONValue(JSONValue(bodyArray)));
     }
 
     public JSONValue withdrawItem(string name, string code, int quantity) {
-        JSONValue body = ["code": JSONValue(code), "quantity": JSONValue(quantity)];
-        string url = BASE_URL ~ "/my/" ~ encodeComponent(name) ~ "/action/bank/withdraw";
-        return performCurlRequest(url, "POST", Nullable!JSONValue(body));
+        JSONValue[] bodyArray = [
+            JSONValue([
+                "code": JSONValue(code),
+                "quantity": JSONValue(quantity)
+            ])
+        ];
+        string url = BASE_URL ~ "/my/" ~ encodeComponent(name) ~ "/action/bank/withdraw/item";
+        return performCurlRequest(url, "POST", Nullable!JSONValue(JSONValue(bodyArray)));
     }
 
     public JSONValue withdrawGold(string name, int quantity) {
@@ -567,19 +584,26 @@ public class ArtifactMMOClient {
     }
 
     public JSONValue getAllNpcs(int page = 1, int size = 50, string type = null) {
-        string url = BASE_URL ~ "/npcs";
+        string url = BASE_URL ~ "/npcs/details";
         url ~= buildQueryParams("page", page.to!string, "size", size.to!string);
         if (type !is null && !type.empty) url ~= "&type=" ~ encodeComponent(type);
+        writeln(url);
         return createGetRequest(url);
     }
 
     public JSONValue getNpc(string code) {
-        return createGetRequest(BASE_URL ~ "/npcs/" ~ encodeComponent(code));
+        return createGetRequest(BASE_URL ~ "/npcs/details/" ~ encodeComponent(code));
     }
 
     public JSONValue getNpcItems(string code, int page = 1, int size = 50) {
-        string url = BASE_URL ~ "/npcs/" ~ encodeComponent(code) ~ "/items";
+        string url = BASE_URL ~ "/npcs/items/"~ encodeComponent(code);
         url ~= buildQueryParams("page", page.to!string, "size", size.to!string);
+        return createGetRequest(url);
+    }
+
+    public JSONValue getAllNpcItems(string code,string currency,string npc, int page = 1, int size = 50) {
+        string url = BASE_URL ~ "/npcs/items";
+        url ~= buildQueryParams("code",code.to!string,"page", page.to!string, "size", size.to!string,"currency", currency.to!string,"npc", npc.to!string);
         return createGetRequest(url);
     }
 

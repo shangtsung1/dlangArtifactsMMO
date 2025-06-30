@@ -28,6 +28,7 @@ void main(string[] args)
     bool help = false;
     string user;
     bool printitems;
+    bool sandbox = false;
     auto opts = getopt(
         args,
         "token", &token,
@@ -35,7 +36,8 @@ void main(string[] args)
         "singlerun|sr", &singleRun,
         "gui|g", &gui,
         "help|h", &help,
-        "printitems|pi",&printitems
+        "printitems|pi",&printitems,
+        "sandbox|sb",&sandbox
     );
     writeln(token);
     if (help || token.length == 0)
@@ -44,7 +46,7 @@ void main(string[] args)
         return;
     }
     if(printitems){
-        global_init(token);
+        global_init(token,sandbox);
         print_items("items.json");
         return;
     }
@@ -64,7 +66,7 @@ void main(string[] args)
         InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Artifact MMO Client");
         SetTargetFPS(5);
     }
-    global_init(token);
+    global_init(token,sandbox);
     if(gui){
         //lets prefatch all the assets
         foreach(c;characters){
@@ -97,6 +99,11 @@ void main(string[] args)
             writeln("\033[37m", " SoftUpdate");
             soft_refresh();
             lastSoftUpdateTime = now;
+        }
+        if(charOrder.length == 0){
+            createChars();
+            writeln("Created characters");
+            return;
         }
         if (runLogic) {
             writeln("\033[37m", "--------------", count++, "-----------------");
@@ -191,9 +198,19 @@ void main(string[] args)
     }
 }
 
+void createChars(){
+    client.createCharacter("FrumpyFight", "men1");
+    client.createCharacter("FrumpyCraft", "men2");
+    client.createCharacter("FrumpyGrab1", "women1");
+    client.createCharacter("FrumpyGrab2", "women2");
+    client.createCharacter("FrumpyGrab3", "women3");
+}
+
 void processCharacter(Character* c, ulong i)
 {
 	import script.fetcher;
+    import script.fetcher2;
+    import script.fetcher3;
 	import script.crafter;
 	import script.fighter;
     import script.helper;
@@ -245,7 +262,7 @@ void processCharacter(Character* c, ulong i)
         script.helper.smartEquip(c,"spotted_egg","artifact1");
         return;
     }
-    if (i == 0) {
+    if (i == 0 || c.level < 3) {
         if(c.artifact3_slot == "" && (bank.count("dreadful_book")>=1 || c.countItem("dreadful_book")>=1)){
             script.helper.smartEquip(c,"dreadful_book","artifact3");
             return;
@@ -255,7 +272,16 @@ void processCharacter(Character* c, ulong i)
     else if (i == 1) {
         crafter(c);
     }
-    else {
+    else if (i == 2) {
+        fetcher(c);
+    }
+    else if (i == 3) {
+        fetcher2(c);
+    }
+    else if (i == 4) {
+        fetcher3(c);
+    }
+    else{
         fetcher(c);
     }
     if (!c.onCooldown()) {
