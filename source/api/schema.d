@@ -100,6 +100,7 @@ struct Character {
     int y;
     int cooldown;
     long cooldown_expiration;
+    long last_cooldown;
     string weapon_slot;
     string rune_slot;
     string shield_slot;
@@ -125,9 +126,38 @@ struct Character {
     int inventory_max_items;
     InventorySlot[] inventory;
     Nullable!CooldownSchema cooldown_schema;
+    SkillInfoSchema last_action_details;
 
     string color = "\x1b[37m";
     Object*[string] attachments;
+
+    int skillLevel(string skill) {
+        switch (skill) {
+            case "mining": return mining_level;
+            case "woodcutting": return woodcutting_level;
+            case "fishing": return fishing_level;
+            case "weaponcrafting": return weaponcrafting_level;
+            case "gearcrafting": return gearcrafting_level;
+            case "jewelrycrafting": return jewelrycrafting_level;
+            case "cooking": return cooking_level;
+            case "alchemy": return alchemy_level;
+
+            case "mining_level": return mining_level;
+            case "woodcutting_level": return woodcutting_level;
+            case "fishing_level": return fishing_level;
+            case "weaponcrafting_level": return weaponcrafting_level;
+            case "gearcrafting_level": return gearcrafting_level;
+            case "jewelrycrafting_level": return jewelrycrafting_level;
+            case "cooking_level": return cooking_level;
+            case "alchemy_level": return alchemy_level;
+
+            case "level":
+                return level;
+            default: 
+                writeln("Unknown skill"~skill);
+            return 0; // Unknown skill
+        }
+    }
 
     int gathering() {
         JSONValue result = client.gathering(name);
@@ -207,6 +237,16 @@ struct Character {
     int depositItem( string code, int quantity) {
         auto result = client.depositItem(name, code, quantity);
         if(result["statusCode"].get!int != 200){
+            return result["statusCode"].get!int;
+        }
+        parse(result);
+        refreshBank();
+        return result["statusCode"].get!int;
+    }
+
+    int depositItem(string[] codes, int[] quantities) {
+        auto result = client.depositItem(name, codes, quantities);
+        if (result["statusCode"].get!int != 200) {
             return result["statusCode"].get!int;
         }
         parse(result);
@@ -367,8 +407,12 @@ struct Character {
 
     void parse(JSONValue json){
         this.update(json["data"]["character"]);
+        this.last_cooldown = cooldownLeft();
         if(json["data"].type != JSONType.NULL && json["data"]["cooldown"].type != JSONType.NULL){
             this.cooldown_schema = CooldownSchema.fromJson(json["data"]["cooldown"]);
+        }
+        if("data" in json && "details" in json["data"]){
+            this.last_action_details = SkillInfoSchema.fromJson(json["data"]["details"]);
         }
     }
 
@@ -431,7 +475,7 @@ struct Character {
     }
 
     string getEquippedItem(string slot){
-        final switch(slot){
+        switch(slot){
             case "weapon":
                 return weapon_slot;
             case "shield":
@@ -444,6 +488,7 @@ struct Character {
                 return leg_armor_slot;
             case "boots":
                 return boots_slot;
+                case "ring":
             case "ring1":
                 return ring1_slot;
             case "ring2":
@@ -464,6 +509,9 @@ struct Character {
                 return rune_slot;
             case "bag":
                 return bag_slot;
+            default:
+                writeln("unknown slot " ~slot);
+                return "";
 
         }
         return "none";
@@ -544,7 +592,7 @@ struct Character {
     void update(JSONValue json) {
         // Basic fields
         this.name = json["name"].get!string;
-        writeln("updated ",name);
+        //writeln("updated ",name);
         this.account = json["account"].get!string;
         this.skin = json["skin"].get!string;
         if(this.skin == "men1"){
@@ -967,6 +1015,37 @@ public CraftingSkill skillForString(string skill) {
     }
 }
 
+enum ConditionOperator : string {
+    eq = "eq",
+    ne = "ne",
+    lt = "lt",
+    lte = "lte",
+    gt = "gt",
+    gte = "gte"
+}
+
+struct ItemCondition {
+    string code;
+    ConditionOperator op;
+    double value;
+
+    JSONValue toJson() {
+        JSONValue obj;
+        obj["code"] = code;
+        obj["operator"] = op.to!string;
+        obj["value"] = value;
+        return obj;
+    }
+
+    static ItemCondition fromJson(JSONValue json) {
+        ItemCondition cond;
+        cond.code = json["code"].get!string;
+        cond.op = json["operator"].get!string.to!ConditionOperator;
+        cond.value = json["value"].get!double;
+        return cond;
+    }
+}
+
 struct ItemSchema {
     string name;
     string code;
@@ -974,6 +1053,7 @@ struct ItemSchema {
     string type;
     string subtype;
     string description;
+    ItemCondition[] conditions;
     SimpleEffectSchema[] effects;
     Nullable!CraftSchema craft;
     bool tradeable;
@@ -987,7 +1067,7 @@ struct ItemSchema {
         obj["subtype"] = subtype;
         obj["description"] = description;
         obj["tradeable"] = tradeable;
-
+        //todo add arrays
         return obj;
     }
     
@@ -1002,6 +1082,11 @@ struct ItemSchema {
         item.description = json["description"].get!string;
         item.tradeable = json["tradeable"].get!bool;
         
+        // Parse effects array
+        foreach(effect; json["conditions"].array) {
+            item.conditions ~= ItemCondition.fromJson(effect);
+        }
+
         // Parse effects array
         foreach(effect; json["effects"].array) {
             item.effects ~= SimpleEffectSchema.fromJson(effect);
@@ -1073,16 +1158,28 @@ struct MonsterSchema {
     }
 }
 
+static __gshared SKInfoCounter = 0;
+
 struct SkillInfoSchema {
     int xp;
     DropSchema[] items;
+    int id;
     
     static SkillInfoSchema fromJson(JSONValue json) {
         SkillInfoSchema info;
-        info.xp = json["xp"].get!int;
-        foreach(item; json["items"].array) {
-            info.items ~= DropSchema.fromJson(item);
+        if("xp" in json){
+            info.xp = json["xp"].get!int;
         }
+        else{
+            info.xp = 0;
+        }
+        if("items" in json){
+            foreach(item; json["items"].array) {
+                info.items ~= DropSchema.fromJson(item);
+            }
+        }
+        SKInfoCounter++;
+        info.id = SKInfoCounter;
         return info;
     }
 }
@@ -1353,7 +1450,7 @@ struct ActiveEventSchema {
     string created_at;
     
     static ActiveEventSchema fromJson(JSONValue json) {
-        writeln(json);
+        //writeln(json);
         return ActiveEventSchema(
             json["name"].get!string,
             json["code"].get!string,

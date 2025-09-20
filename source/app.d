@@ -60,7 +60,7 @@ void main(string[] args)
         // Window configuration
         int SCREEN_WIDTH = 1280;
         if(user.length > 0){
-            SCREEN_WIDTH = 256;
+            SCREEN_WIDTH = 264;
         }
         int SCREEN_HEIGHT = 920;
         InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Artifact MMO Client");
@@ -123,11 +123,11 @@ void main(string[] args)
             }
         }
         if (gui) {
-            SetWindowTitle(("Artifact MMO Client: " ~ count.to!string).toStringz);
+            SetWindowTitle(("Artifact MMO Client: " ~ count.to!string ~ " gold="~bank.gold.to!string).toStringz);
             BeginDrawing();
             ClearBackground(Color(30, 30, 30, 255));
             // Horizontal background rectangle (width based on character count)
-            DrawRectangle(0, 0, (256 * cast(uint)charOrder.length), 128, Color(40, 40, 40, 255));
+            DrawRectangle(0, 0, (256 * cast(uint)charOrder.length), 144, Color(40, 40, 40, 255));
             foreach (i; 0 .. charOrder.length) {
                 if(user.length > 0){
                     if(user != charOrder[i]){
@@ -155,7 +155,7 @@ void main(string[] args)
                 
                 ty += 16;
                 DrawText(("XP:" ~ p.xp.to!string ~ "/" ~ p.max_xp.to!string).toStringz, tx, ty, 12, LIGHTGRAY);
-                
+                double ttl_main = timeToLevel(p.xp, p.max_xp, p.last_cooldown, p.last_action_details.xp);
                 ty += 16;
                 DrawText(("Lvl:" ~ p.level.to!string).toStringz, tx - 50, ty, 12, LIGHTGRAY);
                 DrawText(("Inv:" ~ p.countInventory().to!string ~ "/" ~ p.inventory_max_items.to!string).toStringz, 
@@ -169,7 +169,29 @@ void main(string[] args)
                 DrawText(("(" ~ p.x.to!string ~ "," ~ p.y.to!string ~ ")").toStringz, sx + 15, ty, 12, LIGHTGRAY);
                 ty += 224-68;
                 DrawTexture(assetLoader.loadTexture("Characters", p.skin), sx + 100, ty, WHITE);
-                ty +=16+68;
+                ty -= 224-68;
+                int tyr = ty;
+                tx+=165;
+                DrawText((p.mining_level.to!string).toStringz, tx, ty,28, LIGHTGRAY);
+                ty+=28;
+                DrawText((p.woodcutting_level.to!string).toStringz, tx, ty,28, LIGHTGRAY);
+                ty+=28;
+                DrawText((p.fishing_level.to!string).toStringz, tx, ty,28, LIGHTGRAY);
+                ty+=28;
+                DrawText((p.weaponcrafting_level.to!string).toStringz, tx, ty,28, LIGHTGRAY);
+                ty+=28;
+                DrawText((p.gearcrafting_level.to!string).toStringz, tx, ty,28, LIGHTGRAY);
+                ty+=28;
+                DrawText((p.jewelrycrafting_level.to!string).toStringz, tx, ty,28, LIGHTGRAY);
+                ty+=28;
+                DrawText((p.cooking_level.to!string).toStringz, tx, ty,28, LIGHTGRAY);
+                ty+=28;
+                DrawText((p.alchemy_level.to!string).toStringz, tx, ty,28, LIGHTGRAY);
+                ty+=28;
+
+                ty=tyr;
+                tx-=240;
+                ty += 224;
                 int counta = 0;
                 foreach(slot; p.inventory){
                     if(slot.quantity > 0){
@@ -196,6 +218,15 @@ void main(string[] args)
     if(gui){
         CloseWindow();
     }
+}
+
+double timeToLevel(int currentXp, int maxXp, long lastCooldown, int xpGainPerAction)
+{
+    if (xpGainPerAction <= 0 || lastCooldown <= 0) return -1;
+    int xpNeeded = maxXp - currentXp;
+    if (xpNeeded <= 0) return -1;
+    double actionsRemaining = cast(double)xpNeeded / xpGainPerAction;
+    return actionsRemaining * (cast(double)lastCooldown / 1000.0); // Return seconds
 }
 
 void createChars(){
@@ -279,13 +310,18 @@ void processCharacter(Character* c, ulong i)
         fetcher2(c);
     }
     else if (i == 4) {
-        fetcher3(c);
+        //fetcher3(c);
+        if(c.artifact3_slot == "" && (bank.count("dreadful_book")>=1 || c.countItem("dreadful_book")>=1)){
+            script.helper.smartEquip(c,"dreadful_book","artifact3");
+            return;
+        }
+        fighter(c);
     }
     else{
         fetcher(c);
     }
     if (!c.onCooldown()) {
-        //if (!doGather(c,  200, c.alchemy_level >= 10, LOC_SUNFLOWER, "sunflower")) {
+        //if (!doGather(c,  200, c.alchemy_level >= 10, findLocation("resource","sunflower_field"), "sunflower")) {
         //    return;
         //}
         writeln(c.color, c.name ~ " is doing nothing");

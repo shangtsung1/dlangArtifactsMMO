@@ -6,7 +6,7 @@
         "skill": "mining",
         "minLevel": 0,
         "maxLevel": 10,
-        "maxCraft": 500
+        "maxCraft": 200
     },
     {
         "ingredients": ["iron_ore", "coal"],
@@ -15,7 +15,7 @@
         "skill": "mining",
         "minLevel": 20,
         "maxLevel": 30,
-        "maxCraft": 500
+        "maxCraft": 200
     },
     {
         "ingredients": ["iron_ore"],
@@ -24,7 +24,7 @@
         "skill": "mining",
         "minLevel": 10,
         "maxLevel": 20,
-        "maxCraft": 500
+        "maxCraft": 200
     },
     {
         "ingredients": ["gold_ore"],
@@ -33,7 +33,7 @@
         "skill": "mining",
         "minLevel": 30,
         "maxLevel": 40,
-        "maxCraft": 500
+        "maxCraft": 200
     },
     {
         "ingredients": ["piece_of_obsidian"],
@@ -51,7 +51,7 @@
         "skill": "mining",
         "minLevel": 35,
         "maxLevel": 40,
-        "maxCraft": 500
+        "maxCraft": 200
     },
     {
         "ingredients": ["ash_wood", "birch_wood"],
@@ -60,7 +60,7 @@
         "skill": "woodcutting",
         "minLevel": 20,
         "maxLevel": 30,
-        "maxCraft": 500
+        "maxCraft": 200
     },
     {
         "ingredients": ["ash_wood"],
@@ -69,7 +69,7 @@
         "skill": "woodcutting",
         "minLevel": 0,
         "maxLevel": 10,
-        "maxCraft": 500
+        "maxCraft": 200
     },
     {
         "ingredients": ["spruce_wood"],
@@ -78,7 +78,7 @@
         "skill": "woodcutting",
         "minLevel": 10,
         "maxLevel": 20,
-        "maxCraft": 500
+        "maxCraft": 200
     },
     {
         "ingredients": ["dead_wood"],

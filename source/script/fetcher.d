@@ -17,73 +17,54 @@ void fetcher(Character* c)
         return;
     }
 
+    EquipList[] el = findBestWisdomEquipmentToFight(c);
+
+	foreach(e;el){
+		if(e.itemCode == "")continue;
+		writeln(c.color,"Equipping ",e.itemCode," to ",e.slotName);
+		if(checkEquip(c,e.itemCode,e.slotName)){
+			writeln(c.color,"Equipping ",e.itemCode," to ",e.slotName);
+			return;
+		}
+	}
+
     int levelOfFighter = getCharacter(0).level;
 
    /* if(bank.count("small_antidote") >= 10 && extraCheck(c)){
         return;
     }*/
-    if (!doGather(c,  200, c.mining_level >= 10, LOC_COPPER, "copper_ore")) {
+    if (!doGather(c,  200, c.mining_level >= 10, findLocation("resource","copper_rocks"), "copper_ore")) {
         writeln("copper");
         return;
     }
-    else if (!doGather(c,  200, c.woodcutting_level >= 10, LOC_ASH, "ash_wood")) {
+    //else if (!doGather(c,  200, c.alchemy_level >= 10, findLocation("resource","sunflower_field"), "sunflower")) {
+    //    return;
+    //}
+    else if (!doGather(c,  200, c.mining_level >= 20, findLocation("resource","iron_rocks"), "iron_ore")) {
         return;
     }
-    else if (!doGather(c,  200, c.alchemy_level >= 10, LOC_SUNFLOWER, "sunflower")) {
+    else if (!doGather(c,  200, c.mining_level >= 30, findLocation("resource","coal_rocks"), "coal")) {
         return;
     }
-    else if ((levelOfFighter < 10|| c.fishing_level < 10) && ((bank.count("cooked_gudgeon") < 200 || bank.count("algae") < 50) || c.fishing_level < 10) && !doGather(c,  200, c.fishing_level >= 10, LOC_GUDGEON, "gudgeon")) {
-        return;
-    }
-    else if (!doGather(c,  200, c.mining_level >= 20, LOC_IRON, "iron_ore")) {
-        return;
-    }
-    else if (!doGather(c,  200, c.woodcutting_level >= 20, LOC_SPRUCE, "spruce_wood")) {
-        return;
-    }
-    else if ((levelOfFighter < 20|| c.fishing_level < 20) &&(bank.count("cooked_shrimp") < 200 || c.fishing_level < 20) && !doGather(c,  200, c.fishing_level >= 20, LOC_SHRIMP, "shrimp")) {
-        return;
-    }
-    else if (!doGather(c,  200, c.mining_level >= 30, LOC_COAL, "coal")) {
-        return;
-    }
-    else if (!doGather(c,  200, c.woodcutting_level >= 30, LOC_BIRCH, "birch_wood")) {
-        return;
-    }
-    else if (c.alchemy_level >= 20 && !doGather(c,  200, c.alchemy_level >= 25, LOC_NETTLE, "nettle_leaf")) {
-        return;
-    }
-    else if ((levelOfFighter < 30|| c.fishing_level < 30)&& (bank.count("cooked_trout") < 200 || c.fishing_level < 30) &&!doGather(c,  200, c.fishing_level >= 30, LOC_TROUT, "trout")) {
-        return;
-    }
-    else if (!doGather(c,  200, c.mining_level >= 40, LOC_GOLD, "gold_ore")) {
-        return;
-    }
-    else if (!doGather(c,  200, c.woodcutting_level >= 40, LOC_DEADTREE, "dead_wood")) {
+    //else if (c.alchemy_level >= 20 && !doGather(c,  200, c.alchemy_level >= 25, findLocation("resource","nettle_field"), "nettle_leaf")) {
+    //    return;
+    //}
+    else if (!doGather(c,  200, c.mining_level >= 40, findLocation("resource","gold_rocks"), "gold_ore")) {
         return;
     }
     //TODO: fille the gap of 25->30 alch
-    else if (c.alchemy_level >= 40 && !doGather(c,  200, c.alchemy_level >= 35, LOC_GLOWSTEM, "glowstem_leaf")) {
-        return;
-    }
-    else if ((levelOfFighter < 40|| c.fishing_level < 40)&&(bank.count("cooked_bass") < 200 || c.fishing_level < 40) &&!doGather(c,  200, c.fishing_level >= 40, LOC_BASS, "bass")) {
-        return;
-    }
+    //else if (c.alchemy_level >= 40 && !doGather(c,  200, c.alchemy_level >= 35, findLocation("resource","glowstem_field"), "glowstem_leaf")) {
+    //    return;
+    //}
     else if (!doMithril(c,  200, c.mining_level >= 50)) {
         return;
     }
-    else if (!doMaple(c,  200, c.woodcutting_level >= 50)) {
-        return;
-    }
-    else if ((bank.count("cooked_salmon") < 200 || c.fishing_level < 50) && !doGather(c,  200, c.fishing_level >= 50, LOC_SALMON, "salmon")) {
-        return;
-    } 
     writeln(c.color, "Done metal melord!");
 }
 
  bool extraCheck(Character* c, bool overide = false){
     if(c.mining_level >= 30 && c.woodcutting_level >= 30 && c.fishing_level>=30 && c.alchemy_level >= 25 && (overide ||c.level < 40 || c.alchemy_level < 50)){
-        if (!doGather(c,  100, c.alchemy_level >= 20, LOC_NETTLE, "nettle_leaf")) {
+        if (!doGather(c,  100, c.alchemy_level >= 20, findLocation("resource","nettle_field"), "nettle_leaf")) {
             return true;//get some potions
         }
         if(overide || c.level < 30){
@@ -93,7 +74,7 @@ void fetcher(Character* c)
         }
     }
     else if(c.mining_level >= 20 && c.woodcutting_level >= 20 && c.fishing_level>=20 && c.alchemy_level >= 20 && (overide ||c.level < 30 || c.alchemy_level < 40)){
-        if (!doGather(c,  100, c.alchemy_level >= 10, LOC_SUNFLOWER, "sunflower")) {
+        if (!doGather(c,  100, c.alchemy_level >= 10, findLocation("resource","sunflower_field"), "sunflower")) {
             return true;//get some potions
         }
         if(overide || c.level < 20){

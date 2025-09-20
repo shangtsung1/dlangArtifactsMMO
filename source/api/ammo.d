@@ -14,7 +14,6 @@ import std.range;
 import std.algorithm;
 import std.array;
 
-
 public class ArtifactMMOClient {
     private string token;
     private string BASE_URL = "https://api.artifactsmmo.com";
@@ -279,6 +278,21 @@ public class ArtifactMMOClient {
         return performCurlRequest(url, "POST", Nullable!JSONValue(JSONValue(bodyArray)));
     }
 
+    public JSONValue depositItem(string name, string[] codes, int[] quantities) {
+        enforce(codes.length == quantities.length, "codes and quantities must have the same length");
+
+        JSONValue[] bodyArray;
+        foreach (i; 0 .. codes.length) {
+            bodyArray ~= JSONValue([
+                "code": JSONValue(codes[i]),
+                "quantity": JSONValue(quantities[i])
+            ]);
+        }
+
+        string url = BASE_URL ~ "/my/" ~ encodeComponent(name) ~ "/action/bank/deposit/item";
+        return performCurlRequest(url, "POST", Nullable!JSONValue(JSONValue(bodyArray)));
+    }
+
     public JSONValue withdrawItem(string name, string code, int quantity) {
         JSONValue[] bodyArray = [
             JSONValue([
@@ -346,10 +360,21 @@ public class ArtifactMMOClient {
          return performCurlRequest(url, "POST");
     }
 
-    public JSONValue taskComplete(string name) => postNoBodyTaskAction(name, "complete");
-    public JSONValue taskExchange(string name) => postNoBodyTaskAction(name, "exchange");
-    public JSONValue taskNew(string name) => postNoBodyTaskAction(name, "new");
-    public JSONValue taskCancel(string name) => postNoBodyTaskAction(name, "cancel");
+    public JSONValue taskComplete(string name) {
+        return postNoBodyTaskAction(name, "complete");
+    }
+
+    public JSONValue taskExchange(string name) {
+        return postNoBodyTaskAction(name, "exchange");
+    }
+
+    public JSONValue taskNew(string name) {
+        return postNoBodyTaskAction(name, "new");
+    }
+
+    public JSONValue taskCancel(string name) {
+        return postNoBodyTaskAction(name, "cancel");
+    }
 
     public JSONValue taskTrade(string name, string code, int quantity) {
         JSONValue body = ["code": JSONValue(code), "quantity": JSONValue(quantity)];
@@ -587,7 +612,7 @@ public class ArtifactMMOClient {
         string url = BASE_URL ~ "/npcs/details";
         url ~= buildQueryParams("page", page.to!string, "size", size.to!string);
         if (type !is null && !type.empty) url ~= "&type=" ~ encodeComponent(type);
-        writeln(url);
+      //  writeln(url);
         return createGetRequest(url);
     }
 

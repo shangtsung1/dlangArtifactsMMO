@@ -33,9 +33,6 @@ public bool doGather(Character* c,int limit, bool adhereToLimit, Location loc,st
 public bool doGather(Character* c,int limit, bool adhereToLimit, int x, int y,string code){
 	ItemSchema ai = getItem(code);
 	string skill = ai.subtype;
-	if(!equipBestForSkill(c,skill)){
-		return false;
-	}
     if(c.getBoolean("bankAll")){
         bankAll(c);
         return false;
@@ -53,6 +50,9 @@ public bool doGather(Character* c,int limit, bool adhereToLimit, int x, int y,st
 	}
 	else{
 		if(countInventory(c) < c.inventory_max_items){
+			if(!equipBestForSkill(c,skill)){
+				return false;
+			}
 			if(c.x != x || c.y != y){
 				writeln(c.color,"GatherMove");
 				int result = c.move(x,y);
@@ -70,31 +70,52 @@ public bool doGather(Character* c,int limit, bool adhereToLimit, int x, int y,st
 	}
 }
 
+bool checkEquip(Character* c, string itemCode, string slotName){
 
-
-public bool bankAll(Character* c){
-    int res = smartMove(c, "bank","bank");
-	if(res!=200){
+	if(itemCode == ""){
+		writeln(c.color,"Check? ",c.getSlot(slotName)," ",slotName, " ",itemCode);
 		return false;
 	}
-	if(c.gold > 0){
-		c.depositGold(c.gold);
-		writeln(c.color,"BankAllGoldResult = ",c.gold);
+	if(c.getSlot(slotName) == itemCode){
 		return false;
 	}
-    if(countInventory(c) > 0){
-        foreach (item; c.inventory)
-        {
-            if(item.quantity > 0){
-                c.setBoolean("bankAll",true);
-                writeln(c.color,"BankAllResult = ",c.depositItem(item.code,item.quantity));
-                return false;
-            }
-        }
+	writeln(c.color,"Check ",c.getSlot(slotName)," ",slotName, " wants ", itemCode);
+	if(smartEquip(c,itemCode,slotName) == 200){
+		//bankAll(c);
+	}
+	return true;
+}
+
+
+
+public bool bankAll(Character* c) {
+    int res = smartMove(c, "bank", "bank");
+    if (res != 200) {
         return false;
     }
-    else{
-        c.setBoolean("bankAll",false);
+    if (c.gold > 0) {
+        c.depositGold(c.gold);
+        writeln(c.color, "BankAllGoldResult = ", c.gold);
+        return false;
+    }
+    if (countInventory(c) > 0) {
+        // Collect all item codes and quantities from inventory
+        string[] codes;
+        int[] quantities;
+        foreach (item; c.inventory) {
+            if (item.quantity > 0) {
+                codes ~= item.code;
+                quantities ~= item.quantity;
+            }
+        }
+        if (codes.length > 0) {
+            c.setBoolean("bankAll", true);
+            writeln(c.color, "BankAllResult = ", c.depositItem(codes, quantities));
+            return false;
+        }
+        return false;
+    } else {
+        c.setBoolean("bankAll", false);
         return true;
     }
 }
@@ -175,14 +196,15 @@ public int smartEquip(Character* m, string code, string slot, int amount) {
 	}
 	else{
 		writeln(m.color,slot);
-		if(m.getSlot(slot) != ""){
+		/*if(m.getSlot(slot) != ""){
 			if(!potionSlot){
 				m.setString("unequipbank",m.getSlot(slot));
 			}
-			result = m.unequip(slot);
-			writeln(m.color,"Unequip ",m.getSlot(slot)," Result = ",result);
-			return result;
-		}
+			//no need to unequip anymore.
+			//result = m.unequip(slot);
+			//writeln(m.color,"Unequip ",m.getSlot(slot)," Result = ",result);
+			//return result;
+		}*/
 		result = m.equip(code,slot,amount);
 		writeln(m.color,"Equip ",code," Result = ",result, ", ",amount);
 		return result;

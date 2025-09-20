@@ -12,6 +12,7 @@ import std.algorithm;
 import global;
 import api.ammo;
 import api.schema;
+import script.bettergear;
 import script.helper;
 
 void crafter(Character* c) {
@@ -54,11 +55,26 @@ void crafter(Character* c) {
         c.taskExchange();
         return;
     }
-    if(dismantleCheck(c)){
+    EquipList[] el = findBestWisdomEquipmentToFight(c);
+
+	foreach(e;el){
+		if(e.itemCode == "")continue;
+		writeln(c.color,"Equipping ",e.itemCode," to ",e.slotName);
+		if(checkEquip(c,e.itemCode,e.slotName)){
+			writeln(c.color,"Equipping ",e.itemCode," to ",e.slotName);
+			return;
+		}
+	}
+
+    if(merchantCheck(c)){
         return;
     }
+
+   // if(dismantleCheck(c)){
+    //    return;
+   // }
     if (c.alchemy_level < 5) {
-        doGather(c, 500_000, c.alchemy_level >= 5, LOC_SUNFLOWER, "sunflower");
+        doGather(c, 500_000, c.alchemy_level >= 5, findLocation("resource","sunflower_field"), "sunflower");
         return;
     }
     foreach (ref const rule; simpleCraftables) {
@@ -72,17 +88,70 @@ void crafter(Character* c) {
             return;
         }
     }
-    if (!doGather(c,  500, c.alchemy_level >= 10, LOC_SUNFLOWER, "sunflower")) {
+    if (c.alchemy_level < 20 && !doGather(c,  500, c.alchemy_level >= 10, findLocation("resource","sunflower_field"), "sunflower")) {
         return;
     }
-    else if (c.alchemy_level >= 20 && !doGather(c,  500, c.alchemy_level >= 30, LOC_NETTLE, "nettle_leaf")) {
+    else if (c.alchemy_level >= 20 && !doGather(c,  500, c.alchemy_level >= 30, Location(7,14), "nettle_leaf")) {
         return;
     }
-    else if (c.alchemy_level >= 40 && !doGather(c,  500, c.alchemy_level >= 40, LOC_GLOWSTEM, "glowstem_leaf")) {
+    else if (c.alchemy_level >= 40 && !doGather(c,  500, c.alchemy_level >= 40, findLocation("resource","glowstem_field"), "glowstem_leaf")) {
         return;
     }
     import script.fetcher;
     fetcher(c);
+}
+
+
+bool merchantCheck(Character* c){
+    if(toSellFunc(c,"gemstone_merchant",5,["diamond","emerald","ruby","sapphire","topaz"])){
+       return true;
+    }
+    else if(toSellFunc(c,"fish_merchant",0,["shell","golden_shrimp"])){
+        return true;
+    }
+    else if(toSellFunc(c,"timber_merchant",500,["sap","maple_sap","magic_sap"])){
+        return true;
+    }
+    else if(toSellFunc(c,"nomadic_merchant",0,["golden_egg"])){
+        return true;
+    }
+    else if(toSellFunc(c,"nomadic_merchant",5,["highwayman_dagger","death_knight_sword","lich_crown","old_boots","wolf_ears","wooden_club"])){
+        return true;
+    }
+    else if(toSellFunc(c,"nomadic_merchant",10,["forest_ring"])){
+        return true;
+    }
+    return false;
+}
+
+bool toSellFunc(Character* c,string merc,int toKeep,string[] toSell){
+    if(!getActiveEvent(merc).isNull()){
+        foreach(ts; toSell){
+            int amt = countAllItems(ts);
+            if(amt > toKeep){
+                sell(c,merc,amt-toKeep,ts);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void sell(Character* c,string eventCode, int amnt, string itemCode){
+    ActiveEventSchema event = getActiveEvent(eventCode).get();
+    int x = event.map.x;
+    int y = event.map.y;
+    if(c.countItem(itemCode) < 1){
+        smartWithdraw(c,itemCode,1,amnt);
+        return;
+    }
+    else{
+        if(c.x != x || c.y != y){
+            c.move(x,y);
+            return;
+        }
+        c.npcSell(itemCode,min(amnt,c.countItem(itemCode)));
+    }
 }
 
 
@@ -99,20 +168,21 @@ bool dismantleCheck(Character* c){
     foreach (i; bank.items) {
         itemQuantities[i.code] += i.quantity;
     }
+    
     BasicItem[] allItems;
     foreach (kv; itemQuantities.byKeyValue) {
-        allItems ~= BasicItem(kv.key, kv.value);
+        allItems ~= BasicItem(kv.key, countAllItems(kv.key));
     }
 
 
     foreach(item;allItems){
-        if(item.quantity < 6){
+        if(countAllItems(item.code) < 6){
             continue;
         }
         ItemSchema ischema = getItem(item.code);
-        if(ischema.type != "weapon" && ischema.type != "boots"
+        if((ischema.type != "weapon" && ischema.type != "boots"
             && ischema.type != "shield"&& ischema.type != "leg_armor"&& ischema.type != "helmet"
-            && ischema.type != "body_armor"&& ischema.type != "ring"&& ischema.type != "amulet"){
+            && ischema.type != "body_armor"&& ischema.type != "ring"&& ischema.type != "amulet") || ischema.subtype == "tool"){
             continue;
         }
         if(!ischema.craft.isNull()){//its craftable therefor dismantable?
@@ -131,12 +201,12 @@ void recycle(Character* c,BasicItem item,string type){
         return;
     }
     if(amountToWithdraw > 0){
-        writeln("grab ",item.code, " from bank");
+        writeln(c.color,"grab ",item.code, " from bank");
         smartWithdraw(c,item.code,amountToWithdraw,amountToWithdraw);
         return;
     }
     else{
-        if(type == "weapon"){
+        if(type == "weapon" ){
             if(c.x != 2 || c.y != 1){
                 c.move(2,1);
                 return;
@@ -289,7 +359,7 @@ bool craftCheck(Character* m, const string[] reagents, const string prod, const 
         minReagentsInInventory = min(minReagentsInInventory, countItem(m, reagent) / amountNeeded);
     }
 
-    if (bank.count(prod) < produceWanted || level < levelComp) {
+    if (countAllItems(prod,false) < produceWanted || level < levelComp) {
         if (minReagentsInInventory >= 1) {
             writeln(m.color, "[Crafter] make ", prod, " ", minReagentsInInventory);
             int res = smartCraft(m, prod, minReagentsInInventory);

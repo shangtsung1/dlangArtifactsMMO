@@ -34,55 +34,6 @@ __gshared NpcSchema[] npcs;
 __gshared EventSchema[] events;
 __gshared ActiveEventSchema[] activeEvents;
 
-Location LOC_BANK = Location(4,1);
-
-Location LOC_COPPER = Location(2,0);
-Location LOC_COAL = Location(1,6);
-Location LOC_IRON = Location(1,7);
-Location LOC_GOLD = Location(6,-3);
-
-Location LOC_ASH = Location(-1,0);
-Location LOC_SPRUCE = Location(2,6);
-Location LOC_BIRCH = Location(3,5);
-Location LOC_DEADTREE = Location(9,6);
-
-Location LOC_SUNFLOWER = Location(2,2);
-Location LOC_NETTLE = Location(7,14);
-Location LOC_GLOWSTEM = Location(1,10);
-
-Location LOC_GUDGEON = Location(4,2);
-Location LOC_SHRIMP = Location(5,2);
-Location LOC_TROUT = Location(7,12);
-Location LOC_BASS = Location(6,12);
-Location LOC_SALMON = Location(-2,-4);
-
-Location LOC_CHICKEN = Location(0,1);
-Location LOC_COW = Location(0,2);
-Location LOC_PIG = Location(-3,-3);
-
-Location LOC_GREENSLIME = Location(0,-1);
-Location LOC_REDSLIME = Location(1,-1);
-Location LOC_BLUESLIME = Location(2,-1);
-Location LOC_YELLOWSLIME = Location(4,-1);
-
-Location LOC_MUSHMUSH = Location(5,3);
-Location LOC_FLYINGSERPENT = Location(5,4);
-Location LOC_WOLF = Location(-2,1);
-
-Location LOC_HIGHWAYMAN = Location(2,8);
-Location LOC_SKELETON = Location(8,6);
-Location LOC_SPIDER = Location(-3,12);
-Location LOC_OGRE = Location(8,-2);
-
-Location LOC_VAMPIRE = Location(10,6);
-Location LOC_BLIZZARD = Location(4,5);
-Location LOC_CYCLOPS = Location(7,-3);
-Location LOC_DKNIGHT = Location(8,7);
-Location LOC_IMP = Location(0,12);
-
-Location LOC_OWLBEAR = Location(10,1);
-Location LOC_CULTISTACOLYTE = Location(1,13);
-
 
 
 void global_init(string token,bool sandbox)
@@ -102,6 +53,31 @@ void global_init(string token,bool sandbox)
 
 void soft_refresh(){
     loadActiveEvents();
+}
+
+int countAllItems(string code,bool countWorn=true){
+    int count = bank.count(code);
+    foreach(c;charOrder){
+        Character* player = characters[c];
+        count+=player.countItem(code);
+        if(countWorn){
+            if (player.weapon_slot == code)      count++;
+            if (player.rune_slot == code)        count++;
+            if (player.shield_slot == code)      count++;
+            if (player.helmet_slot == code)      count++;
+            if (player.body_armor_slot == code)  count++;
+            if (player.leg_armor_slot == code)   count++;
+            if (player.boots_slot == code)       count++;
+            if (player.ring1_slot == code)       count++;
+            if (player.ring2_slot == code)       count++;
+            if (player.amulet_slot == code)      count++;
+            if (player.artifact1_slot == code)   count++;
+            if (player.artifact2_slot == code)   count++;
+            if (player.artifact3_slot == code)   count++;
+            if (player.bag_slot == code)         count++;
+        }
+    }
+    return count;
 }
 
 void print_items(string filepath){

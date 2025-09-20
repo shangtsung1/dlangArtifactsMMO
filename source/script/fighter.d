@@ -1,6 +1,7 @@
 module script.fighter;
 
 import std.stdio;
+
 import std.math;
 
 import global;
@@ -8,6 +9,8 @@ import api.ammo;
 import api.schema;
 import script.helper;
 import script.bettergear;
+
+EquipList[][string] equipLists;
 
 void fighter(Character* c)
 {
@@ -42,74 +45,92 @@ void fighter(Character* c)
 		}
 		return;
 	}
-	else if(getActiveEvent("bandit_camp").isNull() && monsterTask.name.length > 0 && monsterTask.level < c.level - 2 && (!canPoisen(getMonster(monsterTask.code)) || !needAntidote)){
+	else if(getActiveEvent("bandit_camp").isNull() && monsterTask.name.length > 0 && monsterTask.level < c.level - 7 && (!canPoisen(getMonster(monsterTask.code)) || !needAntidote)){
  		thingToFight = findMonsterLocation(monsterTask.code);
 		tCode = monsterTask.code;
 	}
 	else{
 		if(fightCheck(c,"chicken", ["feather"], [25]) || charLevel < 4){
-			thingToFight = LOC_CHICKEN;
 			tCode = "chicken";
+			thingToFight = findMonsterLocation(tCode);
 		}
-		else if(charLevel >= 5 && fightCheck(c,"yellow_slime", ["yellow_slimeball"], [25])){
-			thingToFight = LOC_YELLOWSLIME;
+		else if(charLevel >= 5 && fightCheck(c,"yellow_slime", ["yellow_slimeball"], [5])){
 			tCode = "yellow_slime";
+			thingToFight = findMonsterLocation(tCode);
 		}
-		else if(charLevel >= 6 && fightCheck(c,"green_slime", ["green_slimeball"], [25])){
-			thingToFight = LOC_GREENSLIME;
+		else if(charLevel >= 6 && fightCheck(c,"green_slime", ["green_slimeball"], [5])){
 			tCode = "green_slime";
+			thingToFight = findMonsterLocation(tCode);
 		}
-		else if(charLevel >= 7 && fightCheck(c,"sheep", ["wool"], [25])){
-			thingToFight = LOC_BLUESLIME;
-			tCode = "sheep";
-		}
-		else if(charLevel >= 8 && fightCheck(c,"blue_slime", ["blue_slimeball"], [25])){
-			thingToFight = LOC_BLUESLIME;
+		else if(charLevel >= 8 && fightCheck(c,"blue_slime", ["blue_slimeball"], [5])){
 			tCode = "blue_slime";
+			thingToFight = findMonsterLocation(tCode);
 		}
-		else if(charLevel >= 9 && fightCheck(c,"red_slime", ["red_slimeball"], [25])){
-			thingToFight = LOC_REDSLIME;
+		else if(charLevel >= 10 && fightCheck(c,"red_slime", ["red_slimeball"], [5])){
 			tCode = "red_slime";
+			thingToFight = findMonsterLocation(tCode);
 		}
+		else if(charLevel >= 10 && fightCheck(c,"sheep", ["wool"], [25])){
+			tCode = "sheep";
+			thingToFight = findMonsterLocation(tCode);
+		}
+		else if(charLevel >= 5 && fightCheck(c,"yellow_slime", ["yellow_slimeball"], [15])){
+			tCode = "yellow_slime";
+			thingToFight = findMonsterLocation(tCode);
+		}
+		else if(charLevel >= 6 && fightCheck(c,"green_slime", ["green_slimeball"], [15])){
+			tCode = "green_slime";
+			thingToFight = findMonsterLocation(tCode);
+		}
+		else if(charLevel >= 8 && fightCheck(c,"blue_slime", ["blue_slimeball"], [15])){
+			tCode = "blue_slime";
+			thingToFight = findMonsterLocation(tCode);
+		}
+		else if(charLevel >= 10 && fightCheck(c,"red_slime", ["red_slimeball"], [15])){
+			tCode = "red_slime";
+			thingToFight = findMonsterLocation(tCode);
+		}
+
+
 		else if(charLevel >= 16 && fightCheck(c,"cow", ["cowhide","milk_bucket"], [25,50])){
-			thingToFight = LOC_COW;
 			tCode = "cow";
+			thingToFight = findMonsterLocation(tCode);
 		}
 		else if(charLevel >= 17 && fightCheck(c,"mushmush", ["mushroom"], [25])){
-			thingToFight = LOC_MUSHMUSH;
 			tCode = "mushmush";
+			thingToFight = findMonsterLocation(tCode);
 		}
-		else if(charLevel >= 18 && fightCheck(c,"flying_serpent", ["flying_wing", "serpent_skin"], [10,10])){
-			thingToFight = LOC_FLYINGSERPENT;
-			tCode = "flying_serpent";
+		else if(charLevel >= 18 && fightCheck(c,"flying_snake", ["flying_wing", "snake_hide"], [10,10])){
+			tCode = "flying_snake";
+			thingToFight = findMonsterLocation(tCode);
 		}
 		else if(charLevel >= 20 && fightCheck(c,"wolf", ["wolf_bone", "wolf_hair", "wolf_ears"], [10,10,1])){
-			thingToFight = LOC_WOLF;
 			tCode = "wolf";
+			thingToFight = findMonsterLocation(tCode);
 		}
 		else if(charLevel >= 21 && fightCheck(c,"highwayman", ["highwayman_dagger", "green_cloth"], [2,10])){
-			thingToFight = LOC_HIGHWAYMAN;
 			tCode = "highwayman";
+			thingToFight = findMonsterLocation(tCode);
 		}
 		else if(charLevel >= 22 && fightCheck(c,"skeleton", ["skeleton_bone", "skeleton_skull"], [10,10])){
-			thingToFight = LOC_SKELETON;
 			tCode = "skeleton";
+			thingToFight = findMonsterLocation(tCode);
 		}
 		else if(charLevel >= 24 && fightCheck(c,"pig", ["pig_skin"], [25])){
-			thingToFight = LOC_PIG;
 			tCode = "pig";
+			thingToFight = findMonsterLocation(tCode);;
 		}
 		else if(charLevel >= 26 && !needAntidote && fightCheck(c,"spider", ["spider_leg"], [25])){
-			thingToFight = LOC_SPIDER;
 			tCode = "spider";
+			thingToFight = findMonsterLocation(tCode);
 		}
 		else if(charLevel >= 26 && fightCheck(c,"ogre", ["ogre_eye","ogre_skin"], [10,10])){
-			thingToFight = LOC_OGRE;
 			tCode = "ogre";
+			thingToFight = findMonsterLocation(tCode);
 		}
 		else if(charLevel >= 28 && fightCheck(c,"vampire", ["vampire_blood","vampire_tooth"], [10,10])){
-			thingToFight = LOC_VAMPIRE;
 			tCode = "vampire";
+			thingToFight = findMonsterLocation(tCode);
 		}
 		else if(charLevel >= 28 && !needAntidote && !getActiveEvent("bandit_camp").isNull() && fightCheck(c,"bandit_lizard", ["lizard_eye","lizard_skin","bandit_armor","dreadful_book"], [10,10,1,1])){
 			auto ee = getActiveEvent("bandit_camp").get();
@@ -117,21 +138,20 @@ void fighter(Character* c)
 			tCode = "bandit_lizard";
 		}
 		else if(charLevel >= 30 && fightCheck(c,"cyclops", ["cyclops_eye"], [10])){
-			thingToFight = LOC_CYCLOPS;
 			tCode = "cyclops";
+			thingToFight = findMonsterLocation(tCode);
 		}
 		else if(charLevel >= 31 && fightCheck(c,"imp", ["demoniac_dust","piece_of_obsidian"], [10,10])){
-			thingToFight = LOC_IMP;
 			tCode = "imp";
+			thingToFight = findMonsterLocation(tCode);
 		}
 		else if(charLevel >= 31 && fightCheck(c,"death_knight", ["red_cloth","death_knight_sword"], [10,2])){
-			thingToFight = LOC_DKNIGHT;
 			tCode = "death_knight";
+			thingToFight = findMonsterLocation(tCode);
 		}
 		else if(charLevel >= 32 && fightCheck(c,"owlbear", ["owlbear_hair","owlbear_claw"], [10,10])){
-			thingToFight = LOC_OWLBEAR;
 			tCode = "owlbear";
-			writeln(c.color,"Fight owlbear?");
+			thingToFight = findMonsterLocation(tCode);
 		}
 		else if(charLevel >= 33 && !getActiveEvent("portal_demon").isNull() && fightCheck(c,"demon", ["demon_horn"], [10])){
 			auto ee = getActiveEvent("portal_demon").get();
@@ -139,16 +159,35 @@ void fighter(Character* c)
 			tCode = "demon";
 		}
 		else if(charLevel >= 34 && fightCheck(c,"cultist_acolyte", ["magic_stone","cursed_book"], [10,5])){
-			thingToFight = LOC_CULTISTACOLYTE;
 			tCode = "cultist_acolyte";
+			thingToFight = findMonsterLocation(tCode);
 		}
+		else if(charLevel >= 36 && fightCheck(c,"cultist_emperor", ["malefic_cloth","malefic_shard"], [10,5])){
+			thingToFight = findMonsterLocation("cultist_emperor");
+			tCode = "cultist_emperor";
+		}
+		else if(charLevel >= 36 && fightCheck(c,"goblin", ["goblin_tooth","goblin_eye"], [10,10])){
+			thingToFight = findMonsterLocation("goblin");
+			tCode = "goblin";
+		}
+
+		else if(charLevel >= 39 && fightCheck(c,"orc", ["orc_skin"], [10])){
+			thingToFight = findMonsterLocation("orc");
+			tCode = "orc";
+		}
+
+		else if(charLevel >= 41 && fightCheck(c,"hellhound", ["hellhound_hair","hellhound_bone"], [10,5])){
+			tCode = "hellhound";
+			thingToFight = findMonsterLocation(tCode);
+		}
+
 
 		else{
 			tCode = "chicken";
 			//find the highest level monster we can fight
 			//and set it to the thingToFight
 			foreach(monster;monsters){
-				if(monster.level <= charLevel-3 && monster.level > getMonster(tCode).level && !canPoisen(getMonster(tCode))){
+				if(monster.level <= charLevel-7 && monster.level > getMonster(tCode).level && !canPoisen(getMonster(tCode))){
 					if(monster.code == "bandit_lizard" && getActiveEvent("bandit_camp").isNull())continue;
 					if(monster.code == "demon" && getActiveEvent("demon_portal").isNull())continue;
 					if(monster.code == "demon"){
@@ -168,16 +207,27 @@ void fighter(Character* c)
 		}
 	}
 
+	auto el = equipLists.get(c.name, []);
+
+	if(c.getString("lastTask") != tCode){
+		el = findBestEquipmentToFight(c, getMonster(tCode));
+		equipLists[c.name] = el; // Store back to global AA
+		writeln(c.color,"Task Change");
+		c.setString("lastTask",tCode);
+		bankAll(c);
+		return;
+	}
+
 	if(potionCheck(c,needAntidote,getMonster(tCode))){
 		writeln(c.color,"Potion Needed.");
 		return;
 	}
 
-	EquipList[] el = findBestEquipmentToFight(c, getMonster(tCode));
-
-	foreach(e;el){
-		if(checkEquip(c,e.itemCode,e.slotName)){
-			writeln(c.color,"Equipping ",e.itemCode," to ",e.slotName);
+	foreach(e; el){
+		if(e.itemCode == "") continue;
+		writeln(c.color, "Equipping ", e.itemCode, " to ", e.slotName);
+		if(checkEquip(c, e.itemCode, e.slotName)){
+			writeln(c.color, "Equipping ", e.itemCode, " to ", e.slotName);
 			return;
 		}
 	}
@@ -196,6 +246,9 @@ void fighter(Character* c)
 
 bool potionCheck(Character* c, ref bool needAntidote,MonsterSchema ms){
 	if(c.level < 20 && c.level >= 5){
+		if(ms.level < 5){
+			return false;
+		}
 		string pot = "small_health_potion";
 		if(c.utility1_slot != pot){
 			if(bank.count(pot) > 10 || c.countItem(pot) >= 10){
@@ -205,6 +258,9 @@ bool potionCheck(Character* c, ref bool needAntidote,MonsterSchema ms){
 		}
 	}
 	else if(c.level < 30 && c.level >= 20){
+		if(ms.level < 10){
+			return false;
+		}
 		string pot = "minor_health_potion";
 		if(c.utility1_slot != pot){
 			if(bank.count(pot) > 10 || c.countItem(pot) >= 10){
@@ -215,6 +271,9 @@ bool potionCheck(Character* c, ref bool needAntidote,MonsterSchema ms){
 		}
 	}
 	else if(c.level < 40 && c.level >= 30){
+		if(ms.level < 20){
+			return false;
+		}
 		string pot = "health_potion";
 		if(c.utility1_slot != pot){
 			if(bank.count(pot) > 10 || c.countItem(pot) >= 10){
@@ -224,54 +283,99 @@ bool potionCheck(Character* c, ref bool needAntidote,MonsterSchema ms){
 			return true;
 		}
 	}
-	if(c.countItem("small_antidote") < 10 && c.utility2_slot != "small_antidote" && c.level >= 15){
-		if(bank.count("small_antidote") == 0){
-			needAntidote = true;
-			writeln(c.color,"need antidote");
-			return false;
-		}
-		if(countInventory(c) >= c.inventory_max_items-10){
-			bankAll(c);
-			writeln(c.color,"Banking");
+	return determineSecondPotion(c,needAntidote,ms);
+}
+
+bool determineSecondPotion(Character* c, ref bool needAntidote,MonsterSchema ms){
+	if(canPoisen(ms)&& c.level >= 15){
+		if(c.countItem("small_antidote") < 10 && c.utility2_slot != "small_antidote" && c.level >= 15){
+			if(bank.count("small_antidote") == 0){
+				needAntidote = true;
+				writeln(c.color,"need antidote");
+				return false;
+			}
+			if(countInventory(c) >= c.inventory_max_items-10){
+				bankAll(c);
+				writeln(c.color,"Banking");
+				return true;
+			}
+			//grab potion from bank
+			int mR = smartMove(c, "bank","bank");
+			if(mR == 200){
+				c.withdrawItem("small_antidote",10);
+				writeln(c.color,"withdraw antidote");	
+			}
 			return true;
 		}
-		//grab potion from bank
-		int mR = smartMove(c, "bank","bank");
-		if(mR == 200){
-			c.withdrawItem("small_antidote",10);
-			writeln(c.color,"withdraw antidote");	
+		else if(c.countItem("small_antidote") >= 10 && c.utility2_slot != "small_antidote"){
+			smartEquip(c, "small_antidote", "utility2", 10);
+			writeln(c.color,"equip antidote");
+			return true;
 		}
-		return true;
+		return false;
 	}
-	else if(c.countItem("small_antidote") >= 10 && c.utility2_slot != "small_antidote"){
-		smartEquip(c, "small_antidote", "utility2", 10);
-		writeln(c.color,"equip antidote");
-		return true;
-	}
+	else {
+		if (c.weapon_slot == "") {
+			return false;
+		}
 
+		double attack_fire = 0;
+		double attack_water = 0;
+		double attack_earth = 0;
+		double attack_air = 0;
+		ItemSchema wep = getItem(c.weapon_slot);
+		foreach (effect; wep.effects) {
+			if (effect.code == "attack_fire") {
+				attack_fire = effect.value;
+			} else if (effect.code == "attack_water") {
+				attack_water = effect.value;
+			} else if (effect.code == "attack_earth") {
+				attack_earth = effect.value;
+			} else if (effect.code == "attack_air") {
+				attack_air = effect.value;
+			}
+		}
+		string bestPotion;
+		double maxAttack = 0;
+		if (attack_fire > maxAttack) {
+			maxAttack = attack_fire;
+			bestPotion = "fire_boost_potion";
+		}
+		if (attack_water > maxAttack) {
+			maxAttack = attack_water;
+			bestPotion = "water_boost_potion";
+		}
+		if (attack_earth > maxAttack) {
+			maxAttack = attack_earth;
+			bestPotion = "earth_boost_potion";
+		}
+		if (attack_air > maxAttack) {
+			maxAttack = attack_air;
+			bestPotion = "air_boost_potion";
+		}
+		if (bestPotion != "" && c.utility2_slot != bestPotion && c.level >= 10) {
+			if (c.countItem(bestPotion) >= 10) {
+				smartEquip(c, bestPotion, "utility2", 10);
+				writeln(c.color, "equip "~bestPotion);
+				return true;
+			} else if (bank.count(bestPotion) > 0) {
+				if (countInventory(c) >= c.inventory_max_items - 10) {
+					bankAll(c);
+					writeln(c.color, "Banking for "~bestPotion);
+					return true;
+				}
+				int mR = smartMove(c, "bank", "bank");
+				if (mR == 200) {
+					c.withdrawItem(bestPotion, 10);
+					writeln(c.color, "withdraw "~bestPotion);
+				}
+				return true;
+			}
+		}
+	}
 	return false;
 }
 
-bool checkEquip(Character* c, string itemCode, string slotName){
-
-	//TODO: fix in future
-	if(itemCode == "iron_armor" && c.getSlot(slotName) == "steel_armor"){
-		return false;
-	}
-
-	if(itemCode == ""){
-		writeln(c.color,"Check? ",c.getSlot(slotName)," ",slotName, " ",itemCode);
-		return false;
-	}
-	if(c.getSlot(slotName) == itemCode){
-		return false;
-	}
-	writeln(c.color,"Check ",c.getSlot(slotName)," ",slotName, " wants ", itemCode);
-	if(smartEquip(c,itemCode,slotName) == 200){
-		//bankAll(c);
-	}
-	return true;
-}
 
 bool fightCheck(Character* c,string monsterCode, string[] items, int[] amounts){
 	if(getMonster(monsterCode).level > c.level-2){
@@ -279,7 +383,7 @@ bool fightCheck(Character* c,string monsterCode, string[] items, int[] amounts){
 		return false;
 	}
 	for(int i = 0; i < items.length; i++){
-		if(bank.count(items[i]) < amounts[i]){
+		if(bank.count(items[i])+c.countItem(items[i]) < amounts[i]){
 			writeln(c.color,"Not enough ",items[i]," to fight ",monsterCode, " Have ",bank.count(items[i]), " want ", amounts[i]);
 			return true;
 		}

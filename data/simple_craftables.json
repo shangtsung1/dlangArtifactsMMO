@@ -19,6 +19,26 @@
         "lvl": 20,
         "minAmount": 100
     },
+    {
+        "itemName": "air_boost_potion",
+        "lvl": 20,
+        "minAmount": 30
+    },
+    {
+        "itemName": "fire_boost_potion",
+        "lvl": 20,
+        "minAmount": 30
+    },
+    {
+        "itemName": "earth_boost_potion",
+        "lvl": 20,
+        "minAmount": 30
+    },
+    {
+        "itemName": "water_boost_potion",
+        "lvl": 20,
+        "minAmount": 30
+    },
 
 
 
@@ -878,7 +898,7 @@
     },
     {
         "itemName": "iron_helm",
-        "lvl": 10,
+        "lvl": 20,
         "minAmount": 2
     },
     {
@@ -923,12 +943,12 @@
     },
     {
         "itemName": "iron_sword",
-        "lvl": 10,
+        "lvl": 15,
         "minAmount": 2
     },
     {
         "itemName": "iron_boots",
-        "lvl": 10,
+        "lvl": 15,
         "minAmount": 2
     },
     {
@@ -988,7 +1008,7 @@
     },
     {
         "itemName": "apprentice_gloves",
-        "lvl": 1,
+        "lvl": 5,
         "minAmount": 2
     },
     {
@@ -998,17 +1018,17 @@
     },
     {
         "itemName": "copper_ring",
-        "lvl": 1,
+        "lvl": 10,
         "minAmount": 2
     },
     {
         "itemName": "wooden_staff",
-        "lvl": 1,
+        "lvl": 10,
         "minAmount": 2
     },
     {
         "itemName": "wooden_shield",
-        "lvl": 1,
+        "lvl": 10,
         "minAmount": 2
     },
     {
@@ -1023,7 +1043,7 @@
     },
     {
         "itemName": "copper_dagger",
-        "lvl": 1,
+        "lvl": 10,
         "minAmount": 2
     },
 
