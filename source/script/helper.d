@@ -2,7 +2,6 @@ module script.helper;
 
 import global;
 import api.ammo;
-import api.schema;
 
 import std.stdio;
 import core.thread;
@@ -167,8 +166,8 @@ public int smartCraft(Character* character,string code,int quantity){
 
 private MapSchema findMapFor(string code,string type) {
 	foreach(map; maps){
-		if(map.content.isNull)continue;
-		if(map.content.get().code == code && map.content.get().type == type)return map;
+		if(map.interactions.content.isNull)continue;
+		if(map.interactions.content.get().code == code && map.interactions.content.get().type == type)return map;
 	}
 	return MapSchema();
 }
@@ -176,8 +175,8 @@ private MapSchema findMapFor(string code,string type) {
 private MapSchema[] findMapsFor(string code,string type) {
 	MapSchema[] arrayOfMaps;
 	foreach(map; maps){
-		if(map.content.isNull)continue;
-		if(map.content.get().code == code && map.content.get().type == type)arrayOfMaps~=map;
+		if(map.interactions.content.isNull)continue;
+		if(map.interactions.content.get().code == code && map.interactions.content.get().type == type)arrayOfMaps~=map;
 	}
 	return arrayOfMaps;
 }

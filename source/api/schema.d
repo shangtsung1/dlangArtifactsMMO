@@ -44,6 +44,33 @@ class StringObject : Object {
     this(string v) { value = v; }
 }
 
+struct StorageEffectSchema {
+    string code;
+    int value;
+
+    static StorageEffectSchema fromJson(JSONValue json) {
+        return StorageEffectSchema(
+            json["code"].get!string,
+            json["value"].get!int
+        );
+    }
+}
+
+enum MapLayer : string {
+    interior = "interior",
+    overworld = "overworld",
+    underground = "underground"
+}
+
+MapLayer mapLayerFromString(string s) {
+    switch(s) {
+        case "interior": return MapLayer.interior;
+        case "overworld": return MapLayer.overworld;
+        case "underground": return MapLayer.underground;
+        default: throw new Exception("Unknown MapLayer: " ~ s);
+    }
+}
+
 struct Character {
     string name;
     string account;
@@ -83,6 +110,8 @@ struct Character {
     int critical_strike;
     int wisdom;
     int prospecting;
+    int initiative;
+    int threat;
     int attack_fire;
     int attack_earth;
     int attack_water;
@@ -98,8 +127,11 @@ struct Character {
     int res_air;
     int x;
     int y;
+    MapLayer layer;
+    int map_id;
     int cooldown;
     long cooldown_expiration;
+    StorageEffectSchema[] effects;
     long last_cooldown;
     string weapon_slot;
     string rune_slot;
@@ -206,8 +238,8 @@ struct Character {
         return result["statusCode"].get!int;
     }
 
-    int fight() {
-        auto result = client.fight(name);
+    int fight(string[] participants = []) {
+        auto result = client.fight(name, participants);
         if(result["statusCode"].get!int != 200){
             return result["statusCode"].get!int;
         }
@@ -668,6 +700,9 @@ struct Character {
         this.critical_strike = json["critical_strike"].get!int;
         this.wisdom = json["wisdom"].get!int;
         this.prospecting = json["prospecting"].get!int;
+        this.initiative = json["initiative"].get!int;
+        this.threat = json["threat"].get!int;
+
 
         // Attack stats
         this.attack_fire = json["attack_fire"].get!int;
@@ -691,8 +726,12 @@ struct Character {
         // Position and cooldown
         this.x = json["x"].get!int;
         this.y = json["y"].get!int;
+        this.layer = mapLayerFromString(json["layer"].get!string);
+        this.map_id = json["map_id"].get!int;
         this.cooldown = json["cooldown"].get!int;
         this.cooldown_expiration = SysTime.fromISOExtString(json["cooldown_expiration"].get!string).toUnixTime();
+
+        this.effects = json["effects"].array.map!(e => StorageEffectSchema.fromJson(e)).array;
 
         // Equipment slots
         this.weapon_slot = json["weapon_slot"].get!string;
@@ -876,36 +915,45 @@ struct FightDropSchema {
     }
 }
 
-struct FightSchema {
+struct CharacterMultiFightResultSchema {
+    string character_name;
     int xp;
     int gold;
     FightDropSchema[] drops;
-    int turns;
-    BlockedHitsSchema monster_blocked_hits;
-    BlockedHitsSchema player_blocked_hits;
-    string[] logs;
+    int final_hp;
+
+    static CharacterMultiFightResultSchema fromJson(JSONValue json) {
+        return CharacterMultiFightResultSchema(
+            json["character_name"].get!string,
+            json["xp"].get!int,
+            json["gold"].get!int,
+            json["drops"].array.map!(d => FightDropSchema.fromJson(d)).array,
+            json["final_hp"].get!int
+        );
+    }
+}
+
+
+struct FightSchema {
     FightResult result;
-    
+    int turns;
+    string opponent;
+    string[] logs;
+    CharacterMultiFightResultSchema[] characters;
+
     static FightSchema fromJson(JSONValue json) {
         FightSchema fight;
         
-        fight.xp = json["xp"].get!int;
-        fight.gold = json["gold"].get!int;
+        fight.result = json["result"].get!string == "win" ? FightResult.win : FightResult.loss;
         fight.turns = json["turns"].get!int;
-        fight.result = json["result"].get!FightResult();
+        fight.opponent = json["opponent"].get!string;
         
-        // Parse drops
-        foreach(item; json["drops"].array) {
-            fight.drops ~= FightDropSchema.fromJson(item);
-        }
-        
-        // Parse blocked hits
-        fight.monster_blocked_hits = BlockedHitsSchema.fromJson(json["monster_blocked_hits"]);
-        fight.player_blocked_hits = BlockedHitsSchema.fromJson(json["player_blocked_hits"]);
-        
-        // Parse logs
         foreach(log; json["logs"].array) {
             fight.logs ~= log.get!string;
+        }
+
+        foreach(character; json["characters"].array) {
+            fight.characters ~= CharacterMultiFightResultSchema.fromJson(character);
         }
         
         return fight;
@@ -1018,16 +1066,17 @@ public CraftingSkill skillForString(string skill) {
 enum ConditionOperator : string {
     eq = "eq",
     ne = "ne",
-    lt = "lt",
-    lte = "lte",
     gt = "gt",
-    gte = "gte"
+    lt = "lt",
+    cost = "cost",
+    has_item = "has_item",
+    achievement_unlocked = "achievement_unlocked"
 }
 
-struct ItemCondition {
+struct ConditionSchema {
     string code;
     ConditionOperator op;
-    double value;
+    int value;
 
     JSONValue toJson() {
         JSONValue obj;
@@ -1037,11 +1086,11 @@ struct ItemCondition {
         return obj;
     }
 
-    static ItemCondition fromJson(JSONValue json) {
-        ItemCondition cond;
+    static ConditionSchema fromJson(JSONValue json) {
+        ConditionSchema cond;
         cond.code = json["code"].get!string;
         cond.op = json["operator"].get!string.to!ConditionOperator;
-        cond.value = json["value"].get!double;
+        cond.value = json["value"].get!int;
         return cond;
     }
 }
@@ -1053,7 +1102,7 @@ struct ItemSchema {
     string type;
     string subtype;
     string description;
-    ItemCondition[] conditions;
+    ConditionSchema[] conditions;
     SimpleEffectSchema[] effects;
     Nullable!CraftSchema craft;
     bool tradeable;
@@ -1082,9 +1131,10 @@ struct ItemSchema {
         item.description = json["description"].get!string;
         item.tradeable = json["tradeable"].get!bool;
         
-        // Parse effects array
-        foreach(effect; json["conditions"].array) {
-            item.conditions ~= ItemCondition.fromJson(effect);
+        if (json["conditions"].type != JSONType.NULL) {
+            foreach(cond; json["conditions"].array) {
+                item.conditions ~= ConditionSchema.fromJson(cond);
+            }
         }
 
         // Parse effects array
@@ -1282,9 +1332,10 @@ struct RewardsSchema {
     }
 }
 
-enum CooldownReason {
+enum ActionType {
     movement,
     fight,
+    multi_fight,
     crafting,
     gathering,
     buy_ge,
@@ -1293,45 +1344,54 @@ enum CooldownReason {
     sell_npc,
     cancel_ge,
     delete_item,
-    deposit,
-    withdraw,
+    deposit_item,
+    withdraw_item,
     deposit_gold,
     withdraw_gold,
     equip,
     unequip,
     task,
-    christmas_exchange,
     recycling,
     rest,
     use,
-    buy_bank_expansion
+    buy_bank_expansion,
+    give_item,
+    give_gold,
+    change_skin,
+    rename,
+    transition
 }
 
-static CooldownReason reasonFromString(string value) {
+static ActionType actionTypeFromString(string value) {
     switch (value) {
-        case "movement": return CooldownReason.movement;
-        case "fight": return CooldownReason.fight;
-        case "crafting": return CooldownReason.crafting;
-        case "gathering": return CooldownReason.gathering;
-        case "buy_ge": return CooldownReason.buy_ge;
-        case "sell_ge": return CooldownReason.sell_ge;
-        case "buy_npc": return CooldownReason.buy_npc;
-        case "sell_npc": return CooldownReason.sell_npc;
-        case "cancel_ge": return CooldownReason.cancel_ge;
-        case "delete_item": return CooldownReason.delete_item;
-        case "deposit_item": return CooldownReason.deposit;
-        case "withdraw_item": return CooldownReason.withdraw;
-        case "deposit_gold": return CooldownReason.deposit_gold;
-        case "withdraw_gold": return CooldownReason.withdraw_gold;
-        case "equip": return CooldownReason.equip;
-        case "unequip": return CooldownReason.unequip;
-        case "task": return CooldownReason.task;
-        case "christmas_exchange": return CooldownReason.christmas_exchange;
-        case "recycling": return CooldownReason.recycling;
-        case "rest": return CooldownReason.rest;
-        case "use": return CooldownReason.use;
-        case "buy_bank_expansion": return CooldownReason.buy_bank_expansion;
-        default: throw new Exception("Unknown CooldownReason: " ~ value);
+        case "movement": return ActionType.movement;
+        case "fight": return ActionType.fight;
+        case "multi_fight": return ActionType.multi_fight;
+        case "crafting": return ActionType.crafting;
+        case "gathering": return ActionType.gathering;
+        case "buy_ge": return ActionType.buy_ge;
+        case "sell_ge": return ActionType.sell_ge;
+        case "buy_npc": return ActionType.buy_npc;
+        case "sell_npc": return ActionType.sell_npc;
+        case "cancel_ge": return ActionType.cancel_ge;
+        case "delete_item": return ActionType.delete_item;
+        case "deposit_item": return ActionType.deposit_item;
+        case "withdraw_item": return ActionType.withdraw_item;
+        case "deposit_gold": return ActionType.deposit_gold;
+        case "withdraw_gold": return ActionType.withdraw_gold;
+        case "equip": return ActionType.equip;
+        case "unequip": return ActionType.unequip;
+        case "task": return ActionType.task;
+        case "recycling": return ActionType.recycling;
+        case "rest": return ActionType.rest;
+        case "use": return ActionType.use;
+        case "buy_bank_expansion": return ActionType.buy_bank_expansion;
+        case "give_item": return ActionType.give_item;
+        case "give_gold": return ActionType.give_gold;
+        case "change_skin": return ActionType.change_skin;
+        case "rename": return ActionType.rename;
+        case "transition": return ActionType.transition;
+        default: throw new Exception("Unknown ActionType: " ~ value);
     }
 }
 
@@ -1340,7 +1400,7 @@ struct CooldownSchema {
     int remaining_seconds;
     string started_at;
     string expiration;
-    CooldownReason reason;
+    ActionType reason;
     
     static CooldownSchema fromJson(JSONValue json) {
         return CooldownSchema(
@@ -1348,7 +1408,7 @@ struct CooldownSchema {
             json["remaining_seconds"].get!int,
             json["started_at"].get!string,
             json["expiration"].get!string,
-            reasonFromString(json["reason"].get!string)
+            actionTypeFromString(json["reason"].get!string)
         );
     }
 
@@ -1401,25 +1461,87 @@ struct MapContentSchema {
     }
 }
 
+enum MapAccessType : string {
+    standard = "standard",
+    teleportation = "teleportation",
+    conditional = "conditional",
+    blocked = "blocked"
+}
+
+struct AccessSchema {
+    MapAccessType type;
+    ConditionSchema[] conditions;
+
+    static AccessSchema fromJson(JSONValue json) {
+        AccessSchema access;
+        access.type = to!MapAccessType(json["type"].get!string);
+        if (json["conditions"].type != JSONType.NULL) {
+            foreach(cond; json["conditions"].array) {
+                access.conditions ~= ConditionSchema.fromJson(cond);
+            }
+        }
+        return access;
+    }
+}
+
+struct TransitionSchema {
+    int map_id;
+    int x;
+    int y;
+    MapLayer layer;
+    ConditionSchema[] conditions;
+
+    static TransitionSchema fromJson(JSONValue json) {
+        TransitionSchema trans;
+        trans.map_id = json["map_id"].get!int;
+        trans.x = json["x"].get!int;
+        trans.y = json["y"].get!int;
+        trans.layer = mapLayerFromString(json["layer"].get!string);
+        if (json["conditions"].type != JSONType.NULL) {
+            foreach(cond; json["conditions"].array) {
+                trans.conditions ~= ConditionSchema.fromJson(cond);
+            }
+        }
+        return trans;
+    }
+}
+
+struct InteractionSchema {
+    Nullable!MapContentSchema content;
+    Nullable!TransitionSchema transition;
+
+    static InteractionSchema fromJson(JSONValue json) {
+        InteractionSchema inter;
+        if(json["content"].type != JSONType.NULL) {
+            inter.content = MapContentSchema.fromJson(json["content"]);
+        }
+        if(json["transition"].type != JSONType.NULL) {
+            inter.transition = TransitionSchema.fromJson(json["transition"]);
+        }
+        return inter;
+    }
+}
+
 struct MapSchema {
+    int map_id;
     string name;
     string skin;
     int x;
     int y;
-    Nullable!MapContentSchema content;
+    MapLayer layer;
+    AccessSchema access;
+    InteractionSchema interactions;
     
     static MapSchema fromJson(JSONValue json) {
-        auto content = Nullable!MapContentSchema.init;
-        if (json["content"].type != JSONType.NULL) {
-            content = Nullable!MapContentSchema(MapContentSchema.fromJson(json["content"]));
-        }
-        
         return MapSchema(
+            json["map_id"].get!int,
             json["name"].get!string,
             json["skin"].get!string,
             json["x"].get!int,
             json["y"].get!int,
-            content
+            mapLayerFromString(json["layer"].get!string),
+            AccessSchema.fromJson(json["access"]),
+            InteractionSchema.fromJson(json["interactions"])
         );
     } 
 }
