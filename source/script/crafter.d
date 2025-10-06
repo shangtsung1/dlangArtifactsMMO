@@ -125,7 +125,7 @@ bool merchantCheck(Character* c){
 }
 
 bool toSellFunc(Character* c,string merc,int toKeep,string[] toSell){
-    if(!getActiveEvent(merc).isNull()){
+    if(getActiveEvent(merc) !is null){
         foreach(ts; toSell){
             int amt = countAllItems(ts);
             if(amt > toKeep){
@@ -138,7 +138,8 @@ bool toSellFunc(Character* c,string merc,int toKeep,string[] toSell){
 }
 
 void sell(Character* c,string eventCode, int amnt, string itemCode){
-    ActiveEventSchema event = getActiveEvent(eventCode).get();
+    auto event = getActiveEvent(eventCode);
+    if(event is null) return;
     int x = event.map.x;
     int y = event.map.y;
     if(c.countItem(itemCode) < 1){

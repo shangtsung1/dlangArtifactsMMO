@@ -165,13 +165,13 @@ void loadActiveEvents() {
     writeln("Total ActiveEvents in list: ", activeEvents.length);
 }
 
-public Nullable!ActiveEventSchema getActiveEvent(string code) {
-    foreach (event; activeEvents) {
+public ActiveEventSchema* getActiveEvent(string code) {
+    foreach (i, ref event; activeEvents) {
         if (event.code == code) {
-            return Nullable!ActiveEventSchema(event);
+            return &activeEvents[i];
         }
     }
-    return Nullable!ActiveEventSchema();
+    return null;
 }
 
 void loadEvents() {
@@ -542,8 +542,8 @@ void loadItems() {
 
 public Location findMonsterLocation(string code) {
     foreach (ref map; maps) {
-        if (!map.content.isNull()) {
-            if(map.content.get().code == code) {
+        if (!map.interactions.content.isNull()) {
+            if(map.interactions.content.get().code == code) {
                 return Location(map.x, map.y);
             }
         }
@@ -553,8 +553,8 @@ public Location findMonsterLocation(string code) {
 
 public Location findLocation(string type, string code) {
     foreach (ref map; maps) {
-        if (!map.content.isNull()) {
-            if(map.content.get().code == code && map.content.get().type == type) {
+        if (!map.interactions.content.isNull()) {
+            if(map.interactions.content.get().code == code && map.interactions.content.get().type == type) {
                 return Location(map.x, map.y);
             }
         }

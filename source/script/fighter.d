@@ -45,7 +45,7 @@ void fighter(Character* c)
 		}
 		return;
 	}
-	else if(getActiveEvent("bandit_camp").isNull() && monsterTask.name.length > 0 && monsterTask.level < c.level - 7 && (!canPoisen(getMonster(monsterTask.code)) || !needAntidote)){
+	else if(getActiveEvent("bandit_camp") is null && monsterTask.name.length > 0 && monsterTask.level < c.level - 7 && (!canPoisen(getMonster(monsterTask.code)) || !needAntidote)){
  		thingToFight = findMonsterLocation(monsterTask.code);
 		tCode = monsterTask.code;
 	}
@@ -132,8 +132,8 @@ void fighter(Character* c)
 			tCode = "vampire";
 			thingToFight = findMonsterLocation(tCode);
 		}
-		else if(charLevel >= 28 && !needAntidote && !getActiveEvent("bandit_camp").isNull() && fightCheck(c,"bandit_lizard", ["lizard_eye","lizard_skin","bandit_armor","dreadful_book"], [10,10,1,1])){
-			auto ee = getActiveEvent("bandit_camp").get();
+		else if(charLevel >= 28 && !needAntidote && getActiveEvent("bandit_camp") !is null && fightCheck(c,"bandit_lizard", ["lizard_eye","lizard_skin","bandit_armor","dreadful_book"], [10,10,1,1])){
+			auto ee = getActiveEvent("bandit_camp");
 			thingToFight = Location(ee.map.x,ee.map.y);
 			tCode = "bandit_lizard";
 		}
@@ -153,8 +153,8 @@ void fighter(Character* c)
 			tCode = "owlbear";
 			thingToFight = findMonsterLocation(tCode);
 		}
-		else if(charLevel >= 33 && !getActiveEvent("portal_demon").isNull() && fightCheck(c,"demon", ["demon_horn"], [10])){
-			auto ee = getActiveEvent("portal_demon").get();
+		else if(charLevel >= 33 && getActiveEvent("portal_demon") !is null && fightCheck(c,"demon", ["demon_horn"], [10])){
+			auto ee = getActiveEvent("portal_demon");
 			thingToFight = Location(ee.map.x,ee.map.y);
 			tCode = "demon";
 		}
@@ -188,14 +188,14 @@ void fighter(Character* c)
 			//and set it to the thingToFight
 			foreach(monster;monsters){
 				if(monster.level <= charLevel-7 && monster.level > getMonster(tCode).level && !canPoisen(getMonster(tCode))){
-					if(monster.code == "bandit_lizard" && getActiveEvent("bandit_camp").isNull())continue;
-					if(monster.code == "demon" && getActiveEvent("demon_portal").isNull())continue;
+					if(monster.code == "bandit_lizard" && getActiveEvent("bandit_camp") is null)continue;
+					if(monster.code == "demon" && getActiveEvent("demon_portal") is null)continue;
 					if(monster.code == "demon"){
-						auto ee = getActiveEvent("demon_portal").get();
+						auto ee = getActiveEvent("demon_portal");
 						thingToFight = Location(ee.map.x,ee.map.y);
 					}
 					else if(monster.code == "bandit_lizard"){
-						auto ee = getActiveEvent("bandit_camp").get();
+						auto ee = getActiveEvent("bandit_camp");
 						thingToFight = Location(ee.map.x,ee.map.y);
 					}
 					else{

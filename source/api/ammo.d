@@ -245,9 +245,19 @@ public class ArtifactMMOClient {
         return performCurlRequest(url, "POST", Nullable!JSONValue(body));
     }
 
-    public JSONValue fight(string name) {
+    public JSONValue fight(string name, string[] participants = []) {
         string url = BASE_URL ~ "/my/" ~ encodeComponent(name) ~ "/action/fight";
-        return performCurlRequest(url, "POST");
+        JSONValue body;
+        if (participants.length > 0) {
+             auto participantsJson = JSONValue(JSONType.array);
+            foreach(p; participants) {
+                participantsJson.array ~= JSONValue(p);
+            }
+            body = JSONValue(["participants": participantsJson]);
+        } else {
+            body = JSONValue(JSONType.object);
+        }
+        return performCurlRequest(url, "POST", Nullable!JSONValue(body));
     }
 
     public JSONValue gathering(string name) {

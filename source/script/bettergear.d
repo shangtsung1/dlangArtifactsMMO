@@ -239,7 +239,7 @@ EquipList[] findBestWisdomEquipmentToFight(Character* player, const ItemSchema[]
 
 bool canEquip(Character player, const(ItemSchema) item) {
     foreach (cond; item.conditions) {
-        double statValue = player.skillLevel(cond.code);
+        int statValue = player.skillLevel(cond.code);
 
         final switch (cond.op) {
             case ConditionOperator.eq:
@@ -251,14 +251,14 @@ bool canEquip(Character player, const(ItemSchema) item) {
             case ConditionOperator.lt:
                 if (statValue >= cond.value) return false;
                 break;
-            case ConditionOperator.lte:
-                if (statValue > cond.value) return false;
-                break;
             case ConditionOperator.gt:
                 if (statValue <= cond.value) return false;
                 break;
-            case ConditionOperator.gte:
-                if (statValue < cond.value) return false;
+            case ConditionOperator.cost:
+                break;
+            case ConditionOperator.has_item:
+                break;
+            case ConditionOperator.achievement_unlocked:
                 break;
         }
     }
